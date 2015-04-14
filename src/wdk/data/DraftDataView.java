@@ -9,6 +9,7 @@ package wdk.data;
  *
  * @author halaamenasy
  */
-public class DraftDataView {
+public interface DraftDataView {
+    public void reloadDraft(Draft draftToReload);
     
 }
