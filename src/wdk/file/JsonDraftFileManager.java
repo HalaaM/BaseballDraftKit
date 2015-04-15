@@ -130,7 +130,8 @@ public class JsonDraftFileManager implements DraftFileManager {
 
     @Override
     public ArrayList<String> loadOneOfTheDrafts(String filePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      
+        return null;
     }
     
     

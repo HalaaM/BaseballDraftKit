@@ -21,7 +21,7 @@ public class DraftEditController {
         if (enabled) {
             try {
                 // UPDATE THE COURSE, VERIFYING INPUT VALUES
-                gui.updateDraftInfo(gui.getDataManager().getDraft());
+     //           gui.updateDraftInfo(gui.getDataManager().getDraft());
                 
                 // THE COURSE IS NOW DIRTY, MEANING IT'S BEEN 
                 // CHANGED SINCE IT WAS LAST SAVED, SO MAKE SURE

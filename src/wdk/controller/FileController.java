@@ -30,7 +30,6 @@ import properties_manager.PropertiesManager;
  * This controller class provides responses to interactions with the buttons in
  * the file toolbar.
  *
- * @author Richard McKenna
  */
 public class FileController {
 

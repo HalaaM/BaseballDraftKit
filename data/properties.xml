@@ -6,7 +6,7 @@
 -->
 <properties>
     <property_list>    
-        <property name="PROP_APP_TITLE"   value="Course Site Builder"></property>  
+        <property name="PROP_APP_TITLE"   value="Wolfie Ball Draft Kit"></property>  
         
         <!-- PROGRAM ICON FILES -->
         <property name="NEW_COURSE_ICON"    value="New.png"></property>

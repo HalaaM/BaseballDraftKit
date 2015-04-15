@@ -62,32 +62,37 @@ public class WDK_GUI implements DraftDataView{
     // THESE CONSTANTS ARE FOR TYING THE PRESENTATION STYLE OF
     // THIS GUI'S COMPONENTS TO A STYLE SHEET THAT IT USES
 
-    static final String PRIMARY_STYLE_SHEET = PATH_CSS + "csb_style.css";
+    static final String PRIMARY_STYLE_SHEET = PATH_CSS + "wdk_style.css";
     static final String CLASS_BORDERED_PANE = "bordered_pane";
     static final String CLASS_SUBJECT_PANE = "subject_pane";
-    static final String DRAFT_HEADING_LABEL = "heading_label";
+    static final String CLASS_HEADING_LABEL = "heading_label";
     static final String CLASS_SUBHEADING_LABEL = "subheading_label";
     static final String CLASS_PROMPT_LABEL = "prompt_label";
     static final String EMPTY_TEXT = "";
     static final int LARGE_TEXT_FIELD_LENGTH = 20;
     static final int SMALL_TEXT_FIELD_LENGTH = 5;
-
     
-    
-    
-      // THIS IS THE APPLICATION WINDOW
+   // THIS IS THE APPLICATION WINDOW
     Stage primaryStage;
 
     // THIS IS THE STAGE'S SCENE GRAPH
     Scene primaryScene;
-
-    GridPane draftInfoPane;
+    
     // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
     BorderPane wdkPane;
     
+    //The pane where our draft info goes
+    BorderPane workspacePane;
+    boolean workspaceActivated;
+      
+    // WE'LL PUT THE WORKSPACE INSIDE A SCROLL PANE
+    ScrollPane workspaceScrollPane;
+    
+    // THIS MANAGES ALL OF THE APPLICATION'S DATA
     DraftDataManager dataManager;
 
+    //MANAGES EDITING A DRAFT
     DraftEditController draftEditController;
     
     // THIS MANAGES COURSE FILE I/O
@@ -96,28 +101,36 @@ public class WDK_GUI implements DraftDataView{
     // THIS MANAGES EXPORTING OUR SITE PAGES
     DraftExporter siteExporter;
 
-    // WE'LL PUT THIS IN THE TOP OF THE WORKSPACE, IT WILL
-    // HOLD TWO OTHER PANES FULL OF CONTROLS AS WELL AS A LABEL
-    VBox topWorkspacePane;
-    Label draftHeadingLabel;
-    SplitPane topWorkspaceSplitPane;
-    
     // THIS HANDLES INTERACTIONS WITH FILE-RELATED CONTROLS
     FileController fileController;
     
-    //PLAYER PANE
-
-    VBox playerPane;
-    VBox playerInfoPane;
-    Label playerInfoHeadingLabel;
+    // WE'LL PUT THIS IN THE TOP OF THE WORKSPACE, IT WILL
+    // HOLD TWO OTHER PANES (radio pane and player search pane) FULL OF CONTROLS AS WELL AS A LABEL
+    VBox topWorkSpacePane;
+    Label availablePlayerHeadingLabel;
+   
+    //These are the two panes in the top work space pane
+    HBox radioButtonPane;
+    HBox playerSearchPane;
+    
+    //this is what is inside the playerSearchPane
+    Label searchLabel;
+    TextField searchPlayerTextField;
+    HBox playerToolBar;
+    Button addPlayerButton;
+    Button removePlayerButton; 
+ 
+    
+    // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
+    FlowPane fileToolbarPane;
+    Button newCourseButton;
+    Button loadCourseButton;
+    Button saveCourseButton;
+    Button exportSiteButton;
+    Button exitButton;
 
     // THIS REGION IS FOR MANAGING PLAYERS
-    VBox playerSearchBox;
-    TextField playerTextField;
-    HBox playerToolbar;
-    Button addPlayerButton;
-    Button removeplayerButton;
-    Label AvailablePlayerLabel;
+   
     TableView<Player> playerTable;
     TableColumn firstNameCol;
     TableColumn lasNameCol;
@@ -131,8 +144,22 @@ public class WDK_GUI implements DraftDataView{
     TableColumn BA_WHIPCol;
     TableColumn EstimatedValuCol;
     TableColumn notesCol;
+    TextField playerTextField;
+     // AND TABLE COLUMNS
+    static final String COL_FIRSTNAME = "FIRST_NAME";
+    static final String COL_LASTNAME = "LAST_NAME";
+    static final String COL_PROTEAM = "Link";
+    static final String COL_POSITION = "Topic";
+    static final String COL_YEAROFBIRTH = "Number of Sessions";
+    static final String COL_RW = "Name";
+    static final String COL_HRSV = "Topics";
+    static final String COL_RBIK = "Topics";
+    static final String COL_SBERA = "Topics";
+    static final String COL_BAWHIP = "Topics";
+    static final String COL_ESTIMATEDVAL = "Topics";
+    static final String COL_NOTES = "Topics";
     
-    //RADIOBUTTONS
+    //This is whats inside the radio pane
     HBox playerOptionsToolBar;
     RadioButton all;
     RadioButton c;
@@ -145,16 +172,7 @@ public class WDK_GUI implements DraftDataView{
     RadioButton OF;
     RadioButton U;
     RadioButton P;
-            
-    
-    // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
-    FlowPane fileToolbarPane;
-    Button newCourseButton;
-    Button loadCourseButton;
-    Button saveCourseButton;
-    Button exportSiteButton;
-    Button exitButton;
-   
+
     //TabPane FOR FIVE SCREENS
     TabPane tabPane;
     Tab player;
@@ -169,12 +187,6 @@ public class WDK_GUI implements DraftDataView{
     Label fantasyStandingLabel;
     Label draftSummaryLabel;
     Label MLBTeamsLabel;
-    
-    BorderPane workspacePane;
-    boolean workspaceActivated;
-      
-    // WE'LL PUT THE WORKSPACE INSIDE A SCROLL PANE
-    ScrollPane workspaceScrollPane;
 
     // HERE ARE OUR DIALOGS
     MessageDialog messageDialog;
@@ -273,27 +285,18 @@ public class WDK_GUI implements DraftDataView{
      * This method fully initializes the user interface for use.
      *
      * @param windowTitle The text to appear in the UI window's title bar.
-     * @param subjects The list of subjects to choose from.
+     * @param drafts
      * @throws IOException Thrown if any initialization files fail to load.
      */
-    public void initGUI(String windowTitle, ArrayList<String> drafts) throws IOException {
-        // INIT THE DIALOGS
-        initDialogs();
-        
+    // add that in at some point ArrayList<String> drafts
+    public void initGUI(String windowTitle) throws IOException {
+ 
         // INIT THE TOOLBAR
         initFileToolbar();
-
-        // INIT THE CENTER WORKSPACE CONTROLS BUT DON'T ADD THEM
-        // TO THE WINDOW YET
-        initWorkspace(drafts);
-
-        // NOW SETUP THE EVENT HANDLERS
-        initEventHandlers();
-
-        // AND FINALLY START UP THE WINDOW (WITHOUT THE WORKSPACE)
         initWindow(windowTitle);
-        
-        initRadioButtons();
+        initWorkSpace(tabPane);
+        initDialogs();
+
     }
      public void activateWorkspace() {
         if (!workspaceActivated) {
@@ -309,6 +312,7 @@ public class WDK_GUI implements DraftDataView{
         draftEditController.enable(false);
     
         }
+        draftEditController.enable(true);
         
     }
       public void updateToolbarControls(boolean saved) {
@@ -324,16 +328,10 @@ public class WDK_GUI implements DraftDataView{
         // NOTE THAT THE NEW, LOAD, AND EXIT BUTTONS
         // ARE NEVER DISABLED SO WE NEVER HAVE TO TOUCH THEM
     }
-       /**
-     * This function loads all the values currently in the user interface
-     * into the course argument.
-     * 
-     * @param course The course to be updated using the data from the UI controls.
-     */
-    public void updateDraftInfo(Draft draft) {
-        draftHeadingLabel = initGridLabel(draftInfoPane, WDK_PropertyType.COURSE_INFO_LABEL, CLASS_SUBHEADING_LABEL, 0, 0, 4, 1);
-       
-    }
+
+    /****************************************************************************/
+    /* BELOW ARE ALL THE PRIVATE HELPER METHODS WE USE FOR INITIALIZING OUR GUI */
+    /****************************************************************************/
      private void initDialogs() {
         messageDialog = new MessageDialog(primaryStage, CLOSE_BUTTON_LABEL);
         yesNoCancelDialog = new YesNoCancelDialog(primaryStage);
@@ -360,67 +358,72 @@ public class WDK_GUI implements DraftDataView{
     /* BELOW ARE ALL THE PRIVATE HELPER METHODS WE USE FOR INITIALIZING OUR GUI */
     /****************************************************************************/
        
-     private void initWorkspace(ArrayList<String> drafts) throws IOException {
-        // THE WORKSPACE HAS A FEW REGIONS, THIS 
-        // IS FOR BASIC COURSE EDITING CONTROLS
-        initBasicDraftInfoControls(drafts);
-
-        // THIS IS FOR SELECTING PAGE LINKS TO INCLUDE
-        initPageSelectionControls();
-
-        // THE TOP WORKSPACE HOLDS BOTH THE BASIC COURSE INFO
-        // CONTROLS AS WELL AS THE PAGE SELECTION CONTROLS
-        initTopWorkspace();
-
-        // THIS IS FOR MANAGING SCHEDULE EDITING
-        initPlayerControls();
-        
-      
-
-        // THIS HOLDS ALL OUR WORKSPACE COMPONENTS, SO NOW WE MUST
-        // ADD THE COMPONENTS WE'VE JUST INITIALIZED
-        workspacePane = new BorderPane();
-        workspacePane.setTop(topWorkspacePane);
-        
-        
-        // AND NOW PUT IT IN THE WORKSPACE
-        workspaceScrollPane = new ScrollPane();
-        workspaceScrollPane.setContent(workspacePane);
-        workspaceScrollPane.setFitToWidth(true);
-
-        // NOTE THAT WE HAVE NOT PUT THE WORKSPACE INTO THE WINDOW,
-        // THAT WILL BE DONE WHEN THE USER EITHER CREATES A NEW
-        // COURSE OR LOADS AN EXISTING ONE FOR EDITING
-        workspaceActivated = false;
+     private void initWorkSpace(TabPane tabPane) throws IOException {
+         initTabPane(tabPane);
+               
     }
-      private void initTopWorkspace() {
-      topWorkspacePane = new VBox();
-      topWorkspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
-
-        // HERE'S THE LABEL
-        draftHeadingLabel = initChildLabel(topWorkspacePane, WDK_PropertyType.DRAFT_HEADING_LABEL, DRAFT_HEADING_LABEL);
-
-    }
-      // INITIALIZES THE CONTROLS IN THE LEFT HALF OF THE TOP WORKSPACE
-    private void initBasicDraftInfoControls(ArrayList<String> subjects) throws IOException {
-        draftInfoPane = new GridPane();
-        draftHeadingLabel = initGridLabel(draftInfoPane, WDK_PropertyType.COURSE_INFO_LABEL, CLASS_SUBHEADING_LABEL, 0, 0, 4, 1);
-
-        
-    }
-      // INITIALIZES THE CONTROLS IN THE RIGHT HALF OF THE TOP WORKSPACE
-    private void initPageSelectionControls() {
-        // THESE ARE THE CONTROLS FOR SELECTING WHICH PAGES THE SCHEDULE
-        // PAGE WILL HAVE TO LINK TO
-    }
+    //this pane has home which is available players, fantasy teams, fantasy standings,draft summary
+    //mlb teams
+    private void initTabPane(TabPane tabPane){
+        tabPane=new TabPane();
+        player=new Tab();
+        fantasyTeam=new Tab();
+        fantasyStandings=new Tab();
+        draftSummary=new Tab();
+        MLBTeams= new Tab();
     
+        fantasyTeam.setText("fantasy team");
+        player.setText("available players");
+        fantasyStandings.setText("fantasy Standings");
+        draftSummary.setText("draft summary");
+        MLBTeams.setText("MLB teams");
+        
+        tabPane.getTabs().add(player);
+        tabPane.getTabs().add(fantasyTeam);
+        tabPane.getTabs().add(fantasyStandings);
+        tabPane.getTabs().add(draftSummary);
+        tabPane.getTabs().add(MLBTeams);
+        
+    }
+        private void initAvailablePlayerTab(TabPane tabpane, Tab tab){
+        //tabpane.add
+        }
+     
+    //method for the available player screen only 
+      private void initTopWorkspace() {
+          
+  
+    }
+     //method only for available player screen only  
      private void initPlayerControls() {
 
-        playerPane = new VBox();
-        playerPane.getChildren().add(playerInfoPane);
-        playerPane.getStyleClass().add(CLASS_BORDERED_PANE);
-        
-      
+//       // NOW THE CONTROLS FOR ADDING ASSIGNMENT ITEMS
+//        playerBox = new VBox();
+//        playerToolBar = new HBox();
+//        playerLabel = initLabel(WDK_PropertyType.HWS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+//        addPlayerButton = initChildButton(playerToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
+//        removePlayerButton = initChildButton(playerToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);        
+//        playerTable = new TableView();
+//        playerBox.getChildren().add(playerLabel);
+//        playerBox.getChildren().add(playerToolBar);
+//        playerBox.getChildren().add(playerTable);
+//        playerBox.getStyleClass().add(CLASS_BORDERED_PANE);
+//        
+ 
+        // NOW SETUP THE TABLE COLUMNS
+        firstNameCol= new TableColumn(COL_FIRSTNAME);
+        lasNameCol = new TableColumn(COL_LASTNAME);
+        proTeamCol=new TableColumn(COL_PROTEAM);
+        postionCol=new TableColumn(COL_POSITION);
+        yearOfBirthCol=new TableColumn(COL_YEAROFBIRTH);
+        R_WCol=new TableColumn(COL_RW);
+        HR_SVCol=new TableColumn(COL_HRSV);
+        RBI_KCol=new TableColumn(COL_RBIK );
+        SB_ERACol=new TableColumn(COL_SBERA);
+        BA_WHIPCol=new TableColumn(COL_BAWHIP);
+        EstimatedValuCol=new TableColumn(COL_ESTIMATEDVAL);
+        notesCol=new TableColumn(COL_NOTES);
+
     }
      
       private void initWindow(String windowTitle) {
@@ -469,7 +472,7 @@ public class WDK_GUI implements DraftDataView{
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest(this);
         });
-
+           registerTextFieldController(playerTextField);
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
     private void registerTextFieldController(TextField textField) {
@@ -481,6 +484,9 @@ public class WDK_GUI implements DraftDataView{
     // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+    System.out.println(props.getProperty("NEW_COURSE_ICON"));
+            
         String imagePath = "file:" + PATH_IMAGES + props.getProperty(icon.toString());
         Image buttonImage = new Image(imagePath);
         Button button = new Button();
@@ -524,9 +530,5 @@ public class WDK_GUI implements DraftDataView{
         container.add(tf, col, row, colSpan, rowSpan);
         return tf;
     }
-    
-    private RadioButton initRadioButtons(){
-        RadioButton rb=new RadioButton();
-        return rb;
-    }
+   
 }
