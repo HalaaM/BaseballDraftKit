@@ -5,10 +5,19 @@
  */
 package wdk.file;
 
+import wdk.data.Draft;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author halaamenasy
  */
-public class DraftFileManager {
+public interface DraftFileManager {
+    public void                saveDraft(Draft draftToSave) throws IOException;
+    public void                 loadDraft(Draft draftToLoad, String coursePath) throws IOException;
+    public void                 saveMultipleDrafts(List<Object> drafts, String filePath) throws IOException;
+    public ArrayList<String>    loadOneOfTheDrafts(String filePath) throws IOException;
     
 }
