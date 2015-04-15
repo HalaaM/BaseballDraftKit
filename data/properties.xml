@@ -39,7 +39,7 @@
         <property name="REMOVE_HW_TOOLTIP"          value="Remove Assignment"></property>
         
         <!-- GUI LABELS -->
-        <property name="COURSE_HEADING_LABEL"           value="Course Site Details"></property>
+        <property name="COURSE_HEADING_LABEL"           value="Fantasy Teams"></property>
         <property name="COURSE_INFO_LABEL"              value="Course Information"></property>
         <property name="COURSE_SUBJECT_LABEL"           value="Subject:"></property>
         <property name="COURSE_NUMBER_LABEL"            value="Number:"></property>
@@ -65,7 +65,7 @@
         <property name="CLOSE_BUTTON_TEXT"                          value="Close"></property>
 
         <!-- VERIFICATION MESSAGES -->
-        <property name="NEW_COURSE_CREATED_MESSAGE"     value="New Course Created but not yet Saved"></property>
+        <property name="NEW_DRAFT_CREATED_MESSAGE"     value="New Draft Created but not yet Saved"></property>
         <property name="COURSE_LOADED_MESSAGE"          value="The Course has been Loaded"></property>
         <property name="COURSE_SAVED_MESSAGE"           value="The Course has been Saved"></property>
         <property name="SITE_EXPORTED_MESSAGE"          value="The Course Site has been Exported"></property>
