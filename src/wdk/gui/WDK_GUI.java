@@ -52,6 +52,7 @@ import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  *
@@ -289,6 +290,8 @@ public class WDK_GUI implements DraftDataView{
      * @throws IOException Thrown if any initialization files fail to load.
      */
     // add that in at some point ArrayList<String> drafts
+   
+    //for now im just setting up GUI eventually im going to pass it a player object
     public void initGUI(String windowTitle) throws IOException {
  
         // INIT THE TOOLBAR
@@ -357,9 +360,26 @@ public class WDK_GUI implements DraftDataView{
     /****************************************************************************/
     /* BELOW ARE ALL THE PRIVATE HELPER METHODS WE USE FOR INITIALIZING OUR GUI */
     /****************************************************************************/
-       
+     
+    //calls the TabPane to manage all the screens
      private void initWorkSpace(TabPane tabPane) throws IOException {
-         initTabPane(tabPane);
+          initTabPane(tabPane);
+//         workspacePane = new BorderPane();
+//        workspacePane.setTop(topWorkspacePane);
+//        schedulePane.getChildren().add(lectureBox);
+//        schedulePane.getChildren().add(assignmentBox);
+//        workspacePane.setCenter(schedulePane);
+//        workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
+//        
+//        // AND NOW PUT IT IN THE WORKSPACE
+//        workspaceScrollPane = new ScrollPane();
+//        workspaceScrollPane.setContent(workspacePane);
+//        workspaceScrollPane.setFitToWidth(true);
+//
+//        // NOTE THAT WE HAVE NOT PUT THE WORKSPACE INTO THE WINDOW,
+//        // THAT WILL BE DONE WHEN THE USER EITHER CREATES A NEW
+//        // COURSE OR LOADS AN EXISTING ONE FOR EDITING
+//        workspaceActivated = false;
                
     }
     //this pane has home which is available players, fantasy teams, fantasy standings,draft summary
@@ -384,16 +404,152 @@ public class WDK_GUI implements DraftDataView{
         tabPane.getTabs().add(draftSummary);
         tabPane.getTabs().add(MLBTeams);
         
+        initAvailablePlayerTab(tabPane, player);
+        initFantasyTeamTab(tabPane, fantasyTeam);
+        initFantasyStandingsTab(tabPane,fantasyStandings);
+        initDraftSummaryTab(tabPane, draftSummary);
+        initMLBTeamsTab(tabPane, MLBTeams);
+        
     }
-        private void initAvailablePlayerTab(TabPane tabpane, Tab tab){
-        //tabpane.add
-        }
+    private void initAvailablePlayerTab(TabPane tabpane, Tab tab){
+//           VBox topWorkSpacePane;
+//    Label availablePlayerHeadingLabel;
+//   
+//    //These are the two panes in the top work space pane
+//    HBox radioButtonPane;
+//    HBox playerSearchPane;
+//    
+//    //this is what is inside the playerSearchPane
+//    Label searchLabel;
+//    TextField searchPlayerTextField;
+//    HBox playerToolBar;
+//    Button addPlayerButton;
+//    Button removePlayerButton; 
+        
+         // NOW THE CONTROLS FOR ADDING ASSIGNMENT ITEMS
+//        assignmentBox = new VBox();
+//        assignmentToolBar = new HBox();
+//        assignmentLabel = initLabel(CSB_PropertyType.HWS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+//        addAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.ADD_ICON, CSB_PropertyType.ADD_ITEM_TOOLTIP, false);
+//        removeAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.MINUS_ICON, CSB_PropertyType.REMOVE_ITEM_TOOLTIP, false);        
+//        assignmentTable = new TableView();
+//        assignmentBox.getChildren().add(assignmentLabel);
+//        assignmentBox.getChildren().add(assignmentToolBar);
+//        assignmentBox.getChildren().add(assignmentTable);
+//        assignmentBox.getStyleClass().add(CLASS_BORDERED_PANE);
+//        
+//        // NOW SETUP THE TABLE COLUMNS
+//        nameOfAssignment= new TableColumn(COL_NAME);
+//        topicOfAssignment = new TableColumn(COL_TOPICS);
+//        dateOfAssignment = new TableColumn(COL_DATE);
+//
+////        
+////        // AND LINK THE COLUMNS TO THE DATA
+//        nameOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("name"));
+//        topicOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("topics"));
+//        dateOfAssignment.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("date"));
+//        assignmentTable.getColumns().add(nameOfAssignment);
+//        assignmentTable.getColumns().add(topicOfAssignment);
+//        assignmentTable.getColumns().add(dateOfAssignment);
+//        assignmentTable.setItems(dataManager.getCourse().getAssignments());
+//
+////          
+////        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
+////
+////        // THIS IS FOR STUFF IN THE TOP OF THE ASSIGNMENT PANE, WE NEED TO PUT TWO THINGS INSIDE
+//         assignmentInfoPane = new VBox();
+////
+////        // FIRST OUR ASSIGNMENT HEADER
+//         assignmentInfoHeadingLabel = initChildLabel(lectureInfoPane, CSB_PropertyType.HWS_HEADING_LABEL, CLASS_HEADING_LABEL);
+////
+////      // FINALLY, EVERYTHING IN THIS REGION ULTIMATELY GOES INTO ASSIGNMENT PANE
+//  
+//        
+//        assignmentPane = new VBox();
+//        assignmentPane.getChildren().add(assignmentInfoPane);
+//        assignmentPane.getChildren().add(assignmentBox);
+//        assignmentPane.getStyleClass().add(CLASS_BORDERED_PANE);
+
+//        HBox playerOptionsToolBar;
+
+        //Make and initialize all buttons for RadioButtonPane
+        ToggleGroup toggle= new ToggleGroup();
+        topWorkSpacePane= new VBox();
+        availablePlayerHeadingLabel= new Label("Available Players");
+        radioButtonPane= new HBox();
+        
+        all= new RadioButton("All");
+        all.setToggleGroup(toggle);
+        c= new RadioButton("C");
+        c.setToggleGroup(toggle);
+        one_B= new RadioButton("1_B");
+        one_B.setToggleGroup(toggle);
+        ci=new RadioButton("CI");
+        ci.setToggleGroup(toggle);
+        three_B= new RadioButton ("3_B");
+        three_B.setToggleGroup(toggle);
+        two_B=new RadioButton("2_B");
+        two_B.setToggleGroup(toggle);
+        MI=new RadioButton("MI");
+        MI.setToggleGroup(toggle);
+        SS=new RadioButton("SS");
+        SS.setToggleGroup(toggle);
+        OF= new RadioButton("OF");
+        OF.setToggleGroup(toggle);
+        U= new RadioButton("U");
+        U.setToggleGroup(toggle);
+        P=new RadioButton("P");
+        P.setToggleGroup(toggle);
+        
+        radioButtonPane.getChildren().add(all);
+        radioButtonPane.getChildren().add(c);
+        radioButtonPane.getChildren().add(one_B);
+        radioButtonPane.getChildren().add(ci);
+        radioButtonPane.getChildren().add(three_B);
+        radioButtonPane.getChildren().add(two_B);
+        radioButtonPane.getChildren().add(MI);
+        radioButtonPane.getChildren().add(SS);
+        radioButtonPane.getChildren().add(OF);
+        radioButtonPane.getChildren().add(U);
+        radioButtonPane.getChildren().add(P);
+        
+        //Make search pane
+        
+        //add radio and search pane to top work space
+        
+        //make tableview for players
+        
+        //add table view and top  player tab V box (which i still need to make)
+        
+        //set tab content to player tab v box
+        
+        
+        
+        
+        
+
+
+
+
+
+        
+        
+    }
      
-    //method for the available player screen only 
-      private void initTopWorkspace() {
-          
-  
+      private void initFantasyTeamTab(TabPane tabPane, Tab fantasyTeam) {
+        
+    }  
+       private void initFantasyStandingsTab(TabPane tabPane, Tab fantasyStandings) {
+        
     }
+       
+     private void initDraftSummaryTab(TabPane tabPane, Tab draftSummary) {
+       
+    }
+      private void initMLBTeamsTab(TabPane tabPane, Tab MLBTeams) {
+        
+    }
+   
      //method only for available player screen only  
      private void initPlayerControls() {
 
@@ -530,5 +686,7 @@ public class WDK_GUI implements DraftDataView{
         container.add(tf, col, row, colSpan, rowSpan);
         return tf;
     }
+
+   
    
 }
