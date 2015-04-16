@@ -30,6 +30,7 @@ import properties_manager.PropertiesManager;
  * This controller class provides responses to interactions with the buttons in
  * the file toolbar.
  *
+ * @author Richard McKenna
  */
 public class FileController {
 
@@ -39,15 +40,16 @@ public class FileController {
     // THIS GUY KNOWS HOW TO READ AND WRITE COURSE DATA
     private DraftFileManager courseIO;
 
-    // THIS GUY KNOWS HOW TO EXPORT COURSE SCHEDULE PAGES
-    private DraftExporter exporter;
-
+ 
     // THIS WILL PROVIDE FEEDBACK TO THE USER WHEN SOMETHING GOES WRONG
     ErrorHandling errorHandler;
     
     // THIS WILL PROVIDE FEEDBACK TO THE USER AFTER
     // WORK BY THIS CLASS HAS COMPLETED
     MessageDialog messageDialog;
+    
+    // THIS GUY KNOWS HOW TO EXPORT COURSE SCHEDULE PAGES
+    private DraftExporter exporter;
     
     // AND WE'LL USE THIS TO ASK YES/NO/CANCEL QUESTIONS
     YesNoCancelDialog yesNoCancelDialog;
@@ -136,136 +138,8 @@ public class FileController {
             errorHandler.handleNewCourseError();
         }
     }
-
-    /**
-     * This method lets the user open a Course saved to a file. It will also
-     * make sure data for the current Course is not lost.
-     * 
-     * @param gui The user interface editing the course.
-     */
-    public void handleLoadDraftRequest(WDK_GUI gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToOpen = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE WITH A CANCEL
-                continueToOpen = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO OPEN A Course
-            if (continueToOpen) {
-                // GO AHEAD AND PROCEED LOADING A Course
-                promptToOpen(gui);
-            }
-        } catch (IOException ioe) {
-            // SOMETHING WENT WRONG
-            errorHandler.handleLoadCourseError();
-        }
-    }
-
-    /**
-     * This method will save the current course to a file. Note that we already
-     * know the name of the file, so we won't need to prompt the user.
-     * 
-     * @param gui The user interface editing the Course.
-     * 
-     * @param courseToSave The course being edited that is to be saved to a file.
-     */
-    public void handleSaveDraftRequest(WDK_GUI gui, Draft draftToSave) {
-        try {
-            // SAVE IT TO A FILE
-            courseIO.saveDraft(draftToSave);
-
-            // MARK IT AS SAVED
-            saved = true;
-
-            // TELL THE USER THE FILE HAS BEEN SAVED
-            messageDialog.show(properties.getProperty(COURSE_SAVED_MESSAGE));
-
-            // AND REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
-            // THE APPROPRIATE CONTROLS
-            gui.updateToolbarControls(saved);
-        } catch (IOException ioe) {
-            errorHandler.handleSaveCourseError();
-        }
-    }
-
-    /**
-     * This method will export the current course.
-     * 
-     * @param gui
-     */
-    public void handleExportDraftRequest(WDK_GUI gui) {
-        
-        // EXPORT THE COURSE
-        DraftDataManager dataManager = gui.getDataManager();
-        Draft draftToExport = dataManager.getDraft();
-
-        // WE'LL NEED THIS TO LOAD THE EXPORTED PAGE FOR VIEWING
-        String courseURL = exporter.getPageURLPath(draftToExport, DraftPage.AVAILABLEPLAYERS);
-        
-        // NOW GET THE EXPORTER
-        try {            
-            
-            // AND EXPORT THE COURSE
-            //exporter.exportCourseSite(courseToExport,new ProgressBarDialog(gui.getWindow(),gui.getDataManager().getCourse()) );
-            
-            // AND THEN OPEN UP THE PAGE IN A BROWSER
-            Stage webBrowserStage = new Stage();
-            WebBrowser webBrowser = new WebBrowser(webBrowserStage, courseURL);
-            webBrowserStage.show();
-        }
-        // WE'LL HANDLE COURSE EXPORT PROBLEMS AND COURSE PAGE VIEWING
-        // PROBLEMS USING DIFFERENT ERROR MESSAGES
-        catch (MalformedURLException murle) {
-            errorHandler.handleViewSchedulePageError(courseURL);
-        } catch (Exception ioe) {
-            errorHandler.handleExportCourseError(draftToExport);
-        }
-    }
-
-    /**
-     * This method will exit the application, making sure the user doesn't lose
-     * any data first.
-     * 
-     * @param gui
-     */
-    public void handleExitRequest(WDK_GUI gui) {
-        try {
-            // WE MAY HAVE TO SAVE CURRENT WORK
-            boolean continueToExit = true;
-            if (!saved) {
-                // THE USER CAN OPT OUT HERE
-                continueToExit = promptToSave(gui);
-            }
-
-            // IF THE USER REALLY WANTS TO EXIT THE APP
-            if (continueToExit) {
-                // EXIT THE APPLICATION
-                System.exit(0);
-            }
-        } catch (IOException ioe) {
-            ErrorHandling eH = ErrorHandling.getErrorHandler();
-            eH.handleExitError();
-        }
-    }
-
-    /**
-     * This helper method verifies that the user really wants to save their
-     * unsaved work, which they might not want to do. Note that it could be used
-     * in multiple contexts before doing other actions, like creating a new
-     * Course, or opening another Course. Note that the user will be
-     * presented with 3 options: YES, NO, and CANCEL. YES means the user wants
-     * to save their work and continue the other action (we return true to
-     * denote this), NO means don't save the work but continue with the other
-     * action (true is returned), CANCEL means don't save the work and don't
-     * continue with the other action (false is returned).
-     *
-     * @return true if the user presses the YES option to save, true if the user
-     * presses the NO option to not save, false if the user presses the CANCEL
-     * option to not continue.
-     */
-    private boolean promptToSave(WDK_GUI gui) throws IOException {
+    
+     private boolean promptToSave(WDK_GUI gui) throws IOException {
         // PROMPT THE USER TO SAVE UNSAVED WORK
         yesNoCancelDialog.show(properties.getProperty(SAVE_UNSAVED_WORK_MESSAGE));
         
@@ -278,7 +152,8 @@ public class FileController {
             DraftDataManager dataManager = gui.getDataManager();
             courseIO.saveDraft(dataManager.getDraft());
             saved = true;
-           
+            
+          
         } // IF THE USER SAID CANCEL, THEN WE'LL TELL WHOEVER
         // CALLED THIS THAT THE USER IS NOT INTERESTED ANYMORE
         else if (selection.equals(YesNoCancelDialog.CANCEL)) {
@@ -290,36 +165,7 @@ public class FileController {
         // HAD IN MIND IN THE FIRST PLACE
         return true;
     }
-
-    /**
-     * This helper method asks the user for a file to open. The user-selected
-     * file is then loaded and the GUI updated. Note that if the user cancels
-     * the open process, nothing is done. If an error occurs loading the file, a
-     * message is displayed, but nothing changes.
-     */
-    private void promptToOpen(WDK_GUI gui) {
-        // AND NOW ASK THE USER FOR THE COURSE TO OPEN
-        FileChooser draftFileChooser = new FileChooser();
-        draftFileChooser.setInitialDirectory(new File(PATH_COURSES));
-        File selectedFile = draftFileChooser.showOpenDialog(gui.getWindow());
-
-        // ONLY OPEN A NEW FILE IF THE USER SAYS OK
-        if (selectedFile != null) {
-            try {
-                Draft draftToLoad = gui.getDataManager().getDraft();
-                courseIO.loadDraft(draftToLoad, selectedFile.getAbsolutePath());
-                gui.reloadDraft(draftToLoad);
-                saved = true;
-                gui.updateToolbarControls(saved);
-               
-            } catch (Exception e) {
-                ErrorHandling eH = ErrorHandling.getErrorHandler();
-                eH.handleLoadCourseError();
-            }
-        }
-    }
-
-    /**
+/**
      * This mutator method marks the file as not saved, which means that when
      * the user wants to do a file-type operation, we should prompt the user to
      * save current work first. Note that this method should be called any time

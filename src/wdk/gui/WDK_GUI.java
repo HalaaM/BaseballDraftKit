@@ -459,19 +459,19 @@ public class WDK_GUI implements DraftDataView{
         newCourseButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
-        loadCourseButton.setOnAction(e -> {
-            fileController.handleLoadDraftRequest(this);
-        });
-        saveCourseButton.setOnAction(e -> {
-            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
-        });
-        exportSiteButton.setOnAction(e -> {
-            fileController.handleExportDraftRequest(this);
-            
-        });
-        exitButton.setOnAction(e -> {
-            fileController.handleExitRequest(this);
-        });
+//        loadCourseButton.setOnAction(e -> {
+//            fileController.handleLoadDraftRequest(this);
+//        });
+//        saveCourseButton.setOnAction(e -> {
+//            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
+//        });
+//        exportSiteButton.setOnAction(e -> {
+//            fileController.handleExportDraftRequest(this);
+//            
+//        });
+//        exitButton.setOnAction(e -> {
+//            fileController.handleExitRequest(this);
+//        });
            registerTextFieldController(playerTextField);
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
@@ -485,7 +485,7 @@ public class WDK_GUI implements DraftDataView{
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         
-    System.out.println(props.getProperty("NEW_COURSE_ICON"));
+  
             
         String imagePath = "file:" + PATH_IMAGES + props.getProperty(icon.toString());
         Image buttonImage = new Image(imagePath);

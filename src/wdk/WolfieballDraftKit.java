@@ -87,7 +87,7 @@ public class WolfieballDraftKit extends Application {
             // LOAD THE SETTINGS FOR STARTING THE APP
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             props.addProperty(PropertiesManager.DATA_PATH_PROPERTY, PATH_DATA);
-            props.loadProperties("properties.xml", "properties_schema.xsd");
+            props.loadProperties(PROPERTIES_FILE_NAME, PROPERTIES_SCHEMA_FILE_NAME);
             return true;
        } catch (InvalidXMLFileFormatException ixmlffe) {
             // SOMETHING WENT WRONG INITIALIZING THE XML FILE
