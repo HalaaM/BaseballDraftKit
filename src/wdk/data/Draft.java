@@ -8,15 +8,48 @@ package wdk.data;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 /**
  *
  * @author halaamenasy
  */
+
+
 public class Draft {
         // THESE COURSE DETAILS DESCRIBE WHAT'S REQUIRED BY
     // THE COURSE SITE PAGES
-
+    
+    TabPane tabPane;
+    Tab player;
+    Tab fantasyTeam;
+    Tab fantasyStandings;
+    Tab draftSummary;
+    Tab MLBTeams;
+    
+    public Draft(){
+        
+        tabPane=new TabPane();
+        player=new Tab();
+        fantasyTeam=new Tab();
+        fantasyStandings=new Tab();
+        draftSummary=new Tab();
+        MLBTeams= new Tab();
+    
+        fantasyTeam.setText("fantasy team");
+        player.setText("available players");
+        fantasyStandings.setText("fantasy Standings");
+        draftSummary.setText("draft summary");
+        MLBTeams.setText("MLB teams");
+        
+        tabPane.getTabs().add(player);
+        tabPane.getTabs().add(fantasyTeam);
+        tabPane.getTabs().add(fantasyStandings);
+        tabPane.getTabs().add(draftSummary);
+        tabPane.getTabs().add(MLBTeams);
+     
+    }
     private Draft draft;
     private String title;
     private Team team;
@@ -66,7 +99,14 @@ public class Draft {
     public void setTeam(Team team) {
         this.team = team;
     }
-
+    
+    public void setTabPane(TabPane tab){
+        this.tabPane=tab;
+        
+    }
+    public TabPane getTabPane(){
+        return tabPane;
+    }
     /**
      * @param pages the pages to set
      */

@@ -26,12 +26,7 @@ import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -83,13 +78,11 @@ public class WDK_GUI implements DraftDataView{
     // APPLICATION GUI
     BorderPane wdkPane;
     
+    //For the playerTabPane
+    VBox playerTab;
     //The pane where our draft info goes
-    BorderPane workspacePane;
     boolean workspaceActivated;
-      
-    // WE'LL PUT THE WORKSPACE INSIDE A SCROLL PANE
-    ScrollPane workspaceScrollPane;
-    
+
     // THIS MANAGES ALL OF THE APPLICATION'S DATA
     DraftDataManager dataManager;
 
@@ -97,7 +90,7 @@ public class WDK_GUI implements DraftDataView{
     DraftEditController draftEditController;
     
     // THIS MANAGES COURSE FILE I/O
-    DraftFileManager courseFileManager;
+    DraftFileManager draftFileManager;
 
     // THIS MANAGES EXPORTING OUR SITE PAGES
     DraftExporter siteExporter;
@@ -146,19 +139,20 @@ public class WDK_GUI implements DraftDataView{
     TableColumn EstimatedValuCol;
     TableColumn notesCol;
     TextField playerTextField;
-     // AND TABLE COLUMNS
-    static final String COL_FIRSTNAME = "FIRST_NAME";
-    static final String COL_LASTNAME = "LAST_NAME";
-    static final String COL_PROTEAM = "Link";
-    static final String COL_POSITION = "Topic";
-    static final String COL_YEAROFBIRTH = "Number of Sessions";
-    static final String COL_RW = "Name";
-    static final String COL_HRSV = "Topics";
-    static final String COL_RBIK = "Topics";
-    static final String COL_SBERA = "Topics";
-    static final String COL_BAWHIP = "Topics";
-    static final String COL_ESTIMATEDVAL = "Topics";
-    static final String COL_NOTES = "Topics";
+    
+    // AND TABLE COLUMNS fix it according to json at some point
+    static final String COL_FIRSTNAME = "First";
+    static final String COL_LASTNAME = "Last";
+    static final String COL_PROTEAM = "Pro Team";
+    static final String COL_POSITION = "Positions";
+    static final String COL_YEAROFBIRTH = "Year of Birth";
+    static final String COL_RW = "R/W";
+    static final String COL_HRSV = "HR/SV";
+    static final String COL_RBIK = "RBI/K";
+    static final String COL_SBERA = "SB/ERA";
+    static final String COL_BAWHIP = "BA/WHIP";
+    static final String COL_ESTIMATEDVAL = "Estimated Value";
+    static final String COL_NOTES = "Notes";
     
     //This is whats inside the radio pane
     HBox playerOptionsToolBar;
@@ -226,7 +220,7 @@ public class WDK_GUI implements DraftDataView{
      * @return The CourseFileManager used by this UI.
      */
     public DraftFileManager getCourseFileManager() {
-        return courseFileManager;
+        return draftFileManager;
     }
 
     /**
@@ -270,7 +264,7 @@ public class WDK_GUI implements DraftDataView{
      * @param initCourseFileManager The CourseFileManager to be used by this UI.
      */
     public void setCourseFileManager(DraftFileManager initCourseFileManager) {
-        courseFileManager = initCourseFileManager;
+        draftFileManager = initCourseFileManager;
     }
 
     /**
@@ -296,15 +290,15 @@ public class WDK_GUI implements DraftDataView{
  
         // INIT THE TOOLBAR
         initFileToolbar();
-        initWindow(windowTitle);
         initWorkSpace(tabPane);
         initDialogs();
+        initWindow(windowTitle);
 
     }
      public void activateWorkspace() {
         if (!workspaceActivated) {
             // PUT THE WORKSPACE IN THE GUI
-            wdkPane.setCenter(workspaceScrollPane);
+            wdkPane.setTop(tabPane);
             workspaceActivated = true;
         }
     }
@@ -363,18 +357,9 @@ public class WDK_GUI implements DraftDataView{
      
     //calls the TabPane to manage all the screens
      private void initWorkSpace(TabPane tabPane) throws IOException {
-          initTabPane(tabPane);
-//         workspacePane = new BorderPane();
-//        workspacePane.setTop(topWorkspacePane);
-//        schedulePane.getChildren().add(lectureBox);
-//        schedulePane.getChildren().add(assignmentBox);
-//        workspacePane.setCenter(schedulePane);
-//        workspacePane.getStyleClass().add(CLASS_BORDERED_PANE);
-//        
-//        // AND NOW PUT IT IN THE WORKSPACE
-//        workspaceScrollPane = new ScrollPane();
-//        workspaceScrollPane.setContent(workspacePane);
-//        workspaceScrollPane.setFitToWidth(true);
+          initTabPane();
+          
+         
 //
 //        // NOTE THAT WE HAVE NOT PUT THE WORKSPACE INTO THE WINDOW,
 //        // THAT WILL BE DONE WHEN THE USER EITHER CREATES A NEW
@@ -384,7 +369,7 @@ public class WDK_GUI implements DraftDataView{
     }
     //this pane has home which is available players, fantasy teams, fantasy standings,draft summary
     //mlb teams
-    private void initTabPane(TabPane tabPane){
+    private void initTabPane(){
         tabPane=new TabPane();
         player=new Tab();
         fantasyTeam=new Tab();
@@ -404,73 +389,15 @@ public class WDK_GUI implements DraftDataView{
         tabPane.getTabs().add(draftSummary);
         tabPane.getTabs().add(MLBTeams);
         
-        initAvailablePlayerTab(tabPane, player);
-        initFantasyTeamTab(tabPane, fantasyTeam);
-        initFantasyStandingsTab(tabPane,fantasyStandings);
-        initDraftSummaryTab(tabPane, draftSummary);
-        initMLBTeamsTab(tabPane, MLBTeams);
+        initAvailablePlayerTab(player);
+        initFantasyTeamTab(fantasyTeam);
+        initFantasyStandingsTab(fantasyStandings);
+        initDraftSummaryTab(draftSummary);
+        initMLBTeamsTab(MLBTeams);
+       
         
     }
-    private void initAvailablePlayerTab(TabPane tabpane, Tab tab){
-//           VBox topWorkSpacePane;
-//    Label availablePlayerHeadingLabel;
-//   
-//    //These are the two panes in the top work space pane
-//    HBox radioButtonPane;
-//    HBox playerSearchPane;
-//    
-//    //this is what is inside the playerSearchPane
-//    Label searchLabel;
-//    TextField searchPlayerTextField;
-//    HBox playerToolBar;
-//    Button addPlayerButton;
-//    Button removePlayerButton; 
-        
-         // NOW THE CONTROLS FOR ADDING ASSIGNMENT ITEMS
-//        assignmentBox = new VBox();
-//        assignmentToolBar = new HBox();
-//        assignmentLabel = initLabel(CSB_PropertyType.HWS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-//        addAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.ADD_ICON, CSB_PropertyType.ADD_ITEM_TOOLTIP, false);
-//        removeAssignmentButton = initChildButton(assignmentToolBar, CSB_PropertyType.MINUS_ICON, CSB_PropertyType.REMOVE_ITEM_TOOLTIP, false);        
-//        assignmentTable = new TableView();
-//        assignmentBox.getChildren().add(assignmentLabel);
-//        assignmentBox.getChildren().add(assignmentToolBar);
-//        assignmentBox.getChildren().add(assignmentTable);
-//        assignmentBox.getStyleClass().add(CLASS_BORDERED_PANE);
-//        
-//        // NOW SETUP THE TABLE COLUMNS
-//        nameOfAssignment= new TableColumn(COL_NAME);
-//        topicOfAssignment = new TableColumn(COL_TOPICS);
-//        dateOfAssignment = new TableColumn(COL_DATE);
-//
-////        
-////        // AND LINK THE COLUMNS TO THE DATA
-//        nameOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("name"));
-//        topicOfAssignment.setCellValueFactory(new PropertyValueFactory<String, String>("topics"));
-//        dateOfAssignment.setCellValueFactory(new PropertyValueFactory<LocalDate, String>("date"));
-//        assignmentTable.getColumns().add(nameOfAssignment);
-//        assignmentTable.getColumns().add(topicOfAssignment);
-//        assignmentTable.getColumns().add(dateOfAssignment);
-//        assignmentTable.setItems(dataManager.getCourse().getAssignments());
-//
-////          
-////        // NOW LET'S ASSEMBLE ALL THE CONTAINERS TOGETHER
-////
-////        // THIS IS FOR STUFF IN THE TOP OF THE ASSIGNMENT PANE, WE NEED TO PUT TWO THINGS INSIDE
-//         assignmentInfoPane = new VBox();
-////
-////        // FIRST OUR ASSIGNMENT HEADER
-//         assignmentInfoHeadingLabel = initChildLabel(lectureInfoPane, CSB_PropertyType.HWS_HEADING_LABEL, CLASS_HEADING_LABEL);
-////
-////      // FINALLY, EVERYTHING IN THIS REGION ULTIMATELY GOES INTO ASSIGNMENT PANE
-//  
-//        
-//        assignmentPane = new VBox();
-//        assignmentPane.getChildren().add(assignmentInfoPane);
-//        assignmentPane.getChildren().add(assignmentBox);
-//        assignmentPane.getStyleClass().add(CLASS_BORDERED_PANE);
-
-//        HBox playerOptionsToolBar;
+    private void initAvailablePlayerTab(Tab tab){
 
         //Make and initialize all buttons for RadioButtonPane
         ToggleGroup toggle= new ToggleGroup();
@@ -513,41 +440,98 @@ public class WDK_GUI implements DraftDataView{
         radioButtonPane.getChildren().add(U);
         radioButtonPane.getChildren().add(P);
         
-        //Make search pane
+        //Make playerSearchPane 
+        playerSearchPane= new HBox();
+        
+        // make toolbar to put into playerSearchPane
+        playerToolBar= new HBox();
+        addPlayerButton = initChildButton(playerToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
+        removePlayerButton = initChildButton(playerToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);   
+       
+        //add tool bar and search box/textfield
+        playerSearchPane.getChildren().add(playerToolBar);
+        
+        
+        searchPlayerTextField=new TextField();
+        searchLabel = initLabel(WDK_PropertyType. AVAILABLE_PLAYER_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        playerSearchPane.getChildren().add(searchLabel);
+        playerSearchPane.getChildren().add(searchPlayerTextField);
+
         
         //add radio and search pane to top work space
+        topWorkSpacePane.getChildren().add(playerSearchPane);
+        topWorkSpacePane.getChildren().add(radioButtonPane);
         
         //make tableview for players
+        playerTable=new TableView();
+        firstNameCol= new TableColumn(COL_FIRSTNAME);
+        lasNameCol = new TableColumn(COL_LASTNAME);
+        proTeamCol=new TableColumn(COL_PROTEAM);
+        postionCol=new TableColumn(COL_POSITION);
+        yearOfBirthCol=new TableColumn(COL_YEAROFBIRTH);
+        R_WCol=new TableColumn(COL_RW);
+        HR_SVCol=new TableColumn(COL_HRSV);
+        RBI_KCol=new TableColumn(COL_RBIK );
+        SB_ERACol=new TableColumn(COL_SBERA);
+        BA_WHIPCol=new TableColumn(COL_BAWHIP);
+        EstimatedValuCol=new TableColumn(COL_ESTIMATEDVAL);
+        notesCol=new TableColumn(COL_NOTES);
+
+        //json property
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_FIRSTNAME));
+        lasNameCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_LASTNAME));
+        proTeamCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_PROTEAM));
+        postionCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_POSITION));
+        yearOfBirthCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_YEAROFBIRTH));
+        R_WCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_RW));
+        HR_SVCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_HRSV));
+        RBI_KCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_RBIK));
+        SB_ERACol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_SBERA));
+        BA_WHIPCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_BAWHIP));
+        EstimatedValuCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_ESTIMATEDVAL));
+        notesCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_NOTES));
         
-        //add table view and top  player tab V box (which i still need to make)
+        playerTable.getColumns().add(firstNameCol);
+        playerTable.getColumns().add(lasNameCol);
+        playerTable.getColumns().add(proTeamCol);
+        playerTable.getColumns().add(postionCol);
+        playerTable.getColumns().add(yearOfBirthCol);
+        playerTable.getColumns().add(R_WCol);
+        playerTable.getColumns().add(HR_SVCol);
+        playerTable.getColumns().add(RBI_KCol);
+        playerTable.getColumns().add(SB_ERACol);
+        playerTable.getColumns().add(BA_WHIPCol);
+        playerTable.getColumns().add(EstimatedValuCol);
+        playerTable.getColumns().add(notesCol);
         
+        //add table view and topworkspace to  player tab V box (which i still need to make)
+        playerTab= new VBox();
+        playerTab.getChildren().add(playerTable);
+        playerTab.getChildren().add(topWorkSpacePane);
+   
         //set tab content to player tab v box
-        
-        
-        
-        
+        tab.setContent(playerTab);
+      
         
 
-
-
-
-
-        
-        
     }
-     
-      private void initFantasyTeamTab(TabPane tabPane, Tab fantasyTeam) {
-        
+
+      private void initFantasyTeamTab( Tab fantasyTeam) {
+        fantasyTeamLabel = initLabel(WDK_PropertyType. FANTASY_TEAM_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        fantasyTeam.setContent(fantasyTeamLabel);
     }  
-       private void initFantasyStandingsTab(TabPane tabPane, Tab fantasyStandings) {
-        
+       private void initFantasyStandingsTab( Tab fantasyStandings) {
+        fantasyStandingLabel = initLabel(WDK_PropertyType. FANTASY_STANDING_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        fantasyStandings.setContent(fantasyStandingLabel);
     }
        
-     private void initDraftSummaryTab(TabPane tabPane, Tab draftSummary) {
-       
+     private void initDraftSummaryTab( Tab draftSummary) {
+         draftSummaryLabel = initLabel(WDK_PropertyType. DRAFT_SUMMARY_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+         draftSummary.setContent(draftSummaryLabel);
     }
-      private void initMLBTeamsTab(TabPane tabPane, Tab MLBTeams) {
-        
+      private void initMLBTeamsTab( Tab MLBTeams) {
+        MLBTeamsLabel = initLabel(WDK_PropertyType.  MLB_TEAMS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        MLBTeams.setContent(MLBTeamsLabel);
     }
    
      //method only for available player screen only  
@@ -566,20 +550,8 @@ public class WDK_GUI implements DraftDataView{
 //        playerBox.getStyleClass().add(CLASS_BORDERED_PANE);
 //        
  
-        // NOW SETUP THE TABLE COLUMNS
-        firstNameCol= new TableColumn(COL_FIRSTNAME);
-        lasNameCol = new TableColumn(COL_LASTNAME);
-        proTeamCol=new TableColumn(COL_PROTEAM);
-        postionCol=new TableColumn(COL_POSITION);
-        yearOfBirthCol=new TableColumn(COL_YEAROFBIRTH);
-        R_WCol=new TableColumn(COL_RW);
-        HR_SVCol=new TableColumn(COL_HRSV);
-        RBI_KCol=new TableColumn(COL_RBIK );
-        SB_ERACol=new TableColumn(COL_SBERA);
-        BA_WHIPCol=new TableColumn(COL_BAWHIP);
-        EstimatedValuCol=new TableColumn(COL_ESTIMATEDVAL);
-        notesCol=new TableColumn(COL_NOTES);
-
+      
+  
     }
      
       private void initWindow(String windowTitle) {
@@ -601,6 +573,7 @@ public class WDK_GUI implements DraftDataView{
         // THE USER STARTS EDITING A COURSE
         wdkPane = new BorderPane();
         wdkPane.setTop(fileToolbarPane);
+        wdkPane.setCenter(tabPane);
         primaryScene = new Scene(wdkPane);
 
         // NOW TIE THE SCENE TO THE WINDOW, SELECT THE STYLESHEET
@@ -611,23 +584,11 @@ public class WDK_GUI implements DraftDataView{
     }
        private void initEventHandlers() throws IOException {
         // FIRST THE FILE CONTROLS
-        fileController = new FileController(messageDialog, yesNoCancelDialog, courseFileManager, siteExporter);
+        fileController = new FileController(messageDialog, yesNoCancelDialog, draftFileManager, siteExporter);
         newCourseButton.setOnAction(e -> {
             fileController.handleNewDraftRequest(this);
         });
-//        loadCourseButton.setOnAction(e -> {
-//            fileController.handleLoadDraftRequest(this);
-//        });
-//        saveCourseButton.setOnAction(e -> {
-//            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
-//        });
-//        exportSiteButton.setOnAction(e -> {
-//            fileController.handleExportDraftRequest(this);
-//            
-//        });
-//        exitButton.setOnAction(e -> {
-//            fileController.handleExitRequest(this);
-//        });
+
            registerTextFieldController(playerTextField);
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
@@ -640,9 +601,7 @@ public class WDK_GUI implements DraftDataView{
     // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-        
-  
-            
+       
         String imagePath = "file:" + PATH_IMAGES + props.getProperty(icon.toString());
         Image buttonImage = new Image(imagePath);
         Button button = new Button();

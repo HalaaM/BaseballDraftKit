@@ -57,6 +57,7 @@ public class FileController {
     // WE'LL USE THIS TO GET OUR VERIFICATION FEEDBACK
     PropertiesManager properties;
 
+    Draft draft;
     /**
      * This default constructor starts the program without a course file being
      * edited.
@@ -129,7 +130,7 @@ public class FileController {
                 // REFRESH THE GUI, WHICH WILL ENABLE AND DISABLE
                 // THE APPROPRIATE CONTROLS
                 gui.updateToolbarControls(saved);
-
+                 gui.reloadDraft(draft);
                 // TELL THE USER THE COURSE HAS BEEN CREATED
                 messageDialog.show(properties.getProperty(NEW_COURSE_CREATED_MESSAGE));
             }
@@ -149,6 +150,7 @@ public class FileController {
         // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
         if (selection.equals(YesNoCancelDialog.YES)) {
             // SAVE THE COURSE
+            
             DraftDataManager dataManager = gui.getDataManager();
             courseIO.saveDraft(dataManager.getDraft());
             saved = true;

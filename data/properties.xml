@@ -56,6 +56,11 @@
         <property name="SCHEDULE_ITEMS_HEADING_LABEL"   value="Schedule Items"></property>
         <property name="LECTURES_HEADING_LABEL"         value="Lectures"></property>
         <property name="HWS_HEADING_LABEL"              value="Assignments"></property>
+        <property name="FANTASY_TEAM_HEADING_LABEL"     value="Fantasy Teams"></property>
+        <property name="AVAILABLE_PLAYER_HEADING_LABEL" value="Available Players"></property>
+        <property name="FANTASY_STANDING_HEADING_LABEL" value="Fantasy Standing"></property>
+        <property name="DRAFT_SUMMARY_HEADING_LABEL"    value="Draft Summary"></property>
+        <property name="MLB_TEAMS_HEADING_LABEL"        value="MLB Teams"></property>
         
         <!-- ERROR MESSAGES -->
         <property name="START_DATE_AFTER_END_DATE_ERROR_MESSAGE"    value="The Starting Monday cannot be chronologically after the Ending Friday"></property>
