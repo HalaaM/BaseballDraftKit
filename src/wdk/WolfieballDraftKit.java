@@ -20,6 +20,7 @@ import xml_utilities.InvalidXMLFileFormatException;
  * Driver Class
  * 
  * @author Halaa Menasy
+
  */
 public class WolfieballDraftKit extends Application {
     // THIS IS THE FULL USER INTERFACE, WHICH WILL BE INITIALIZED
@@ -34,10 +35,10 @@ public class WolfieballDraftKit extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-//        // LET'S START BY GIVING THE PRIMARY STAGE TO OUR ERROR HANDLER
-//        ErrorHandling eH = ErrorHandling.getErrorHandler();
-//        eH.initMessageDialog(primaryStage);
-//        
+        // LET'S START BY GIVING THE PRIMARY STAGE TO OUR ERROR HANDLER
+        ErrorHandling eH = ErrorHandling.getErrorHandler();
+        eH.initMessageDialog(primaryStage);
+        
         // LOAD APP SETTINGS INTO THE GUI AND START IT UP
         boolean success = loadProperties();
         if (success) {
@@ -46,31 +47,30 @@ public class WolfieballDraftKit extends Application {
             try {                
                 // WE WILL SAVE OUR COURSE DATA USING THE JSON FILE
                 // FORMAT SO WE'LL LET THIS OBJECT DO THIS FOR US
-  //    JsonDraftFileManager jsonFileManager = new JsonDraftFileManager();
-//                
-//                // AND THIS ONE WILL DO THE COURSE WEB PAGE EXPORTING
-//                DraftExporter exporter = new DraftExporter(PATH_BASE, PATH_SITES);
+                JsonDraftFileManager jsonFileManager = new JsonDraftFileManager();
                 
-         
-             //  ArrayList<String> drafts = jsonFileManager.loadOneOfTheDrafts(JSON_FILE_PATH_SUBJECTS);
-                                
+                // AND THIS ONE WILL DO THE COURSE WEB PAGE EXPORTING
+             //   DraftExporter exporter = new DraftExporter(PATH_BASE, PATH_SITES);
+                
+              
+              
                 // AND NOW GIVE ALL OF THIS STUFF TO THE GUI
                 // INITIALIZE THE USER INTERFACE COMPONENTS
                 gui = new WDK_GUI(primaryStage);
-//                gui.setCourseFileManager(jsonFileManager);
-//                gui.setSiteExporter(exporter);
+                gui.setDraftFileManager(jsonFileManager);
+                //gui.setSiteExporter(exporter);
                 
                 // CONSTRUCT THE DATA MANAGER AND GIVE IT TO THE GUI
-               // DraftDataManager dataManager = new DraftDataManager(gui); 
-               // gui.setDataManager(dataManager);
+                DraftDataManager dataManager = new DraftDataManager(gui,jsonFileManager); 
+                gui.setDataManager(dataManager);
 
                 // FINALLY, START UP THE USER INTERFACE WINDOW AFTER ALL
                 // REMAINING INITIALIZATION
                 gui.initGUI(appTitle);                
             }
             catch(IOException ioe) {
-//                eH = ErrorHandling.getErrorHandler();
-//                eH.handlePropertiesFileError();
+                eH = ErrorHandling.getErrorHandler();
+                eH.handlePropertiesFileError();
             }
         }
     }
@@ -82,7 +82,6 @@ public class WolfieballDraftKit extends Application {
      * @return true if the properties file was loaded successfully, false otherwise.
      */
     public boolean loadProperties() {
-        
         try {
             // LOAD THE SETTINGS FOR STARTING THE APP
             PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -102,7 +101,6 @@ public class WolfieballDraftKit extends Application {
      * it will simply call launch, which gets JavaFX rolling, resulting in
      * sending the properly initialized Stage (i.e. window) to our start
      * method in this class.
-     * @param args
      */
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);

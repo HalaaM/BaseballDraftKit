@@ -9,6 +9,7 @@ import wdk.data.Draft;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import wdk.data.Players;
 
 /**
  *
@@ -19,5 +20,6 @@ public interface DraftFileManager {
     public void                 loadDraft(Draft draftToLoad, String coursePath) throws IOException;
     public void                 saveMultipleDrafts(List<Object> drafts, String filePath) throws IOException;
     public ArrayList<String>    loadOneOfTheDrafts(String filePath) throws IOException;
-    
+    public List<Players>        loadPitchers(String jsonFilePath)throws IOException; 
+    public List<Players>        loadHitters(String jsonFilePath) throws IOException;
 }

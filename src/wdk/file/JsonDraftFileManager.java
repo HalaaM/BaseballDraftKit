@@ -29,6 +29,7 @@ import javax.json.JsonValue;
 
 import wdk.data.Draft;
 import wdk.data.DraftPage;
+import wdk.data.Players;
 
 
 /**
@@ -93,11 +94,8 @@ public class JsonDraftFileManager implements DraftFileManager {
         
         // MAKE A JSON ARRAY FOR THE PAGES ARRAY
         JsonArray pagesJsonArray = makePagesJsonArray(draftToSave.getPages());
-         
 
     }
-
-
 
     @Override
     public void saveMultipleDrafts(List<Object> drafts, String filePath) throws IOException {
@@ -142,5 +140,61 @@ public class JsonDraftFileManager implements DraftFileManager {
     @Override
     public void loadDraft(Draft draftToLoad, String coursePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    } 
+
+    @Override
+    public List<Players> loadHitters(String jsonFilePath) throws IOException{
+        JsonObject json = loadJSONFile(jsonFilePath);
+        ArrayList <Players> hitterList= new ArrayList<Players>();
+        JsonArray jsonHittersArray = json.getJsonArray(JSON_HITTERS);
+        for (int i = 0; i < jsonHittersArray.size(); i++){
+            JsonObject jsonHitter=jsonHittersArray.getJsonObject(i);
+            String team= jsonHitter.getString(JSON_HITTERSTEAM);
+            String firstName= jsonHitter.getString(JSON_HITTERFIRSTNAME);
+            String lastName= jsonHitter.getString(JSON_HITTERLASTNAME);
+            String positions= jsonHitter.getString(JSON_QP);
+            int atBats=jsonHitter.getInt(JSON_AB);
+            int R= jsonHitter.getInt(JSON_R);
+            int H= jsonHitter.getInt(JSON_H);
+            int HR= jsonHitter.getInt(JSON_HR);
+            int RBI= jsonHitter.getInt(JSON_RBI);
+            int SB= jsonHitter.getInt(JSON_SB);
+            String Notes= jsonHitter.getString(JSON_NOTES);
+            int yearOfBirth= jsonHitter.getInt(JSON_YEAROFBIRTH); 
+            
+            Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth );
+            hitterList.add(hitter);
+        }     
+        return hitterList;
     }
+    
+    @Override
+    public List<Players> loadPitchers(String jsonFilePath) throws IOException{
+         JsonObject json = loadJSONFile(jsonFilePath);
+         ArrayList <Players> pitcherList= new ArrayList<Players>();
+         JsonArray jsonPitcherArray = json.getJsonArray(JSON_PITCHERS);
+         for (int i = 0; i < jsonPitcherArray.size(); i++){
+            JsonObject jsonPitcher=jsonPitcherArray.getJsonObject(i);
+            String team= jsonPitcher.getString(JSON_PITCHERSTEAM);
+            String firstName= jsonPitcher.getString(JSON_PITCHERSLASTNAME);
+            String lastName= jsonPitcher.getString(JSON_PITCHERSFIRSTNAME );
+            String IP= jsonPitcher.getString(JSON_IP);
+            int ER=jsonPitcher.getInt(JSON_ER);
+            int W= jsonPitcher.getInt(JSON_W);
+            int SV= jsonPitcher.getInt(JSON_SV);
+            int H= jsonPitcher.getInt(JSON_PITCHERS_H);
+            int BB= jsonPitcher.getInt(JSON_BB);
+            int K= jsonPitcher.getInt(JSON_K);
+            String Notes= jsonPitcher.getString(JSON_PITCHERSNOTES);
+            int yearOfBirth= jsonPitcher.getInt(JSON_YEAROFBIRTH_PITCHER); 
+            
+            Players pitcher= new Players(team, lastName, firstName, Double.parseDouble(IP), ER, W, SV,  H, BB, K, Notes,  yearOfBirth);
+            pitcherList.add(pitcher);
+        }     
+        return pitcherList;
+        
+        
+    }
+    
+    
 }

@@ -18,10 +18,13 @@ public class WDK_StartupConstants {
     public static final String PATH_DATA = "./data/";
     public static final String PATH_COURSES = PATH_DATA + "courses/";
     public static final String PATH_BASE = PATH_SITES + "base/";
-
+    
+    
+    
     public static final String PROPERTIES_FILE_NAME = "properties.xml";
     public static final String PROPERTIES_SCHEMA_FILE_NAME = "properties_schema.xsd";
     public static String PROPERTIES_FILE_ERROR_MESSAGE = "Error Loading properties.xml";
      // THESE ARE THE DATA FILES WE WILL LOAD AT STARTUP
-    public static final String JSON_FILE_PATH_SUBJECTS = PATH_DATA + "subjects.json";
+    public static final String JSON_FILE_PATH_HITTERS = PATH_DATA + "hitters.json";
+    public static final String JSON_FILE_PATH_PITCHERS = PATH_DATA + "pitchers.json";
 }

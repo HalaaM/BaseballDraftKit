@@ -11,11 +11,11 @@ import java.util.List;
  *
  * @author halaamenasy
  */
-public abstract class Players {
+public class Players {
 
     private String firstName;
     private String lastName;
-    private List<String> positions;
+    private String positions;
     private int yearOfBirth;
     private int salary;
     private String estimatedValue;
@@ -39,11 +39,11 @@ public abstract class Players {
     private double ERA; //Earned Run Average
     private double ER; //Earned Runs
     private double WHIP; // Walks+Hits/Innings Pitched
-    private int IP; // (Innings Pitched) 
+    private double IP; // (Innings Pitched) 
     private int BB; //Bases on Balls
 
     //Hitters constructor
-    public Players(String team, String lastName, String firstName, List<String> positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes) {
+    public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth) {
         this.team = team;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -57,16 +57,17 @@ public abstract class Players {
         this.Notes = Notes;
         //Hits/At Bats
         this.BA = (double) H / atBats;
+        this.yearOfBirth=yearOfBirth;
 
     }
 
     //pitchers constructor
-    public Players(String team, String lastName, String firstName, List<String> positions, int IP, int ER,int W, int SV, int H, int BB, int K, String Notes, int yearOfBirth) {
+    public Players(String team, String lastName, String firstName, double IP, int ER,int W, int SV, int H, int BB, int K, String Notes, int yearOfBirth) {
       
        this.team = team;
        this.lastName = lastName;
        this.firstName = firstName;
-       this.positions = positions;
+       this.positions = "P";
        this.IP=IP;
        this.ER=ER;
        this.W=W;
@@ -99,7 +100,7 @@ public abstract class Players {
     /**
      * @return the positions
      */
-    public List<String> getPositions() {
+    public String getPositions() {
         return positions;
     }
 
@@ -247,7 +248,7 @@ public abstract class Players {
     /**
      * @return the IP
      */
-    public int getIP() {
+    public double getIP() {
         return IP;
     }
 

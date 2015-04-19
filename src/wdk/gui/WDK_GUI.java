@@ -263,7 +263,7 @@ public class WDK_GUI implements DraftDataView{
      *
      * @param initCourseFileManager The CourseFileManager to be used by this UI.
      */
-    public void setCourseFileManager(DraftFileManager initCourseFileManager) {
+    public void setDraftFileManager(DraftFileManager initCourseFileManager) {
         draftFileManager = initCourseFileManager;
     }
 

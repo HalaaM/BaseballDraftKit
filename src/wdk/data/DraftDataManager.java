@@ -6,14 +6,20 @@
 package wdk.data;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import static wdk.WDK_StartupConstants.JSON_FILE_PATH_HITTERS;
 import wdk.file.DraftFileManager;
+import wdk.file.JsonDraftFileManager;
 /**
  *
  * @author halaamenasy
  */
 
 public class DraftDataManager {
+    
+    
 
     // THIS IS THE COURSE BEING EDITED
     Draft draft;
@@ -24,12 +30,30 @@ public class DraftDataManager {
     
     // THIS HELPS US LOAD THINGS FOR OUR COURSE
     DraftFileManager fileManager;
+   
+    ArrayList <Players>list;
     
-
-    
-    public DraftDataManager(DraftDataView initView) {
+    public DraftDataManager(DraftDataView initView, JsonDraftFileManager fileManager) {
+        this.fileManager=fileManager;
         view = initView;
         draft = new Draft();
+        
+    }
+    
+    public void initData() {
+        list= new ArrayList();
+        
+        try{
+        list.addAll(fileManager.loadHitters(JSON_FILE_PATH_HITTERS));
+        }
+        catch(IOException e){
+            Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("Error");
+        alert.setContentText("Ooops, there was an error!");
+
+        alert.showAndWait();
+        }
     }
     
     /**
@@ -53,7 +77,6 @@ public class DraftDataManager {
      */
     public void reset() {
         // CLEAR ALL THE COURSE VALUES
-        draft.setTabPane(draft.getTabPane());
       
         draft.clearPages();
         
