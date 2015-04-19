@@ -153,14 +153,14 @@ public class JsonDraftFileManager implements DraftFileManager {
             String firstName= jsonHitter.getString(JSON_HITTERFIRSTNAME);
             String lastName= jsonHitter.getString(JSON_HITTERLASTNAME);
             String positions= jsonHitter.getString(JSON_QP);
-            int atBats=jsonHitter.getInt(JSON_AB);
-            int R= jsonHitter.getInt(JSON_R);
-            int H= jsonHitter.getInt(JSON_H);
-            int HR= jsonHitter.getInt(JSON_HR);
-            int RBI= jsonHitter.getInt(JSON_RBI);
-            int SB= jsonHitter.getInt(JSON_SB);
+            int atBats=Integer.parseInt(jsonHitter.getString(JSON_AB));
+            int R= Integer.parseInt(jsonHitter.getString(JSON_R));
+            int H= Integer.parseInt(jsonHitter.getString(JSON_H));
+            int HR= Integer.parseInt(jsonHitter.getString(JSON_HR));
+            int RBI= Integer.parseInt(jsonHitter.getString(JSON_RBI));
+            int SB= Integer.parseInt(jsonHitter.getString(JSON_SB));
             String Notes= jsonHitter.getString(JSON_NOTES);
-            int yearOfBirth= jsonHitter.getInt(JSON_YEAROFBIRTH); 
+            int yearOfBirth= Integer.parseInt(jsonHitter.getString(JSON_YEAROFBIRTH_PITCHER));
             
             Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth );
             hitterList.add(hitter);
@@ -179,18 +179,20 @@ public class JsonDraftFileManager implements DraftFileManager {
             String firstName= jsonPitcher.getString(JSON_PITCHERSLASTNAME);
             String lastName= jsonPitcher.getString(JSON_PITCHERSFIRSTNAME );
             String IP= jsonPitcher.getString(JSON_IP);
-            int ER=jsonPitcher.getInt(JSON_ER);
-            int W= jsonPitcher.getInt(JSON_W);
-            int SV= jsonPitcher.getInt(JSON_SV);
-            int H= jsonPitcher.getInt(JSON_PITCHERS_H);
-            int BB= jsonPitcher.getInt(JSON_BB);
-            int K= jsonPitcher.getInt(JSON_K);
+            int ER=Integer.parseInt(jsonPitcher.getString(JSON_ER));
+            int W= Integer.parseInt(jsonPitcher.getString(JSON_W));
+            int SV= Integer.parseInt(jsonPitcher.getString(JSON_SV));
+            int H= Integer.parseInt(jsonPitcher.getString(JSON_H));;
+            int BB= Integer.parseInt(jsonPitcher.getString(JSON_BB));
+            int K= Integer.parseInt(jsonPitcher.getString(JSON_K));
             String Notes= jsonPitcher.getString(JSON_PITCHERSNOTES);
-            int yearOfBirth= jsonPitcher.getInt(JSON_YEAROFBIRTH_PITCHER); 
+            int yearOfBirth= Integer.parseInt(jsonPitcher.getString(JSON_YEAROFBIRTH));
             
             Players pitcher= new Players(team, lastName, firstName, Double.parseDouble(IP), ER, W, SV,  H, BB, K, Notes,  yearOfBirth);
             pitcherList.add(pitcher);
         }     
+         
+         int j=0;
         return pitcherList;
         
         

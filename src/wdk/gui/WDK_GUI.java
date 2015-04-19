@@ -20,8 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -48,6 +53,8 @@ import properties_manager.PropertiesManager;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.util.Callback;
+import wdk.data.Players;
 
 /**
  *
@@ -125,17 +132,17 @@ public class WDK_GUI implements DraftDataView{
 
     // THIS REGION IS FOR MANAGING PLAYERS
    
-    TableView<Player> playerTable;
-    TableColumn firstNameCol;
-    TableColumn lasNameCol;
-    TableColumn proTeamCol;
-    TableColumn postionCol;
+    TableView<Players> playerTable;
+    TableColumn<Players, String> firstNameCol;
+    TableColumn<Players,String> lasNameCol;
+    TableColumn <Players, String>proTeamCol;
+    TableColumn <Players, String> postionCol;
     TableColumn yearOfBirthCol;
-    TableColumn R_WCol;
-    TableColumn HR_SVCol;
-    TableColumn RBI_KCol;
-    TableColumn SB_ERACol;
-    TableColumn BA_WHIPCol;
+    TableColumn <Players, Number> R_WCol;
+    TableColumn <Players, Number> HR_SVCol;
+    TableColumn <Players, Number>RBI_KCol;
+    TableColumn <Players, Number>SB_ERACol;
+    TableColumn<Players, Number> BA_WHIPCol;
     TableColumn EstimatedValuCol;
     TableColumn notesCol;
     TextField playerTextField;
@@ -458,6 +465,8 @@ public class WDK_GUI implements DraftDataView{
         playerSearchPane.getChildren().add(searchLabel);
         playerSearchPane.getChildren().add(searchPlayerTextField);
        
+        //
+        
         
         //add radio and search pane to top work space
         topWorkSpacePane.getChildren().add(playerSearchPane);
@@ -479,18 +488,63 @@ public class WDK_GUI implements DraftDataView{
         notesCol=new TableColumn(COL_NOTES);
 
         //json property
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_FIRSTNAME));
-        lasNameCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_LASTNAME));
-        proTeamCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_PROTEAM));
-        postionCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_POSITION));
-        yearOfBirthCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_YEAROFBIRTH));
-        R_WCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_RW));
-        HR_SVCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_HRSV));
-        RBI_KCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_RBIK));
-        SB_ERACol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_SBERA));
-        BA_WHIPCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_BAWHIP));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("firstName"));
+        lasNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("lastName"));
+        proTeamCol.setCellValueFactory(new PropertyValueFactory<Players, String>("team"));
+        postionCol.setCellValueFactory(new PropertyValueFactory<Players, String>("positions"));
+        yearOfBirthCol.setCellValueFactory(new PropertyValueFactory<Integer, String>("yearOfBirth"));
+        R_WCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+                if(param.getValue().getR()>param.getValue().getW()){
+                    return new ReadOnlyIntegerWrapper(param.getValue().getR());
+                }
+                else return new ReadOnlyIntegerWrapper(param.getValue().getW());
+            }
+        });
+        HR_SVCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+               if(param.getValue().getHR()>param.getValue().getSV()){
+                   return new ReadOnlyIntegerWrapper(param.getValue().getHR());
+               }
+               else return new ReadOnlyIntegerWrapper(param.getValue().getSV());
+            }
+        });
+        RBI_KCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+               if (param.getValue().getRBI()>param.getValue().getK()){
+                   return new ReadOnlyIntegerWrapper(param.getValue().getRBI());
+               }
+               else return new ReadOnlyIntegerWrapper(param.getValue().getK());
+            }
+        });
+        SB_ERACol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+                if(param.getValue().getSB()>param.getValue().getERA()){
+                    return new ReadOnlyIntegerWrapper(param.getValue().getSB());
+                }
+                else return new ReadOnlyDoubleWrapper(param.getValue().getERA());
+            }
+        });
+        BA_WHIPCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+                if(param.getValue().getBA()>param.getValue().getWHIP()){
+                    return new ReadOnlyDoubleWrapper(param.getValue().getBA());
+                }
+                else return new ReadOnlyDoubleWrapper(param.getValue().getWHIP());
+            }
+        });
         EstimatedValuCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_ESTIMATEDVAL));
-        notesCol.setCellValueFactory(new PropertyValueFactory<LocalDate, String>(COL_NOTES));
+        notesCol.setCellValueFactory(new PropertyValueFactory<String, String>("Notes"));
         
         playerTable.getColumns().add(firstNameCol);
         playerTable.getColumns().add(lasNameCol);
@@ -504,6 +558,7 @@ public class WDK_GUI implements DraftDataView{
         playerTable.getColumns().add(BA_WHIPCol);
         playerTable.getColumns().add(EstimatedValuCol);
         playerTable.getColumns().add(notesCol);
+        playerTable.setItems(dataManager.getPlayers());
         
         //add table view and topworkspace to  player tab V box (which i still need to make)
         playerTab= new VBox();
@@ -515,9 +570,39 @@ public class WDK_GUI implements DraftDataView{
      
         //set tab content to player tab v box
         tab.setContent(playerTab);
-      
-        
+       
+        //
+          // 2. Set the filter Predicate whenever the filter changes.
+        searchPlayerTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            ObservableList<Players> playerList2= playerTable.getItems();
+            FilteredList<Players> filteredData = new FilteredList<>(playerList2, p -> true);
+            filteredData.setPredicate(player -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
 
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (player.getFirstName().toLowerCase().startsWith(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (player.getLastName().toLowerCase().startsWith(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+               // 3. Wrap the FilteredList in a SortedList. 
+        SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
+        });
+      
+        initTableFilters();
     }
 
       private void initFantasyTeamTab( Tab fantasyTeam) {
@@ -537,26 +622,7 @@ public class WDK_GUI implements DraftDataView{
         MLBTeamsLabel = initLabel(WDK_PropertyType.  MLB_TEAMS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         MLBTeams.setContent(MLBTeamsLabel);
     }
-   
-     //method only for available player screen only  
-     private void initPlayerControls() {
-
-//       // NOW THE CONTROLS FOR ADDING ASSIGNMENT ITEMS
-//        playerBox = new VBox();
-//        playerToolBar = new HBox();
-//        playerLabel = initLabel(WDK_PropertyType.HWS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-//        addPlayerButton = initChildButton(playerToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
-//        removePlayerButton = initChildButton(playerToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);        
-//        playerTable = new TableView();
-//        playerBox.getChildren().add(playerLabel);
-//        playerBox.getChildren().add(playerToolBar);
-//        playerBox.getChildren().add(playerTable);
-//        playerBox.getStyleClass().add(CLASS_BORDERED_PANE);
-//        
- 
-      
   
-    }
      
       private void initWindow(String windowTitle) {
         // SET THE WINDOW TITLE
@@ -593,14 +659,10 @@ public class WDK_GUI implements DraftDataView{
         newCourseButton.setOnAction(e -> {
     
                 initWorkSpace(tabPane);
-                 wdkPane.setCenter(tabPane);
-           
-
-//tabPane.setVisible(true);
-//fileController.handleNewDraftRequest(this);
+                 wdkPane.setCenter(tabPane);       
         });
-
-          // registerTextFieldController(playerTextField);
+        
+          
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
     private void registerTextFieldController(TextField textField) {
@@ -656,7 +718,180 @@ public class WDK_GUI implements DraftDataView{
         container.add(tf, col, row, colSpan, rowSpan);
         return tf;
     }
+    private void initTableFilters(){
+        all.setOnAction(e ->{
+            filterByAll();
+            
+        });
+        c.setOnAction(e ->{
+            filterByC();
+            
+        });
+          one_B.setOnAction(e ->{
+            filterBy1B();
+            
+        });
+          ci.setOnAction(e ->{
+            filterByci();
+            
+        });
+        three_B.setOnAction(e ->{
+            filterBy3b();
+            
+        });
+        two_B.setOnAction(e ->{
+            filterBy2b();
+            
+        });
+        MI.setOnAction(e ->{
+            filterByMI();
+            
+        });
+        SS.setOnAction(e ->{
+            filterBySS();
+            
+        });
+        OF.setOnAction(e ->{
+            filterByOF();
+            
+        });
+        U.setOnAction(e ->{
+            filterByU();
+            
+        });
+        P.setOnAction(e ->{
+            filterByP();
+            
+        });
+        
+    }
+    private void filterByC() {
+       FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("C")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
 
-   
+    private void filterByAll() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+            return true;
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterBy1B() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("1B")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterByci() {
+      FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("CI")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterBy3b() {
+    FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("3B")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterBy2b() {
+       FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("2B")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterByMI() {
+       FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("MI")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterBySS() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("SS")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterByOF() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("OF")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterByU() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("U")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
+
+    private void filterByP() {
+        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
+       
+      filteredData.setPredicate(player -> {
+    if (player.getPositions().contains("P")) {
+                    return true; // Filter matches first name.
+                } 
+                return false; // Does not match.
+            });
+     playerTable.setItems(filteredData); 
+    }
    
 }

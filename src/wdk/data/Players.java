@@ -56,7 +56,12 @@ public class Players {
         this.SB = SB;
         this.Notes = Notes;
         //Hits/At Bats
+        if(atBats!=0){
         this.BA = (double) H / atBats;
+        }
+        else{
+            this.BA=0;
+        }
         this.yearOfBirth=yearOfBirth;
 
     }
@@ -77,9 +82,15 @@ public class Players {
        this.K=K;
        this.Notes=Notes;
        //Earned Runs * 9/Innings Pitched
+       if(IP!=0){
        this.ERA= (double)ER *9/IP;
        //Walks+Hits/Innings Pitched
-       this.WHIP= (double)W +H/IP;       
+       this.WHIP= (double)W +H/IP;      
+       }
+       else{
+           this.ERA=0;
+           this.WHIP=0;
+       }
     }
 
     /**
