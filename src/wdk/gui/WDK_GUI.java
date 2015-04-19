@@ -290,8 +290,9 @@ public class WDK_GUI implements DraftDataView{
  
         // INIT THE TOOLBAR
         initFileToolbar();
-        initWorkSpace(tabPane);
+        //initWorkSpace(tabPane);
         initDialogs();
+        initEventHandlers();
         initWindow(windowTitle);
 
     }
@@ -356,8 +357,9 @@ public class WDK_GUI implements DraftDataView{
     /****************************************************************************/
      
     //calls the TabPane to manage all the screens
-     private void initWorkSpace(TabPane tabPane) throws IOException {
+     private void initWorkSpace(TabPane tabPane) {
           initTabPane();
+          
           
          
 //
@@ -383,8 +385,8 @@ public class WDK_GUI implements DraftDataView{
         draftSummary.setText("draft summary");
         MLBTeams.setText("MLB teams");
         
-        tabPane.getTabs().add(player);
         tabPane.getTabs().add(fantasyTeam);
+        tabPane.getTabs().add(player);
         tabPane.getTabs().add(fantasyStandings);
         tabPane.getTabs().add(draftSummary);
         tabPane.getTabs().add(MLBTeams);
@@ -451,12 +453,11 @@ public class WDK_GUI implements DraftDataView{
         //add tool bar and search box/textfield
         playerSearchPane.getChildren().add(playerToolBar);
         
-        
+        searchLabel=initLabel(WDK_PropertyType. SEARCH_LABEL, CLASS_SUBHEADING_LABEL);
         searchPlayerTextField=new TextField();
-        searchLabel = initLabel(WDK_PropertyType. AVAILABLE_PLAYER_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         playerSearchPane.getChildren().add(searchLabel);
         playerSearchPane.getChildren().add(searchPlayerTextField);
-
+       
         
         //add radio and search pane to top work space
         topWorkSpacePane.getChildren().add(playerSearchPane);
@@ -506,9 +507,12 @@ public class WDK_GUI implements DraftDataView{
         
         //add table view and topworkspace to  player tab V box (which i still need to make)
         playerTab= new VBox();
-        playerTab.getChildren().add(playerTable);
+        availablePlayerHeadingLabel = initLabel(WDK_PropertyType. AVAILABLE_PLAYER_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        playerTab.getChildren().add(availablePlayerHeadingLabel);
         playerTab.getChildren().add(topWorkSpacePane);
-   
+        playerTab.getChildren().add(playerTable);
+       
+     
         //set tab content to player tab v box
         tab.setContent(playerTab);
       
@@ -573,9 +577,10 @@ public class WDK_GUI implements DraftDataView{
         // THE USER STARTS EDITING A COURSE
         wdkPane = new BorderPane();
         wdkPane.setTop(fileToolbarPane);
-        wdkPane.setCenter(tabPane);
+//        wdkPane.setCenter(tabPane);
+//        tabPane.setVisible(false);
         primaryScene = new Scene(wdkPane);
-
+        
         // NOW TIE THE SCENE TO THE WINDOW, SELECT THE STYLESHEET
         // WE'LL USE TO STYLIZE OUR GUI CONTROLS, AND OPEN THE WINDOW
         primaryScene.getStylesheets().add(PRIMARY_STYLE_SHEET);
@@ -586,10 +591,16 @@ public class WDK_GUI implements DraftDataView{
         // FIRST THE FILE CONTROLS
         fileController = new FileController(messageDialog, yesNoCancelDialog, draftFileManager, siteExporter);
         newCourseButton.setOnAction(e -> {
-            fileController.handleNewDraftRequest(this);
+    
+                initWorkSpace(tabPane);
+                 wdkPane.setCenter(tabPane);
+           
+
+//tabPane.setVisible(true);
+//fileController.handleNewDraftRequest(this);
         });
 
-           registerTextFieldController(playerTextField);
+          // registerTextFieldController(playerTextField);
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
     private void registerTextFieldController(TextField textField) {

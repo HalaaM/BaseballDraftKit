@@ -57,7 +57,6 @@ public class JsonDraftFileManager implements DraftFileManager {
     String JSON_PITCHERSTEAM = "TEAM";
     String JSON_PITCHERSLASTNAME = "LAST_NAME";
     String JSON_PITCHERSFIRSTNAME = "FIRST_NAME";
-    String JSON_HWS = "hws";
     String JSON_IP = "IP";
     String JSON_ER = "ER";
     String JSON_W = "W";
@@ -76,6 +75,7 @@ public class JsonDraftFileManager implements DraftFileManager {
      * This method saves all the data associated with a course to
      * a JSON file.
      * 
+     * @param draftToSave
      * @param courseToSave The course whose data we are saving.
      * 
      * @throws IOException Thrown when there are issues writing
@@ -94,31 +94,7 @@ public class JsonDraftFileManager implements DraftFileManager {
         // MAKE A JSON ARRAY FOR THE PAGES ARRAY
         JsonArray pagesJsonArray = makePagesJsonArray(draftToSave.getPages());
          
-        // THE FANTASY TEAMS ARRAY
-      
-        
-        // THE PLAYERS ARRAY
 
-
-        // NOW BUILD THE COURSE USING EVERYTHING WE'VE ALREADY MADE
-//        JsonObject courseJsonObject = Json.createObjectBuilder()
-//                                    .add(JSON_SUBJECT, courseToSave.getSubject().toString())
-//                                    .add(JSON_NUMBER, courseToSave.getNumber())
-//                                    .add(JSON_TITLE, courseToSave.getTitle())
-//                                    .add(JSON_SEMESTER, courseToSave.getSemester().toString())
-//                                    .add(JSON_YEAR, courseToSave.getYear())
-//                                    .add(JSON_PAGES, pagesJsonArray)
-//                                    .add(JSON_INSTRUCTOR, instructorJsonObject)
-//                                    .add(JSON_STARTING_MONDAY, startingMondayJsonObject)
-//                                    .add(JSON_ENDING_FRIDAY, endingFridayJsonObject)
-//                                    .add(JSON_LECTURE_DAYS, lectureDaysJsonArray)
-//                                    .add(JSON_SCHEDULE_ITEMS, scheduleItemsJsonArray)
-//                                    .add(JSON_LECTURES, lecturesJsonArray)
-//                                    .add(JSON_HWS, hwsJsonArray)
-//                .build();
-        
-        // AND SAVE EVERYTHING AT ONCE
-     //   jsonWriter.writeObject(courseJsonObject);
     }
 
 

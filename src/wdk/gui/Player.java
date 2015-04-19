@@ -6,9 +6,11 @@
 package wdk.gui;
 
 /**
- *
+ *This class will manage player activities like filtering out information and stuff with 
+ * the table and listening to radio puttons
  * @author halaamenasy
  */
 class Player {
+    
     
 }

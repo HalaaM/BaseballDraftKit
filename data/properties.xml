@@ -61,6 +61,8 @@
         <property name="FANTASY_STANDING_HEADING_LABEL" value="Fantasy Standing"></property>
         <property name="DRAFT_SUMMARY_HEADING_LABEL"    value="Draft Summary"></property>
         <property name="MLB_TEAMS_HEADING_LABEL"        value="MLB Teams"></property>
+        <property name="SEARCH_LABEL"                   value="Search"></property>       
+        
         
         <!-- ERROR MESSAGES -->
         <property name="START_DATE_AFTER_END_DATE_ERROR_MESSAGE"    value="The Starting Monday cannot be chronologically after the Ending Friday"></property>

@@ -7,7 +7,9 @@ package wdk.data;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -27,6 +29,7 @@ public class Draft {
     Tab fantasyStandings;
     Tab draftSummary;
     Tab MLBTeams;
+    ObservableList<Players>players;
     
     public Draft(){
         

@@ -65,6 +65,9 @@ public enum WDK_PropertyType {
         MLB_TEAMS_HEADING_LABEL,
         DRAFT_SUMMARY_HEADING_LABEL,
         
+        //search
+        SEARCH_LABEL,
+        
 
         // PAGE CHECKBOX LABELS
         INDEX_CHECKBOX_LABEL,
