@@ -1,7 +1,6 @@
 
 package wdk.gui;
 
-import com.sun.javafx.collections.SortableList;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
@@ -29,7 +28,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
-import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -53,14 +51,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import javafx.scene.Node;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import wdk.data.Players;
 
@@ -394,7 +389,7 @@ public class WDK_GUI implements DraftDataView{
         draftSummary=new Tab();
         MLBTeams= new Tab();
     
-        fantasyTeam.setText("Fantasy Teams");
+        fantasyTeam.setText("fantasy team");
         player.setText("available players");
         fantasyStandings.setText("fantasy Standings");
         draftSummary.setText("draft summary");
@@ -473,8 +468,7 @@ public class WDK_GUI implements DraftDataView{
         playerSearchPane.getChildren().add(searchLabel);
         playerSearchPane.getChildren().add(searchPlayerTextField);
        
-        //
-        
+  
         
         //add radio and search pane to top work space
         topWorkSpacePane.getChildren().add(playerSearchPane);
@@ -553,11 +547,11 @@ public class WDK_GUI implements DraftDataView{
         });
         EstimatedValuCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_ESTIMATEDVAL));
         notesCol.setCellValueFactory(new PropertyValueFactory<String, String>("Notes"));
-        playerTable.getSelectionModel().setCellSelectionEnabled(true);
-        playerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        notesCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        playerTable.setEditable(true);
-       
+        notesCol.setCellValueFactory(new PropertyValueFactory<String, String>("Notes"));
+       playerTable.getSelectionModel().setCellSelectionEnabled(true);
+       playerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+       notesCol.setCellFactory(TextFieldTableCell.forTableColumn());
+       playerTable.setEditable(true);
         
         
         playerTable.getColumns().add(firstNameCol);
@@ -588,7 +582,7 @@ public class WDK_GUI implements DraftDataView{
         //
           // 2. Set the filter Predicate whenever the filter changes.
         searchPlayerTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            ObservableList<Players> playerList2= playerTable.getItems();
+            ObservableList<Players> playerList2= dataManager.getPlayers();
             FilteredList<Players> filteredData = new FilteredList<>(playerList2, p -> true);
             filteredData.setPredicate(player -> {
                 // If filter text is empty, display all persons.
@@ -601,8 +595,7 @@ public class WDK_GUI implements DraftDataView{
 
                 if (player.getFirstName().toLowerCase().startsWith(lowerCaseFilter)) {
                     return true; // Filter matches first name.
-                } else if (player.getLastName().toLowerCase().startsWith(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
+                } else if (player.getLastName().toLowerCase().startsWith(lowerCaseFilter)) {                    return true; // Filter matches last name.
                 }
                 return false; // Does not match.
             });
@@ -699,18 +692,6 @@ public class WDK_GUI implements DraftDataView{
         toolbar.getChildren().add(button);
         return button;
     }
-//       private Tab initTabPicture(TabPane tabPane, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
-//        PropertiesManager props = PropertiesManager.getPropertiesManager();
-//       
-//        String imagePath = "file:" + PATH_IMAGES + props.getProperty(icon.toString());
-//        Image tabImage = new Image(imagePath);
-//        Tab tab = new Tab();
-//        tab.setGraphic(new ImageView(tabImage));
-//        Tooltip tabTooltip = new Tooltip(props.getProperty(tooltip.toString()));
-//        tabPane.getTabs().
-//        tab.setTooltip(tabTooltip);
-//        return tab;
-//    }
     
     // INIT A LABEL AND SET IT'S STYLESHEET CLASS
     private Label initLabel(WDK_PropertyType labelProperty, String styleClass) {
@@ -800,10 +781,13 @@ public class WDK_GUI implements DraftDataView{
                 } 
                 return false; // Does not match.
             });
-     
-     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterByAll() {
@@ -813,8 +797,12 @@ public class WDK_GUI implements DraftDataView{
             return true;
             });
     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterBy1B() {
@@ -826,9 +814,13 @@ public class WDK_GUI implements DraftDataView{
                 } 
                 return false; // Does not match.
             });
-    SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterByci() {
@@ -840,9 +832,13 @@ public class WDK_GUI implements DraftDataView{
                 } 
                 return false; // Does not match.
             });
-SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData);  
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterBy3b() {
@@ -854,9 +850,13 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
-     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData);  
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterBy2b() {
@@ -868,9 +868,13 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
-     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+    SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterByMI() {
@@ -882,10 +886,13 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
- SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
-     
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterBySS() {
@@ -897,9 +904,13 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
-     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+    SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterByOF() {
@@ -912,8 +923,12 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 return false; // Does not match.
             });
     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
     }
 
     private void filterByU() {
@@ -925,9 +940,13 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
-  SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
+     SortedList<Players> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData); 
     }
 
     private void filterByP() {
@@ -939,10 +958,15 @@ SortedList<Players> sortedData = new SortedList<>(filteredData);
                 } 
                 return false; // Does not match.
             });
-     SortedList<Players> sortedData = new SortedList<>(filteredData);
-     sortedData.comparatorProperty().bind(playerTable.comparatorProperty());  
-     playerTable.setItems(filteredData); 
-    }
-}
+      SortedList<Players> sortedData = new SortedList<>(filteredData);
 
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        playerTable.setItems(sortedData);
+    }
+    
+    
+}
 

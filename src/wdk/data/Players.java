@@ -57,7 +57,7 @@ public class Players {
         this.Notes = Notes;
         //Hits/At Bats
         if(atBats!=0){
-        this.BA = (double) H / atBats;
+        this.BA = ((int)(((double) H / atBats)*1000))/1000.0;
         }
         else{
             this.BA=0;
@@ -83,9 +83,9 @@ public class Players {
        this.Notes=Notes;
        //Earned Runs * 9/Innings Pitched
        if(IP!=0){
-       this.ERA= (double)ER *9/IP;
+       this.ERA= ((int)((((double)ER *9/IP)*1000)))/1000.0;
        //Walks+Hits/Innings Pitched
-       this.WHIP= (double)W +H/IP;      
+       this.WHIP= ((int)((((double)W +H/IP)*1000)))/1000.0;      
        }
        else{
            this.ERA=0;
