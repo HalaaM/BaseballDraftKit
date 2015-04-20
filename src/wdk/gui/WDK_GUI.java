@@ -467,7 +467,7 @@ public class WDK_GUI implements DraftDataView{
         searchPlayerTextField=new TextField();
         playerSearchPane.getChildren().add(searchLabel);
         playerSearchPane.getChildren().add(searchPlayerTextField);
-       
+        searchPlayerTextField.setMinWidth(300);
   
         
         //add radio and search pane to top work space
@@ -571,6 +571,7 @@ public class WDK_GUI implements DraftDataView{
         //add table view and topworkspace to  player tab V box (which i still need to make)
         playerTab= new VBox();
         availablePlayerHeadingLabel = initLabel(WDK_PropertyType. AVAILABLE_PLAYER_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
+        availablePlayerHeadingLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
         playerTab.getChildren().add(availablePlayerHeadingLabel);
         playerTab.getChildren().add(topWorkSpacePane);
         playerTab.getChildren().add(playerTable);
@@ -615,19 +616,23 @@ public class WDK_GUI implements DraftDataView{
       private void initFantasyTeamTab( Tab fantasyTeam) {
         fantasyTeamLabel = initLabel(WDK_PropertyType. FANTASY_TEAM_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         fantasyTeam.setContent(fantasyTeamLabel);
+        fantasyTeamLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
         fantasyStandingLabel = initLabel(WDK_PropertyType. FANTASY_STANDING_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         fantasyStandings.setContent(fantasyStandingLabel);
+        fantasyStandingLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
     }
        
      private void initDraftSummaryTab( Tab draftSummary) {
          draftSummaryLabel = initLabel(WDK_PropertyType. DRAFT_SUMMARY_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
          draftSummary.setContent(draftSummaryLabel);
+         draftSummaryLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
     }
       private void initMLBTeamsTab( Tab MLBTeams) {
         MLBTeamsLabel = initLabel(WDK_PropertyType.  MLB_TEAMS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         MLBTeams.setContent(MLBTeamsLabel);
+        MLBTeamsLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
     }
   
      
