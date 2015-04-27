@@ -51,7 +51,9 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.ToggleGroup;
@@ -133,7 +135,7 @@ public class WDK_GUI implements DraftDataView{
     Button exportSiteButton;
     Button exitButton;
 
-    // THIS REGION IS FOR MANAGING PLAYERS
+    // THIS REGION IS FOR MANAGING PLAYERSCREEN*********************************
    
     TableView<Players> playerTable;
     TableColumn<Players, String> firstNameCol;
@@ -150,7 +152,7 @@ public class WDK_GUI implements DraftDataView{
     TableColumn notesCol;
     TextField playerTextField;
     
-    // AND TABLE COLUMNS fix it according to json at some point
+    // AND TABLE COLUMNS 
     static final String COL_FIRSTNAME = "First";
     static final String COL_LASTNAME = "Last";
     static final String COL_PROTEAM = "Pro Team";
@@ -177,8 +179,9 @@ public class WDK_GUI implements DraftDataView{
     RadioButton OF;
     RadioButton U;
     RadioButton P;
-
-    //TabPane FOR FIVE SCREENS
+   
+    
+    //TabPane FOR FIVE SCREENS*************************************************
     TabPane tabPane;
     Tab player;
     Tab fantasyTeam;
@@ -572,6 +575,8 @@ public class WDK_GUI implements DraftDataView{
         playerTab= new VBox();
         availablePlayerHeadingLabel = initLabel(WDK_PropertyType. AVAILABLE_PLAYER_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
         availablePlayerHeadingLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
+        playerTab.setStyle("-fx-background-color:#FFC0CB");
+      
         playerTab.getChildren().add(availablePlayerHeadingLabel);
         playerTab.getChildren().add(topWorkSpacePane);
         playerTab.getChildren().add(playerTable);
@@ -614,9 +619,8 @@ public class WDK_GUI implements DraftDataView{
     }
 
       private void initFantasyTeamTab( Tab fantasyTeam) {
-        fantasyTeamLabel = initLabel(WDK_PropertyType. FANTASY_TEAM_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-        fantasyTeam.setContent(fantasyTeamLabel);
-        fantasyTeamLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
+        FantasyTeamTab fantasyTab = new FantasyTeamTab(fantasyTeam);
+        
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
         fantasyStandingLabel = initLabel(WDK_PropertyType. FANTASY_STANDING_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
@@ -655,6 +659,7 @@ public class WDK_GUI implements DraftDataView{
         // THE USER STARTS EDITING A COURSE
         wdkPane = new BorderPane();
         wdkPane.setTop(fileToolbarPane);
+        
 //        wdkPane.setCenter(tabPane);
 //        tabPane.setVisible(false);
         primaryScene = new Scene(wdkPane);

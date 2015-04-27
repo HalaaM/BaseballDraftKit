@@ -20,6 +20,7 @@
         <property name="MINUS_ICON"         value="Minus.png"></property>
         <property name="MOVE_UP_ICON"       value="MoveUp.png"></property>
         <property name="MOVE_DOWN_ICON"     value="MoveDown.png"></property>
+        <property name="EDIT_ICON"          value="EditTeam.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_COURSE_TOOLTIP"         value="Create a New Course"></property>
@@ -37,6 +38,7 @@
         <property name="MOVE_DOWN_LECTURE_TOOLTIP"  value="Move Down Lecture"></property>
         <property name="ADD_HW_TOOLTIP"             value="Add Assignment"></property>
         <property name="REMOVE_HW_TOOLTIP"          value="Remove Assignment"></property>
+        <property name="EDIT_ITEM_TOOLTIP"          value="Edit Team"></property>
         
         <!-- GUI LABELS -->
         <property name="COURSE_HEADING_LABEL"           value="Fantasy Teams"></property>

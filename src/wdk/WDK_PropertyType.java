@@ -22,6 +22,8 @@ public enum WDK_PropertyType {
         DELETE_ICON,
         EXIT_ICON,
         ADD_ICON,
+        EDIT_ICON,
+        
         MINUS_ICON,
         MOVE_UP_ICON,
         MOVE_DOWN_ICON,
@@ -36,6 +38,7 @@ public enum WDK_PropertyType {
         EXIT_TOOLTIP,
         ADD_ITEM_TOOLTIP,
         REMOVE_ITEM_TOOLTIP,
+        EDIT_ITEM_TOOLTIP,
         ADD_LECTURE_TOOLTIP,
         REMOVE_LECTURE_TOOLTIP,
         MOVE_UP_LECTURE_TOOLTIP,
