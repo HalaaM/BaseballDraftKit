@@ -26,9 +26,13 @@ import javafx.scene.layout.VBox;
 import properties_manager.PropertiesManager;
 import wdk.WDK_PropertyType;
 import static wdk.WDK_StartupConstants.PATH_IMAGES;
+import wdk.controller.FileController;
+import wdk.controller.TeamEditController;
 import wdk.data.MLBTeams;
 import wdk.data.Players;
+import wdk.data.DraftDataManager;
 import static wdk.gui.WDK_GUI.CLASS_SUBHEADING_LABEL;
+import wdk.gui.WDK_GUI;
 
 /**
  *
@@ -53,6 +57,10 @@ public class FantasyTeamTab {
     Label startingLineUpLabel;
     Label taxiSquadLabel;
     Label fantasyTeamLabel;
+    DraftDataManager dataManager;
+    
+    TeamEditController teamController;
+    
     
     static final String COL_PLAYER_POSITION = "Position"; //position on team
     static final String COL_FIRSTNAME = "First";
@@ -81,6 +89,10 @@ public class FantasyTeamTab {
     TableColumn<Players, Number> BA_WHIPCol;
     TableColumn EstimatedValuCol;
     TableColumn notesCol;
+    
+        // HERE ARE OUR DIALOGS
+    MessageDialog messageDialog;
+    YesNoCancelDialog yesNoCancelDialog;
     
     public FantasyTeamTab(Tab tab){
         fantasyTeamMainPane= new VBox();
@@ -132,14 +144,9 @@ public class FantasyTeamTab {
        fantasyTeamTable.getColumns().add(EstimatedValuCol);
        fantasyTeamTable.getColumns().add(notesCol);
        
-     //  mlbTeamsComboBox = initGridComboBox(fantasyTeamMainPane, 1, 2, 1, 1);
-        ObservableList<String> teamChoices = FXCollections.observableArrayList();
-        for (MLBTeams s : MLBTeams.values()) {
-            teamChoices.add(s.toString());
-        }
+      
         
         mlbTeamsComboBox= new ComboBox();
-        mlbTeamsComboBox.setItems(teamChoices);
         fantasyTeamMainPane.getChildren().add(mlbTeamsComboBox); 
           
         startingLineUpLabel= new Label("Starting Line Up");
@@ -156,8 +163,24 @@ public class FantasyTeamTab {
         
         tab.setContent(fantasyTeamMainPane);
     }
+    
+     public Button getAddTeamButton(){
+         return addTeamButton;
+     }
+     
+     public void initEventHandlers(){
+        
+         
+//         // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
+//        teamController = new TeamEditController(primaryStage, dataManager.getTeam(), messageDialog, yesNoCancelDialog);
+//        addTeamButton.setOnAction(e -> {
+//            teamController.handleAddTeamRequest(this);
+//        });
+//        removeTeamButton.setOnAction(e -> {
+//          teamController.handleRemoveTeamRequest();
+//        });
+     }
 
-  
     
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();

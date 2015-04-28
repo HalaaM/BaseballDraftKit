@@ -59,6 +59,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
+import wdk.controller.PlayerEditController;
+import wdk.controller.TeamEditController;
 import wdk.data.Players;
 
 /**
@@ -100,6 +102,13 @@ public class WDK_GUI implements DraftDataView{
 
     //MANAGES EDITING A DRAFT
     DraftEditController draftEditController;
+    
+    //MANAGES TEAM EDITING CONTROLLER
+    TeamEditController teamController;
+    
+    //MANAGES PLAYER EDITING CONTROLLER
+    PlayerEditController playerController;
+    
     
     // THIS MANAGES COURSE FILE I/O
     DraftFileManager draftFileManager;
@@ -199,7 +208,7 @@ public class WDK_GUI implements DraftDataView{
     // HERE ARE OUR DIALOGS
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
-
+    
     /**
      * Constructor for making this GUI, note that it does not initialize the UI
      * controls. To do that, call initGUI.
@@ -679,6 +688,11 @@ public class WDK_GUI implements DraftDataView{
                  wdkPane.setCenter(tabPane);       
         });
         
+        playerController=new PlayerEditController(primaryStage,player,messageDialog,yesNoCancelDialog);
+        addPlayerButton.setOnAction(e -> {
+                playerController.handleAddPlayerRequest(this);
+                       
+        });
           
        }
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD

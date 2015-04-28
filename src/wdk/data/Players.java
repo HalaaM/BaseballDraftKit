@@ -42,6 +42,13 @@ public class Players {
     private double IP; // (Innings Pitched) 
     private int BB; //Bases on Balls
 
+    //default constructors
+    public Players(){
+        this.team = team;
+        this.lastName = lastName;
+        this.firstName = firstName;
+
+    }
     //Hitters constructor
     public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth) {
         this.team = team;

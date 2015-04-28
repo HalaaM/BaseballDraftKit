@@ -28,7 +28,7 @@ public class DraftDataManager {
 
     // THIS IS THE COURSE BEING EDITED
     Draft draft;
-    
+    Team team;
     // THIS IS THE UI, WHICH MUST BE UPDATED
     // WHENEVER OUR MODEL'S DATA CHANGES
     DraftDataView view;
@@ -70,6 +70,10 @@ public class DraftDataManager {
         return draft;
     }
     
+    public Team getTeam(){
+        return team;
+    }
+    
     /**
      * Accessor method for getting the file manager, which knows how
      * to read and write course data from/to files.
@@ -93,6 +97,10 @@ public class DraftDataManager {
     
     public ObservableList getPlayers(){
         return list;
+    }
+
+    public Players getPlayer() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -84,5 +84,13 @@ public class Draft {
     public void setPages(List<DraftPage> pages) {
         this.pages = pages;
     }
+
+    public void removeTeam(Team teamToRemove) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void removePlayer(Players playerToRemove) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
      
 }
