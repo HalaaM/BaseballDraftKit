@@ -25,8 +25,8 @@ public class TeamEditController {
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
     
-    public TeamEditController(Stage initPrimaryStage, Team team, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
-        ad = new AddNewFantasyTeamDialog(initPrimaryStage, team, initMessageDialog);
+    public TeamEditController(Stage initPrimaryStage, Draft draft, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
+        ad = new AddNewFantasyTeamDialog(initPrimaryStage, draft, initMessageDialog);
         messageDialog = initMessageDialog;
         yesNoCancelDialog = initYesNoCancelDialog;
     }
@@ -40,20 +40,20 @@ public class TeamEditController {
 //        
 //        // DID THE USER CONFIRM?
 //        if (ad.wasCompleteSelected()) {
-//            // GET THE SCHEDULE ITEM
-//            Team a = ad.getTeam();
+//            // GET THE 
+//           Team a = ad.getTeam();
 //              
 //            
 //            // AND ADD IT AS A ROW TO THE TABLE
 //            course.addAssignment(a);
-        }
-//        else {
+//        }
+//     else {
 //            // THE USER MUST HAVE PRESSED CANCEL, SO
 //            // WE DO NOTHING
-//        }
+        }
 
-    
-    public void handleEditTeamRequest(WDK_GUI gui, Team teamToEdit) {
+  //  }
+ //   public void handleEditTeamRequest(WDK_GUI gui, Team teamToEdit) {
 //        DraftDataManager cdm = gui.getDataManager();
 //        Draft course = cdm.getDraft();
 //        ad.showEditTeamDialog(teamToEdit);
@@ -70,7 +70,7 @@ public class TeamEditController {
 //            // THE USER MUST HAVE PRESSED CANCEL, SO
 //            // WE DO NOTHING
 //        }        
-    }
+    
     
     public void handleRemoveTeamRequest(WDK_GUI gui, Team teamToRemove) {
         // PROMPT THE USER TO SAVE UNSAVED WORK

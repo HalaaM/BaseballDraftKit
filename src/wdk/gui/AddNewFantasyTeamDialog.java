@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import wdk.data.Draft;
 import wdk.data.Team;
 import static wdk.gui.WDK_GUI.CLASS_HEADING_LABEL;
 import static wdk.gui.WDK_GUI.PRIMARY_STYLE_SHEET;
@@ -59,7 +60,7 @@ public class AddNewFantasyTeamDialog extends Stage{
     public static final String COMPLETE = "Complete";
     public static final String CANCEL = "Cancel";
     
-    public AddNewFantasyTeamDialog(Stage primaryStage, Team team, MessageDialog messageDialog){
+    public AddNewFantasyTeamDialog(Stage primaryStage, Draft draft, MessageDialog messageDialog){
           // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         
@@ -113,6 +114,8 @@ public class AddNewFantasyTeamDialog extends Stage{
         gridPane.add(nameTextField, 1, 1, 1, 1);
         gridPane.add(ownerLabel, 0, 2, 1, 1);
         gridPane.add(ownerTextField, 1, 2, 1, 1);
+        gridPane.add(completeButton, 0, 3,1,1);
+        gridPane.add(cancelButton, 1,3,1,1);
         
           // AND PUT THE GRID PANE IN THE WINDOW
         dialogScene = new Scene(gridPane);

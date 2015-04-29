@@ -16,8 +16,11 @@ import java.io.OutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -25,6 +28,8 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
 import javax.json.JsonValue;
+import static wdk.WDK_StartupConstants.JSON_FILE_PATH_HITTERS;
+import static wdk.WDK_StartupConstants.JSON_FILE_PATH_PITCHERS;
 
 
 import wdk.data.Draft;
@@ -72,6 +77,8 @@ public class JsonDraftFileManager implements DraftFileManager {
     String SLASH = "/";
 
  
+    ObservableList <Players>list;
+    DraftFileManager fileManager;
     /**
      * This method saves all the data associated with a course to
      * a JSON file.
@@ -196,6 +203,23 @@ public class JsonDraftFileManager implements DraftFileManager {
         return pitcherList;
         
         
+    }
+    
+        public void initData() {
+        list= FXCollections.observableArrayList();
+        
+        try{
+        list.addAll(fileManager.loadHitters(JSON_FILE_PATH_HITTERS));
+        list.addAll(fileManager.loadPitchers(JSON_FILE_PATH_PITCHERS));
+        }
+        catch(IOException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("Error");
+        alert.setContentText("Ooops, there was an error!");
+
+        alert.showAndWait();
+        }
     }
     
     

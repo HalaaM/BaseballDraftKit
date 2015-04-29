@@ -41,9 +41,9 @@ public class EditPlayerDialog {
     Image playerImage;
     Image playerFlag;
     
-    
-    
     Button completeButton;
     Button cancelButton;
+    
+    
     
 }

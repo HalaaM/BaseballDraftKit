@@ -20,7 +20,13 @@
         <property name="MINUS_ICON"         value="Minus.png"></property>
         <property name="MOVE_UP_ICON"       value="MoveUp.png"></property>
         <property name="MOVE_DOWN_ICON"     value="MoveDown.png"></property>
-        <property name="EDIT_ICON"          value="EditTeam.png"></property>
+        <property name="EDIT_ICON"          value="Edit.png"></property>
+        
+        <property name="FANTASY_STANDING_ICON" value= "FantasyStandings.png"></property> 
+        <property name= "FANTASY_TEAM_ICON"  value= "FantasyTeams.png"></property>
+        <property name= "DRAFT_SUMMARY_ICON" value= "DraftSummary.png"></property>
+        <property name= "AVAILABLE_PLAYERS_ICON" value= "AvailablePlayers.png"></property>
+        <property name= "MLB_TEAMS_ICON"         value= "MLBTeams.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_COURSE_TOOLTIP"         value="Create a New Course"></property>
@@ -39,7 +45,12 @@
         <property name="ADD_HW_TOOLTIP"             value="Add Assignment"></property>
         <property name="REMOVE_HW_TOOLTIP"          value="Remove Assignment"></property>
         <property name="EDIT_ITEM_TOOLTIP"          value="Edit Team"></property>
-        
+        <property name= "AVAILABLE_PLAYER_TOOL_TIP" value= "Available Players"></property>
+        <property name= "DRAFT_SUMMARY_TOOLTIP"     value= "Draft Summary" ></property>
+        <property name= "FANTASY_TEAM_TOOLTIP"      value= "Fantasy Teams" ></property>
+        <property name = "FANTASY_STANDING_TOOLTIP" value= "Fantasy Standings"></property>
+        <property name = "MLB_TEAMS_TOOLTIP"        value= "MLB Teams" ></property>
+           
         <!-- GUI LABELS -->
         <property name="COURSE_HEADING_LABEL"           value="Fantasy Teams"></property>
         <property name="COURSE_INFO_LABEL"              value="Course Information"></property>

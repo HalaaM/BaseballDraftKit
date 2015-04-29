@@ -29,6 +29,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -59,6 +60,16 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
+import static wdk.WDK_PropertyType.AVAILABLE_PLAYERS_ICON;
+import static wdk.WDK_PropertyType.AVAILABLE_PLAYER_TOOL_TIP;
+import static wdk.WDK_PropertyType.DRAFT_SUMMARY_ICON;
+import static wdk.WDK_PropertyType.DRAFT_SUMMARY_TOOLTIP;
+import static wdk.WDK_PropertyType.FANTASY_STANDING_ICON;
+import static wdk.WDK_PropertyType.FANTASY_STANDING_TOOLTIP;
+import static wdk.WDK_PropertyType.FANTASY_TEAM_ICON;
+import static wdk.WDK_PropertyType.FANTASY_TEAM_TOOLTIP;
+import static wdk.WDK_PropertyType.MLB_TEAMS_ICON;
+import static wdk.WDK_PropertyType.MLB_TEAMS_TOOLTIP;
 import wdk.controller.PlayerEditController;
 import wdk.controller.TeamEditController;
 import wdk.data.Players;
@@ -401,11 +412,12 @@ public class WDK_GUI implements DraftDataView{
         draftSummary=new Tab();
         MLBTeams= new Tab();
     
-        fantasyTeam.setText("fantasy team");
-        player.setText("available players");
-        fantasyStandings.setText("fantasy Standings");
-        draftSummary.setText("draft summary");
-        MLBTeams.setText("MLB teams");
+        //WDK_PropertyType icon, WDK_PropertyType tooltip
+        fantasyTeam= initChildTab(FANTASY_TEAM_ICON, FANTASY_TEAM_TOOLTIP);
+        player= initChildTab(AVAILABLE_PLAYERS_ICON, AVAILABLE_PLAYER_TOOL_TIP);
+        fantasyStandings= initChildTab(FANTASY_STANDING_ICON, FANTASY_STANDING_TOOLTIP);
+        draftSummary= initChildTab(DRAFT_SUMMARY_ICON, DRAFT_SUMMARY_TOOLTIP);
+        MLBTeams= initChildTab(MLB_TEAMS_ICON, MLB_TEAMS_TOOLTIP);
         
         tabPane.getTabs().add(fantasyTeam);
         tabPane.getTabs().add(player);
@@ -413,13 +425,13 @@ public class WDK_GUI implements DraftDataView{
         tabPane.getTabs().add(draftSummary);
         tabPane.getTabs().add(MLBTeams);
         
-        initAvailablePlayerTab(player);
+        tabPane.setSide(Side.BOTTOM);
+        
+        initAvailablePlayerTab(player);        
         initFantasyTeamTab(fantasyTeam);
         initFantasyStandingsTab(fantasyStandings);
         initDraftSummaryTab(draftSummary);
-        initMLBTeamsTab(MLBTeams);
-       
-        
+        initMLBTeamsTab(MLBTeams);        
     }
     private void initAvailablePlayerTab(Tab tab){
 
@@ -470,6 +482,11 @@ public class WDK_GUI implements DraftDataView{
         // make toolbar to put into playerSearchPane
         playerToolBar= new HBox();
         addPlayerButton = initChildButton(playerToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
+              playerController=new PlayerEditController(primaryStage,player,messageDialog,yesNoCancelDialog);
+        addPlayerButton.setOnAction(e -> {
+                playerController.handleAddPlayerRequest(this);
+                       
+        }); 
         removePlayerButton = initChildButton(playerToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);   
        
         //add tool bar and search box/textfield
@@ -628,7 +645,7 @@ public class WDK_GUI implements DraftDataView{
     }
 
       private void initFantasyTeamTab( Tab fantasyTeam) {
-        FantasyTeamTab fantasyTab = new FantasyTeamTab(fantasyTeam);
+        FantasyTeamTab fantasyTab = new FantasyTeamTab(fantasyTeam,this);
         
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
@@ -687,21 +704,28 @@ public class WDK_GUI implements DraftDataView{
                 initWorkSpace(tabPane);
                  wdkPane.setCenter(tabPane);       
         });
-        
-        playerController=new PlayerEditController(primaryStage,player,messageDialog,yesNoCancelDialog);
-        addPlayerButton.setOnAction(e -> {
-                playerController.handleAddPlayerRequest(this);
-                       
-        });
-          
+  
        }
+
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
     private void registerTextFieldController(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             draftEditController.handleCourseChangeRequest(this);
         });
     }
-    
+
+      private Tab initChildTab(WDK_PropertyType icon, WDK_PropertyType tooltip) {
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+       
+        String imagePath = "file:" + PATH_IMAGES + props.getProperty(icon.toString());
+        Image buttonImage = new Image(imagePath);
+        Tab tab = new Tab();
+        tab.setGraphic(new ImageView(buttonImage));
+        Tooltip tabTooltip = new Tooltip(props.getProperty(tooltip.toString()));
+        tab.setTooltip(tabTooltip);
+        tab.setClosable(false);
+        return tab;
+    }
     // INIT A BUTTON AND ADD IT TO A CONTAINER IN A TOOLBAR
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();

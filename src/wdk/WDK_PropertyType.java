@@ -24,9 +24,16 @@ public enum WDK_PropertyType {
         ADD_ICON,
         EDIT_ICON,
         
+        FANTASY_STANDING_ICON,
+        FANTASY_TEAM_ICON,
+        DRAFT_SUMMARY_ICON,
+        AVAILABLE_PLAYERS_ICON,
+        MLB_TEAMS_ICON,
+           
         MINUS_ICON,
         MOVE_UP_ICON,
         MOVE_DOWN_ICON,
+        
         
         // APPLICATION TOOLTIPS FOR BUTTONS
         NEW_COURSE_TOOLTIP,
@@ -44,7 +51,14 @@ public enum WDK_PropertyType {
         MOVE_UP_LECTURE_TOOLTIP,
         MOVE_DOWN_LECTURE_TOOLTIP,
         ADD_HW_TOOLTIP,
-        REMOVE_HW_TOOLTIP,        
+        REMOVE_HW_TOOLTIP,  
+        
+        //tooltips
+        AVAILABLE_PLAYER_TOOL_TIP,
+        DRAFT_SUMMARY_TOOLTIP,
+        FANTASY_TEAM_TOOLTIP,
+        FANTASY_STANDING_TOOLTIP,
+        MLB_TEAMS_TOOLTIP,
 
         // FOR COURSE EDIT WORKSPACE
         DRAFT_HEADING_LABEL,

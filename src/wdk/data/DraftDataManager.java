@@ -62,7 +62,7 @@ public class DraftDataManager {
         alert.showAndWait();
         }
     }
-    
+//    
     /**
      * Accessor method for getting the Course that this class manages.
      */
@@ -97,10 +97,6 @@ public class DraftDataManager {
     
     public ObservableList getPlayers(){
         return list;
-    }
-
-    public Players getPlayer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

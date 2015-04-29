@@ -93,8 +93,11 @@ public class FantasyTeamTab {
         // HERE ARE OUR DIALOGS
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
+    WDK_GUI gui;
     
-    public FantasyTeamTab(Tab tab){
+    public FantasyTeamTab(Tab tab,WDK_GUI gui){
+        this.gui=gui;
+       
         fantasyTeamMainPane= new VBox();
         
         fantasyTeamLabel = new Label("Fantasy Teams");
@@ -162,6 +165,8 @@ public class FantasyTeamTab {
         fantasyTeamMainPane.getChildren().add(fantasyTaxiSquadPane);
         
         tab.setContent(fantasyTeamMainPane);
+        initEventHandlers();
+        
     }
     
      public Button getAddTeamButton(){
@@ -172,10 +177,10 @@ public class FantasyTeamTab {
         
          
 //         // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
-//        teamController = new TeamEditController(primaryStage, dataManager.getTeam(), messageDialog, yesNoCancelDialog);
-//        addTeamButton.setOnAction(e -> {
-//            teamController.handleAddTeamRequest(this);
-//        });
+        teamController = new TeamEditController(gui.primaryStage, gui.getDataManager().getDraft(), messageDialog, yesNoCancelDialog);
+        addTeamButton.setOnAction(e -> {
+            teamController.handleAddTeamRequest(gui);
+        });
 //        removeTeamButton.setOnAction(e -> {
 //          teamController.handleRemoveTeamRequest();
 //        });

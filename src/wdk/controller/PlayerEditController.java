@@ -48,7 +48,7 @@ public class PlayerEditController {
     public void handleAddPlayerRequest(WDK_GUI gui) {
         DraftDataManager cdm = gui.getDataManager();
         ObservableList <Players> players  = cdm.getPlayers();
-        players.get(0);
+        
         ad.showAddPlayerDialog();
         
 //        // DID THE USER CONFIRM?
