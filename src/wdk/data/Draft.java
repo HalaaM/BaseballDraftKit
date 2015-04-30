@@ -6,7 +6,10 @@
 package wdk.data;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -23,11 +26,13 @@ public class Draft {
     
     ObservableList<Players>players;
     
+    
     public Draft(){
-       
+       players= FXCollections.observableArrayList();
+       team=new Team();
+       pages=new ArrayList();
      
     }
-    private Draft draft;
     private String title;
     private Team team;
     private List<DraftPage> pages;
@@ -35,19 +40,16 @@ public class Draft {
     public void clearPages() {
         getPages().clear();
     }
-    public Draft getDraft() {
-        return draft;
+   
+    public void addPlayer(Players a) {
+        players.add(a);
+    
     }
+    
      public List<DraftPage> getPages() {
         return pages;
     }
 
-    /**
-     * @param draft the draft to set
-     */
-    public void setDraft(Draft draft) {
-        this.draft = draft;
-    }
 
     /**
      * @return the title

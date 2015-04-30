@@ -170,8 +170,6 @@ public class EditPlayerDialog extends Stage{
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
         
-
-   
         // NOW LET'S ARRANGE THEM ALL AT ONCE
         gridPane.add(headingLabel, 0, 0, 3, 1);
         gridPane.add(playerPicture,0,1,1,3);
@@ -206,34 +204,6 @@ public class EditPlayerDialog extends Stage{
         return selection;
     }
     
-//    public Players getPlayer() { 
-//        return player;
-//    }
-    
-    /**
-     * This method loads a custom message into the label and
-     * then pops open the dialog.
-     * 
-     * @param message Message to appear inside the dialog.
-     */
-//    public Players editPlayerDialog() {
-//        // SET THE DIALOG TITLE
-//        setTitle(ADD_NEW_PLAYER_TITLE);
-//        
-//        // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
-//        //player = new Players();
-////        
-//        
-////        // LOAD THE UI STUFF
-////        firstNameTextField.setText("enter first name");
-////        lastNameTextField.setText("enter last name");
-////        datePicker.setValue(initDate);
-////        
-//        // AND OPEN IT UP
-//        this.showAndWait();
-//        player= new Players();
-//        return ;
-//    }
     
       public void showEditPlayerDialog(Players player) {
         // SET THE DIALOG TITLE

@@ -32,6 +32,7 @@ public class PlayerEditController {
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
     Stage primaryStage;
+    Draft draft;
     
     /**
      *
@@ -52,19 +53,18 @@ public class PlayerEditController {
     public void handleAddPlayerRequest(WDK_GUI gui) {
         Players player= new Players();
         DraftDataManager cdm = gui.getDataManager();
-        ObservableList <Players> players  = cdm.getPlayers();
+        ObservableList <Players> players = cdm.getPlayers();
         ad = new AddNewPlayerDialog(primaryStage, player,messageDialog);
         
         ad.showAddPlayerDialog();
         
 //        // DID THE USER CONFIRM?
         if (ad.wasCompleteSelected()) {
-//            // GET THE SCHEDULE ITEM
-//            Team a = ad.getTeam();
-//              
+            //get the player
+          Players playerToAdd=ad.getPlayer();
 //            
 //            // AND ADD IT AS A ROW TO THE TABLE
-//            course.addAssignment(a);
+           draft.addPlayer(playerToAdd);
         }
         else {
             // THE USER MUST HAVE PRESSED CANCEL, SO

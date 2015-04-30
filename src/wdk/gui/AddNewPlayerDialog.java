@@ -46,7 +46,7 @@ public class AddNewPlayerDialog extends Stage{
     Label lastNameLabel;
     TextField lastNameTextField;
     Label proTeamLabel;
-    ComboBox mlbTeamsComboBox;
+    ComboBox<String> mlbTeamsComboBox;
     
     Button completeButton;
     Button cancelButton;
@@ -99,17 +99,13 @@ public class AddNewPlayerDialog extends Stage{
         firstNameLabel = new Label(FIRST_NAME_PROMPT);
         firstNameLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         firstNameTextField = new TextField();
-        firstNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-       //     player.setFirstName(newValue);
-        });
+        
         
          // AND THE TOPIC
         lastNameLabel = new Label(LAST_NAME_PROMPT);
         lastNameLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         lastNameTextField = new TextField();
-        lastNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            //assignment.setTopics(newValue);
-        });
+       
 
            ObservableList<String> teamChoices = FXCollections.observableArrayList();
         for (MLBTeams s : MLBTeams.values()) {
@@ -118,7 +114,7 @@ public class AddNewPlayerDialog extends Stage{
         
         mlbTeamsComboBox= new ComboBox();
         mlbTeamsComboBox.setItems(teamChoices);
-       
+        
         C= new CheckBox("C");
         One_B= new CheckBox("1_B");
         three_B= new CheckBox("3_B");
@@ -127,7 +123,6 @@ public class AddNewPlayerDialog extends Stage{
         OF= new CheckBox("OF");
         P= new CheckBox("P");
         
-        
         // AND FINALLY, THE BUTTONS
         completeButton = new Button(COMPLETE);
         cancelButton = new Button(CANCEL);
@@ -135,8 +130,10 @@ public class AddNewPlayerDialog extends Stage{
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button)ae.getSource();
+            completePlayer();
             AddNewPlayerDialog.this.selection = sourceButton.getText();
             AddNewPlayerDialog.this.hide();
+            
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
@@ -217,4 +214,42 @@ public class AddNewPlayerDialog extends Stage{
         return selection.equals(COMPLETE);
     }
     
+    //if the complete button was pressed. used to initialize all the data
+    public void completePlayer(){
+      
+       player.setFirstName(firstNameTextField.getText());
+   
+      player.setLastName(lastNameTextField.getText());
+        
+          player.setTeam(mlbTeamsComboBox.getValue());
+             
+       
+        if (C.isPressed()){
+            player.setPositions(player.getPositions()+"C");
+        }
+      
+         if (One_B.isPressed()){
+            player.setPositions(player.getPositions()+"1_B");
+        }
+        
+         if (three_B.isPressed()){
+            player.setPositions(player.getPositions()+"3_B");
+        }
+        
+         if (two_B.isPressed()){
+            player.setPositions(player.getPositions()+"2_B");
+        }
+        
+         if (SS.isPressed()){
+            player.setPositions(player.getPositions()+"SS");
+        }
+    
+         if (OF.isPressed()){
+            player.setPositions(player.getPositions()+"OF");
+        }
+     
+         if (P.isPressed()){
+            player.setPositions(player.getPositions()+"P");
+        }
+    }
 }

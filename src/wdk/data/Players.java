@@ -45,10 +45,14 @@ public class Players {
 
     //default constructors
     public Players(){
-        this.team = team;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.nationality=nationality;
+         this.team = "";
+        this.lastName = "";
+        this.firstName = "";
+        this.positions = "";
+        this.Notes = "";
+        this.nationality="";
+        this.estimatedValue="";
+        this.contract="";
     }
     //Hitters constructor
     public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth, String nationality) {
@@ -299,6 +303,62 @@ public class Players {
      */
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * @param positions the positions to set
+     */
+    public void setPositions(String positions) {
+        this.positions = positions;
+    }
+
+    /**
+     * @param salary the salary to set
+     */
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    /**
+     * @param estimatedValue the estimatedValue to set
+     */
+    public void setEstimatedValue(String estimatedValue) {
+        this.estimatedValue = estimatedValue;
+    }
+
+    /**
+     * @param Notes the Notes to set
+     */
+    public void setNotes(String Notes) {
+        this.Notes = Notes;
+    }
+
+    /**
+     * @param contract the contract to set
+     */
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+
+    /**
+     * @param team the team to set
+     */
+    public void setTeam(String team) {
+        this.team = team;
     }
 
 }

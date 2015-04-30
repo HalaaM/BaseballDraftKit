@@ -39,8 +39,8 @@ public class DraftExporter {
         sitesDir = initSitesDir;
     }
     
-     public String getPageURLPath(Draft course, DraftPage cP) {
-        String urlPath = PATH_SITES + course.getDraft()
+     public String getPageURLPath(Draft draft, DraftPage cP) {
+        String urlPath = PATH_SITES + draft
                 + SLASH + this.getLink(cP);
         File webPageFile = new File(urlPath);
         try {

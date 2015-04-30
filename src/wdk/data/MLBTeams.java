@@ -11,6 +11,6 @@ package wdk.data;
  */
 public enum MLBTeams {
 
-    ATL, AZ, CHC, CIN, COL, LAD, MIA, MIL, NYM, PHI, PIT, SD, SF, STL, WAS
+    ATL, AZ, CHC, CIN, COL, LAD, MIA, MIL, NYM, PHI, PIT, SD, SF, STL, WAS, FREE_AGENT
     
 }

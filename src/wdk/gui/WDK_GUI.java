@@ -157,7 +157,7 @@ public class WDK_GUI implements DraftDataView{
 
     // THIS REGION IS FOR MANAGING PLAYERSCREEN*********************************
    
-    TableView<Players> playerTable;
+    public TableView<Players> playerTable;
     TableColumn<Players, String> firstNameCol;
     TableColumn<Players,String> lasNameCol;
     TableColumn <Players, String>proTeamCol;
