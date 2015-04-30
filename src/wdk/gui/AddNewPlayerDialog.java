@@ -78,7 +78,7 @@ public class AddNewPlayerDialog extends Stage{
      * 
      * @param primaryStage The owner of this modal dialog.
      */
-    public AddNewPlayerDialog(Stage primaryStage, Tab player,  MessageDialog messageDialog) {       
+    public AddNewPlayerDialog(Stage primaryStage, Players player,  MessageDialog messageDialog) {       
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -215,23 +215,6 @@ public class AddNewPlayerDialog extends Stage{
     
     public boolean wasCompleteSelected() {
         return selection.equals(COMPLETE);
-    }
-    
-    public void showEditPlayerDialog(Players playerToEdit) {
-        // SET THE DIALOG TITLE
-        setTitle(ADD_NEW_PLAYER_TITLE);
-        
-        // LOAD THE SCHEDULE ITEM INTO OUR LOCAL OBJECT
-//        assignment = new Assignment();
-//        assignment.setName(assignmentToEdit.getName());
-//        assignment.setDate(assignmentToEdit.getDate());
-//        assignment.setTopics(assignmentToEdit.getTopics());
-//        
-        // AND THEN INTO OUR GUI
-        loadGUIData();
-               
-        // AND OPEN IT UP
-        this.showAndWait();
     }
     
 }

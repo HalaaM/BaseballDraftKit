@@ -168,8 +168,9 @@ public class JsonDraftFileManager implements DraftFileManager {
             int SB= Integer.parseInt(jsonHitter.getString(JSON_SB));
             String Notes= jsonHitter.getString(JSON_NOTES);
             int yearOfBirth= Integer.parseInt(jsonHitter.getString(JSON_YEAROFBIRTH_PITCHER));
+            String nationality= jsonHitter.getString(JSON_NATIONOFBIRTH);
             
-            Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth );
+            Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth,nationality );
             hitterList.add(hitter);
         }     
         return hitterList;
@@ -194,8 +195,10 @@ public class JsonDraftFileManager implements DraftFileManager {
             int K= Integer.parseInt(jsonPitcher.getString(JSON_K));
             String Notes= jsonPitcher.getString(JSON_PITCHERSNOTES);
             int yearOfBirth= Integer.parseInt(jsonPitcher.getString(JSON_YEAROFBIRTH));
+            String nationality= jsonPitcher.getString(JSON_NATIONOFBIRTH);
             
-            Players pitcher= new Players(team, lastName, firstName, Double.parseDouble(IP), ER, W, SV,  H, BB, K, Notes,  yearOfBirth);
+            
+            Players pitcher= new Players(team, lastName, firstName, Double.parseDouble(IP), ER, W, SV,  H, BB, K, Notes,  yearOfBirth,nationality);
             pitcherList.add(pitcher);
         }     
          
@@ -220,6 +223,8 @@ public class JsonDraftFileManager implements DraftFileManager {
 
         alert.showAndWait();
         }
+        
+       
     }
     
     

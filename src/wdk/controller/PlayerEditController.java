@@ -17,6 +17,7 @@ import wdk.data.DraftDataManager;
 import wdk.data.Players;
 import wdk.data.Team;
 import wdk.gui.AddNewPlayerDialog;
+import wdk.gui.EditPlayerDialog;
 import wdk.gui.MessageDialog;
 import wdk.gui.WDK_GUI;
 import wdk.gui.YesNoCancelDialog;
@@ -26,9 +27,11 @@ import wdk.gui.YesNoCancelDialog;
  * @author halaamenasy
  */
 public class PlayerEditController {
-        AddNewPlayerDialog ad;
+    AddNewPlayerDialog ad;
+    EditPlayerDialog ed;
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
+    Stage primaryStage;
     
     /**
      *
@@ -37,8 +40,9 @@ public class PlayerEditController {
      * @param initMessageDialog
      * @param initYesNoCancelDialog
      */
-    public PlayerEditController(Stage initPrimaryStage, Tab player, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
-        ad = new AddNewPlayerDialog(initPrimaryStage, player, initMessageDialog);
+    public PlayerEditController(Stage initPrimaryStage, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
+        
+        primaryStage=initPrimaryStage;
         messageDialog = initMessageDialog;
         yesNoCancelDialog = initYesNoCancelDialog;
     }
@@ -46,8 +50,10 @@ public class PlayerEditController {
     // THESE ARE FOR ASSIGNMENT ITEMS
     
     public void handleAddPlayerRequest(WDK_GUI gui) {
+        Players player= new Players();
         DraftDataManager cdm = gui.getDataManager();
         ObservableList <Players> players  = cdm.getPlayers();
+        ad = new AddNewPlayerDialog(primaryStage, player,messageDialog);
         
         ad.showAddPlayerDialog();
         
@@ -66,10 +72,11 @@ public class PlayerEditController {
         }
     }
     
-    public void handleEditPlayerRequest(WDK_GUI gui, Team teamToEdit) {
-//        DraftDataManager cdm = gui.getDataManager();
-//        Draft course = cdm.getDraft();
-//        ad.showEditTeamDialog(teamToEdit);
+    public void handleEditPlayerRequest(WDK_GUI gui, Players player) {
+        DraftDataManager cdm = gui.getDataManager();
+        Draft draft = cdm.getDraft();
+        ed= new EditPlayerDialog(primaryStage, player,messageDialog);
+       ed.showEditPlayerDialog(player);
 //        
 //        // DID THE USER CONFIRM?
 //        if (ad.wasCompleteSelected()) {

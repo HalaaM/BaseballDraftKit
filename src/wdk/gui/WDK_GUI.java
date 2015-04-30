@@ -482,7 +482,7 @@ public class WDK_GUI implements DraftDataView{
         // make toolbar to put into playerSearchPane
         playerToolBar= new HBox();
         addPlayerButton = initChildButton(playerToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
-              playerController=new PlayerEditController(primaryStage,player,messageDialog,yesNoCancelDialog);
+              playerController=new PlayerEditController(primaryStage,messageDialog,yesNoCancelDialog);
         addPlayerButton.setOnAction(e -> {
                 playerController.handleAddPlayerRequest(this);
                        
@@ -642,6 +642,14 @@ public class WDK_GUI implements DraftDataView{
         });
       
         initTableFilters();
+        
+        playerTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                // OPEN UP THE SCHEDULE ITEM EDITOR
+                Players p = playerTable.getSelectionModel().getSelectedItem();
+                playerController.handleEditPlayerRequest(this, p);
+            }
+        });
     }
 
       private void initFantasyTeamTab( Tab fantasyTeam) {

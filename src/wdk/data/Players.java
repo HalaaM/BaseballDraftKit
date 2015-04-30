@@ -22,6 +22,7 @@ public class Players {
     private String Notes;
     private String contract;
     private String team;
+    private String nationality;
 
     //hitters extra qualities
     private int atBats;
@@ -47,10 +48,10 @@ public class Players {
         this.team = team;
         this.lastName = lastName;
         this.firstName = firstName;
-
+        this.nationality=nationality;
     }
     //Hitters constructor
-    public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth) {
+    public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth, String nationality) {
         this.team = team;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -70,11 +71,12 @@ public class Players {
             this.BA=0;
         }
         this.yearOfBirth=yearOfBirth;
+        this.nationality=nationality;
 
     }
 
     //pitchers constructor
-    public Players(String team, String lastName, String firstName, double IP, int ER,int W, int SV, int H, int BB, int K, String Notes, int yearOfBirth) {
+    public Players(String team, String lastName, String firstName, double IP, int ER,int W, int SV, int H, int BB, int K, String Notes, int yearOfBirth, String nationality) {
       
        this.team = team;
        this.lastName = lastName;
@@ -98,6 +100,7 @@ public class Players {
            this.ERA=0;
            this.WHIP=0;
        }
+       this.nationality=nationality;
     }
 
     /**
@@ -282,6 +285,20 @@ public class Players {
      */
     public int getBB() {
         return BB;
+    }
+
+    /**
+     * @return the nationality
+     */
+    public String getNationality() {
+        return nationality;
+    }
+
+    /**
+     * @param nationality the nationality to set
+     */
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
 }
