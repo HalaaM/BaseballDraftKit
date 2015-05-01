@@ -209,6 +209,8 @@ public class WDK_GUI implements DraftDataView{
     Tab draftSummary;
     Tab MLBTeams;
     
+    public FantasyTeamTab fantasyTab;
+    
     //HEADING FOR FIVE SCREENS
     Label availablePlayers;
     Label fantasyTeamLabel;
@@ -488,7 +490,11 @@ public class WDK_GUI implements DraftDataView{
                        
         }); 
         removePlayerButton = initChildButton(playerToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);   
-       
+                playerController=new PlayerEditController(primaryStage,messageDialog,yesNoCancelDialog);
+        removePlayerButton.setOnAction(e->{
+                playerController.handleRemovePlayerRequest(this,playerTable.getSelectionModel().getSelectedItem());
+        });        
+        
         //add tool bar and search box/textfield
         playerSearchPane.getChildren().add(playerToolBar);
         
@@ -653,7 +659,7 @@ public class WDK_GUI implements DraftDataView{
     }
 
       private void initFantasyTeamTab( Tab fantasyTeam) {
-        FantasyTeamTab fantasyTab = new FantasyTeamTab(fantasyTeam,this);
+      fantasyTab = new FantasyTeamTab(fantasyTeam,this);
         
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
@@ -781,6 +787,10 @@ public class WDK_GUI implements DraftDataView{
         container.add(tf, col, row, colSpan, rowSpan);
         return tf;
     }
+     public void updateDraftInfo(Draft draft) {
+     
+    }
+
     private void initTableFilters(){
         all.setOnAction(e ->{
             filterByAll();
@@ -878,12 +888,13 @@ public class WDK_GUI implements DraftDataView{
         // 5. Add sorted (and filtered) data to the table.
         playerTable.setItems(sortedData);
     }
+        
 
     private void filterByci() {
       FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("CI")) {
+    if (player.getPositions().contains("1B")||player.getPositions().contains("3B")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -937,7 +948,7 @@ public class WDK_GUI implements DraftDataView{
        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("MI")) {
+    if (player.getPositions().contains("2B")||player.getPositions().contains("IF")||player.getPositions().contains("SS")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -991,7 +1002,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("U")) {
+    if (!player.getPositions().contains("P")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -1022,6 +1033,7 @@ public class WDK_GUI implements DraftDataView{
         // 5. Add sorted (and filtered) data to the table.
         playerTable.setItems(sortedData);
     }
+    
     
     
 }

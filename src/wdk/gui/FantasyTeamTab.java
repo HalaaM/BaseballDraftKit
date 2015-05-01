@@ -23,14 +23,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import wdk.WDK_PropertyType;
 import static wdk.WDK_StartupConstants.PATH_IMAGES;
 import wdk.controller.FileController;
 import wdk.controller.TeamEditController;
+import wdk.data.Draft;
 import wdk.data.MLBTeams;
 import wdk.data.Players;
 import wdk.data.DraftDataManager;
+import wdk.data.Team;
 import static wdk.gui.WDK_GUI.CLASS_SUBHEADING_LABEL;
 import wdk.gui.WDK_GUI;
 
@@ -53,14 +56,15 @@ public class FantasyTeamTab {
     Label draftNameLabel;
     TextField draftTextField;
     Label selectFantasyTeamLabel;
-    ComboBox mlbTeamsComboBox;
+    public ComboBox <Team> fantasyTeamsComboBox;
     Label startingLineUpLabel;
     Label taxiSquadLabel;
     Label fantasyTeamLabel;
     DraftDataManager dataManager;
     
     TeamEditController teamController;
-    
+    Stage primaryStage;
+
     
     static final String COL_PLAYER_POSITION = "Position"; //position on team
     static final String COL_FIRSTNAME = "First";
@@ -109,11 +113,13 @@ public class FantasyTeamTab {
         removeTeamButton = initChildButton(fantasyTeamToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);   
         editTeamButton = initChildButton(fantasyTeamToolBar, WDK_PropertyType.EDIT_ICON, WDK_PropertyType.EDIT_ITEM_TOOLTIP, false);  
         
+
+        
         draftNameLabel= new Label("DraftName");
         draftTextField= new TextField();
 
         fantasyTeamMainPane.getChildren().add(draftNameLabel);
-        fantasyTeamMainPane.getChildren().add(draftTextField);
+        fantasyTeamToolBar.getChildren().add(draftTextField);
       
         
         //add tool bar and search box/textfield
@@ -149,8 +155,16 @@ public class FantasyTeamTab {
        
       
         
-        mlbTeamsComboBox= new ComboBox();
-        fantasyTeamMainPane.getChildren().add(mlbTeamsComboBox); 
+        fantasyTeamsComboBox= new ComboBox();
+        ObservableList<String> teamChoices = FXCollections.observableArrayList();
+        //add team to combo box here
+        
+        for ( Team s: gui.dataManager.getDraft().getTeam()) {
+            teamChoices.add(s.getTeamName());
+        }
+        
+        fantasyTeamToolBar.getChildren().add(fantasyTeamsComboBox);
+        
           
         startingLineUpLabel= new Label("Starting Line Up");
         fantasyStartingLineUpPane= new VBox();
@@ -176,14 +190,15 @@ public class FantasyTeamTab {
      public void initEventHandlers(){
         
          
-//         // AND NOW THE ASSIGNMENT ADDING AND EDITING CONTROLS
-        teamController = new TeamEditController(gui.primaryStage, gui.getDataManager().getDraft(), messageDialog, yesNoCancelDialog);
+//         // AND NOW THE team ADDING AND EDITING CONTROLS
+        teamController = new TeamEditController(gui.primaryStage, gui.messageDialog, gui.yesNoCancelDialog);
         addTeamButton.setOnAction(e -> {
             teamController.handleAddTeamRequest(gui);
         });
-//        removeTeamButton.setOnAction(e -> {
-//          teamController.handleRemoveTeamRequest();
-//        });
+        //teamController = new TeamEditController(gui.primaryStage, messageDialog, yesNoCancelDialog);
+        removeTeamButton.setOnAction(e -> {
+            teamController.handleRemoveTeamRequest(gui,fantasyTeamsComboBox.getSelectionModel().getSelectedItem());
+        });
      }
 
     

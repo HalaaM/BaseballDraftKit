@@ -64,7 +64,8 @@ public class PlayerEditController {
           Players playerToAdd=ad.getPlayer();
 //            
 //            // AND ADD IT AS A ROW TO THE TABLE
-           draft.addPlayer(playerToAdd);
+          draft=cdm.getDraft();
+          players.add(playerToAdd);
         }
         else {
             // THE USER MUST HAVE PRESSED CANCEL, SO
@@ -101,7 +102,7 @@ public class PlayerEditController {
 
         // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
         if (selection.equals(YesNoCancelDialog.YES)) { 
-            gui.getDataManager().getDraft().removePlayer(playerToRemove);
+            gui.getDataManager().getPlayers().remove(playerToRemove);
         }
     }
     

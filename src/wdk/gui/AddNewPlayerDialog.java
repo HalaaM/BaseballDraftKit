@@ -217,39 +217,38 @@ public class AddNewPlayerDialog extends Stage{
     //if the complete button was pressed. used to initialize all the data
     public void completePlayer(){
       
-       player.setFirstName(firstNameTextField.getText());
-   
-      player.setLastName(lastNameTextField.getText());
-        
-          player.setTeam(mlbTeamsComboBox.getValue());
+    player.setFirstName(firstNameTextField.getText());
+    player.setLastName(lastNameTextField.getText());
+    player.setTeam(mlbTeamsComboBox.getValue());
              
        
-        if (C.isPressed()){
+        if (C.isSelected()){
             player.setPositions(player.getPositions()+"C");
         }
       
-         if (One_B.isPressed()){
+         if (One_B.isSelected()){
             player.setPositions(player.getPositions()+"1_B");
         }
         
-         if (three_B.isPressed()){
+         if (three_B.isSelected()){
             player.setPositions(player.getPositions()+"3_B");
         }
         
-         if (two_B.isPressed()){
+         if (two_B.isSelected()){
             player.setPositions(player.getPositions()+"2_B");
         }
         
-         if (SS.isPressed()){
+         if (SS.isSelected()){
             player.setPositions(player.getPositions()+"SS");
         }
     
-         if (OF.isPressed()){
+         if (OF.isSelected()){
             player.setPositions(player.getPositions()+"OF");
         }
      
-         if (P.isPressed()){
-            player.setPositions(player.getPositions()+"P");
+         if (P.isSelected()){
+            player.setPositions("P");
+            
         }
     }
 }

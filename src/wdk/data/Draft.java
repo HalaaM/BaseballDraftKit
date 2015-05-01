@@ -25,17 +25,17 @@ public class Draft {
     // THE COURSE SITE PAGES
     
     ObservableList<Players>players;
-    
-    
+    ObservableList <Team> team;
+   
+    private String title;
+    private List<DraftPage> pages;
+
     public Draft(){
        players= FXCollections.observableArrayList();
-       team=new Team();
        pages=new ArrayList();
+       team=FXCollections.observableArrayList();
      
     }
-    private String title;
-    private Team team;
-    private List<DraftPage> pages;
 
     public void clearPages() {
         getPages().clear();
@@ -68,16 +68,16 @@ public class Draft {
     /**
      * @return the team
      */
-    public Team getTeam() {
+    public ObservableList <Team> getTeam() {
         return team;
     }
 
     /**
      * @param team the team to set
      */
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+//    public void setTeam(Team team) {
+//        this.team = team;
+//    }
     
    
     /**
@@ -87,12 +87,6 @@ public class Draft {
         this.pages = pages;
     }
 
-    public void removeTeam(Team teamToRemove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    public void removePlayer(Players playerToRemove) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
      
 }

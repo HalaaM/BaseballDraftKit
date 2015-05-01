@@ -12,24 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import wdk.data.Draft;
 import wdk.data.Team;
-import static wdk.gui.AddNewPlayerDialog.COMPLETE;
 import static wdk.gui.WDK_GUI.CLASS_HEADING_LABEL;
 import static wdk.gui.WDK_GUI.PRIMARY_STYLE_SHEET;
-
 
 /**
  *
  * @author halaamenasy
  */
-public class AddNewFantasyTeamDialog extends Stage{
-    
-    Team team;
+public class EditTeamDialog extends Stage {
+     Team team;
   
     
     // GUI CONTROLS FOR OUR DIALOG
@@ -61,7 +56,7 @@ public class AddNewFantasyTeamDialog extends Stage{
     public static final String COMPLETE = "Complete";
     public static final String CANCEL = "Cancel";
     
-    public AddNewFantasyTeamDialog(Stage primaryStage, Team team, MessageDialog messageDialog){
+    public EditTeamDialog(Stage primaryStage, Team team, MessageDialog messageDialog){
           // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         
@@ -83,16 +78,15 @@ public class AddNewFantasyTeamDialog extends Stage{
         nameLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         nameTextField = new TextField();
         nameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-               team.setTeamName(nameTextField.getText());
-   
+            //.setName(newValue);
         });
         
-         // AND THE owner
+         // AND THE TOPIC
         ownerLabel = new Label(OWNER_PROMPT);
         ownerLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
         ownerTextField = new TextField();
         ownerTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-          team.setTeamOwnerName(ownerTextField.getText());
+         //   assignment.setTopics(newValue);
         });
         
           completeButton = new Button(COMPLETE);
@@ -101,13 +95,12 @@ public class AddNewFantasyTeamDialog extends Stage{
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button)ae.getSource();
-            completeTeam();
-            AddNewFantasyTeamDialog.this.selection = sourceButton.getText();
-            AddNewFantasyTeamDialog.this.hide();
+            EditTeamDialog.this.selection = sourceButton.getText();
+          //  AddNewFantasyTeamDialog.this.hide();
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
-  
+        
 
         // NOW LET'S ARRANGE THEM ALL AT ONCE
         gridPane.add(headingLabel, 0, 0, 2, 1);
@@ -153,11 +146,5 @@ public class AddNewFantasyTeamDialog extends Stage{
     public Team getTeam() { 
         return team;
     }
-    public void completeTeam(){
-      
-    team.setTeamName(nameTextField.getText());
-    team.setTeamOwnerName(ownerTextField.getText());
-         
-        
-    }
+    
 }

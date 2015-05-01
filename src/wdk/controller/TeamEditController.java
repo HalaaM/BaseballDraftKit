@@ -5,6 +5,7 @@
  */
 package wdk.controller;
 
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import static wdk.WDK_PropertyType.REMOVE_ITEM_MESSAGE;
@@ -24,9 +25,12 @@ public class TeamEditController {
     AddNewFantasyTeamDialog ad;
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
+    Stage primaryStage;
+    Draft draft;
     
-    public TeamEditController(Stage initPrimaryStage, Draft draft, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
-        ad = new AddNewFantasyTeamDialog(initPrimaryStage, draft, initMessageDialog);
+    public TeamEditController(Stage initPrimaryStage, MessageDialog initMessageDialog, YesNoCancelDialog initYesNoCancelDialog) {
+      
+        primaryStage=initPrimaryStage;
         messageDialog = initMessageDialog;
         yesNoCancelDialog = initYesNoCancelDialog;
     }
@@ -34,26 +38,30 @@ public class TeamEditController {
     // THESE ARE FOR ASSIGNMENT ITEMS
     
     public void handleAddTeamRequest(WDK_GUI gui) {
+        Team team= new Team();
         DraftDataManager cdm = gui.getDataManager();
-        Draft draft = cdm.getDraft();
+        ObservableList <Team> teamList = cdm.getDraft().getTeam();
+        ad = new AddNewFantasyTeamDialog(primaryStage,team,messageDialog);
+        
         ad.showAddTeamDialog();
-//        
+        
 //        // DID THE USER CONFIRM?
-//        if (ad.wasCompleteSelected()) {
-//            // GET THE 
-//           Team a = ad.getTeam();
-//              
+        if (ad.wasCompleteSelected()) {
+            //get the player
+          Team teamToAdd=ad.getTeam();
 //            
 //            // AND ADD IT AS A ROW TO THE TABLE
-//            course.addAssignment(a);
-//        }
-//     else {
-//            // THE USER MUST HAVE PRESSED CANCEL, SO
+          draft=cdm.getDraft();
+      
+          teamList.add(teamToAdd);
+          gui.fantasyTab.fantasyTeamsComboBox.getItems().add(teamToAdd);
+        }
+        else {
+            // THE USER MUST HAVE PRESSED CANCEL, SO
 //            // WE DO NOTHING
         }
-
-  //  }
- //   public void handleEditTeamRequest(WDK_GUI gui, Team teamToEdit) {
+    }
+    public void handleEditTeamRequest(WDK_GUI gui, Team teamToEdit) {
 //        DraftDataManager cdm = gui.getDataManager();
 //        Draft course = cdm.getDraft();
 //        ad.showEditTeamDialog(teamToEdit);
@@ -69,7 +77,7 @@ public class TeamEditController {
 //        else {
 //            // THE USER MUST HAVE PRESSED CANCEL, SO
 //            // WE DO NOTHING
-//        }        
+        }        
     
     
     public void handleRemoveTeamRequest(WDK_GUI gui, Team teamToRemove) {
@@ -81,7 +89,8 @@ public class TeamEditController {
 
         // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
         if (selection.equals(YesNoCancelDialog.YES)) { 
-            gui.getDataManager().getDraft().removeTeam(teamToRemove);
+             gui.getDataManager().getDraft().getTeam().remove(teamToRemove);
+             gui.fantasyTab.fantasyTeamsComboBox.getItems().remove(teamToRemove);
         }
     }
     
