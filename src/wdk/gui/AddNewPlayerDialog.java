@@ -21,6 +21,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
@@ -51,6 +52,7 @@ public class AddNewPlayerDialog extends Stage{
     Button completeButton;
     Button cancelButton;
     
+    HBox checkboxPane;
     CheckBox C;
     CheckBox One_B;
     CheckBox three_B;
@@ -137,6 +139,15 @@ public class AddNewPlayerDialog extends Stage{
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
+        
+        checkboxPane=new HBox();
+        checkboxPane.getChildren().add(C);
+        checkboxPane.getChildren().add(One_B);
+        checkboxPane.getChildren().add(three_B);
+        checkboxPane.getChildren().add(two_B);
+        checkboxPane.getChildren().add(SS);
+        checkboxPane.getChildren().add(OF);
+        checkboxPane.getChildren().add(P);
 
         proTeamLabel= new Label(PRO_TEAM_PROMPT);
         // NOW LET'S ARRANGE THEM ALL AT ONCE
@@ -147,13 +158,7 @@ public class AddNewPlayerDialog extends Stage{
         gridPane.add(lastNameTextField, 1, 2, 1, 1);
         gridPane.add(proTeamLabel, 0, 3, 1, 1);
         gridPane.add(mlbTeamsComboBox, 1, 3, 1, 1);
-        gridPane.add(C,0,4,1,1);
-        gridPane.add(One_B,1,4,1,1);
-        gridPane.add(three_B, 2,4,1,1);
-        gridPane.add(two_B, 3,4,1,1);
-        gridPane.add(SS, 4,4,1,1);
-        gridPane.add(OF, 5, 4,1,1);
-        gridPane.add(P,6,4,1,1);
+        gridPane.add(checkboxPane,0,4,5,1);
         gridPane.add(completeButton, 0, 5, 1, 1);
         gridPane.add(cancelButton, 1, 5, 1, 1);
         

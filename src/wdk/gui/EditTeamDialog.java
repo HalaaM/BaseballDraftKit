@@ -95,8 +95,11 @@ public class EditTeamDialog extends Stage {
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button)ae.getSource();
+            if(sourceButton.getText().equals(COMPLETE)){
+            completeSelected();
+            }
             EditTeamDialog.this.selection = sourceButton.getText();
-          //  AddNewFantasyTeamDialog.this.hide();
+            EditTeamDialog.this.hide();
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
@@ -117,34 +120,31 @@ public class EditTeamDialog extends Stage {
         this.setScene(dialogScene);
         
     }
+
     
-    //corner infielder= 1st and 3rd basemen
-    //middle infielder=2nd basema, IF, or short stop
-    //Utility=all hitters
-    
-    
-    public Team showAddTeamDialog() {
+    public Team showEditTeamDialog(Team teamToEdit) {
         // SET THE DIALOG TITLE
         setTitle( ADD_FANTASY_TEAM_TITLE);
         
-        // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
-        team = new Team();
-        
+        team = teamToEdit;
         // LOAD THE UI STUFF
-        nameTextField.setText(team.getTeamName());
-        ownerTextField.setText(team.getTeamOwnerName());
-       
-        
+        nameTextField.setText(teamToEdit.getTeamName());
+        ownerTextField.setText(teamToEdit.getTeamOwnerName());
+   
         // AND OPEN IT UP
         this.showAndWait();
-        
-        return team;
+        return teamToEdit;
     }
   public boolean wasCompleteSelected() {
         return selection.equals(COMPLETE);
     }
     public Team getTeam() { 
         return team;
+    }
+    
+    public void completeSelected (){
+        team.setTeamName(nameTextField.getText());
+        team.setTeamOwnerName(ownerTextField.getText());
     }
     
 }

@@ -75,31 +75,31 @@ public class ErrorHandling {
         return singleton;
     }
     
-    public void handleNewCourseError() {
+    public void handleNewDraftError() {
         
     }
     
-    public void handleLoadCourseError() {
+    public void handleLoadDraftError() {
         
     }
     
-    public void handleSaveCourseError() {
+    public void handleSaveDraftError() {
         
     }
 
-    public void handleViewSchedulePageError(String pageURL) {
-        
-    }
+//    public void handleViewSchedulePageError(String pageURL) {
+//        
+//    }
      
-    public void handleExportCourseError(Draft draftBeingExported) {
-        
-    }
+//    public void handleExportCourseError(Draft draftBeingExported) {
+//        
+//    }
         
     public void handleExitError() {
         
     }
 
-    public void handleUpdateCourseError() {
+    public void handleUpdateDraftError() {
         
     }
     

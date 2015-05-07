@@ -6,6 +6,7 @@
 package wdk.data;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +46,7 @@ public class Draft {
         players.add(a);
     
     }
+
     
      public List<DraftPage> getPages() {
         return pages;
@@ -87,6 +89,32 @@ public class Draft {
         this.pages = pages;
     }
 
-
-     
+    public Team findTeam(String teamName){
+        for (int i=0; i<team.size();i++){
+            if(team.get(i).getTeamName().equals(teamName)){
+                return team.get(i);
+            }
+        }
+        return null;
+        
+    }
+    
+    public ObservableList<Team> getTeams(){
+        return team;
+    }
+    
+    public ObservableList<Players>getPlayers(){
+        return players;
+    }
+    
+    public void clearTeams(){
+        for (Team t:team){
+            ObservableList<Players> player=t.getPlayers();
+             for (Players p:player){
+            players.add(p);
+        }
+             t.getPlayers().clear();
+    }
+     team.clear();
+}
 }

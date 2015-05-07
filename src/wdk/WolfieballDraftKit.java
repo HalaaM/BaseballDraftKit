@@ -57,6 +57,7 @@ public class WolfieballDraftKit extends Application {
                 // AND NOW GIVE ALL OF THIS STUFF TO THE GUI
                 // INITIALIZE THE USER INTERFACE COMPONENTS
                 gui = new WDK_GUI(primaryStage);
+                gui.gui=gui;
                 gui.setDraftFileManager(jsonFileManager);
                 //gui.setSiteExporter(exporter);
                 

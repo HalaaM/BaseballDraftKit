@@ -18,8 +18,6 @@ import wdk.data.Players;
 public interface DraftFileManager {
     public void                 saveDraft(Draft draftToSave) throws IOException;
     public void                 loadDraft(Draft draftToLoad, String coursePath) throws IOException;
-    public void                 saveMultipleDrafts(List<Object> drafts, String filePath) throws IOException;
-    public ArrayList<String>    loadOneOfTheDrafts(String filePath) throws IOException;
     public List<Players>        loadPitchers(String jsonFilePath)throws IOException; 
     public List<Players>        loadHitters(String jsonFilePath) throws IOException;
 }

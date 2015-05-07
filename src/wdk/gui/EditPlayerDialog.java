@@ -5,6 +5,10 @@
  */
 package wdk.gui;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +33,7 @@ import wdk.data.DraftDataManager;
 import wdk.data.MLBTeams;
 import wdk.data.Players;
 import wdk.data.Positions;
+import wdk.data.Team;
 import static wdk.gui.WDK_GUI.CLASS_HEADING_LABEL;
 import static wdk.gui.WDK_GUI.PRIMARY_STYLE_SHEET;
 
@@ -47,7 +52,7 @@ public class EditPlayerDialog extends Stage{
     Scene dialogScene;
     Label headingLabel;
     Label fantasyTeamLabel;
-    ComboBox fantasyTeamComboBox;
+    ComboBox <Team> fantasyTeamComboBox;
     Label positionLabel;
     ComboBox positionComboBox;
     Label contractLabel;
@@ -82,6 +87,7 @@ public class EditPlayerDialog extends Stage{
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
         initOwner(primaryStage);
+        ddm=WDK_GUI.getGUI().getDataManager();
         
         
         // FIRST OUR CONTAINER
@@ -104,7 +110,8 @@ public class EditPlayerDialog extends Stage{
         String imagePath = "file:" + PATH_IMAGES +"players/"+playerName;
         Image playerPic= new Image(imagePath);
         
-        if (playerPic==null){
+        File f=new File(imagePath);
+        if (playerPic.getWidth() == 0){
             playerPic=  new Image("file:" + PATH_IMAGES +"players/"+"AAA_PhotoMissing.jpg");        
         }
         
@@ -122,20 +129,24 @@ public class EditPlayerDialog extends Stage{
         // NOW THE FANTASY TEAM
         fantasyTeamLabel = new Label(FANTASY_TEAM_PROMPT);
         fantasyTeamLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
+        
         fantasyTeamComboBox = new ComboBox();
-//        fantasyTeamComboBox.addListener((observable, oldValue, newValue) -> {
-//       //     player.setFirstName(newValue);
-//        });
-//        
+        ObservableList<Team> teamChoices = FXCollections.observableArrayList();
+        
+        
+        teamChoices.addAll(WDK_GUI.getGUI().getDataManager().getDraft().getTeam());
+        fantasyTeamComboBox.setItems(teamChoices);
+        
+        fantasyTeamComboBox.getItems().add(new Team("Free Agent", ""));
+        
          // AND THE POSITIONS
         positionLabel = new Label(POSITION_PROMPT);
         positionLabel.getStyleClass().add(CLASS_PROMPT_LABEL);
        
         
         ObservableList<String> positionChoices = FXCollections.observableArrayList();
-        for (Positions s : Positions.values()) {
-            positionChoices.add(s.toString());
-        }
+        positionChoices.addAll(player.getPositions().split("_"));
+
         
         positionComboBox = new ComboBox();
         positionComboBox.setItems(positionChoices);
@@ -163,9 +174,18 @@ public class EditPlayerDialog extends Stage{
         
         // REGISTER EVENT HANDLERS FOR OUR BUTTONS
         EventHandler completeCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
+           try{   
             Button sourceButton = (Button)ae.getSource();
-         //   EditPlayerDialog.this.selection = sourceButton.getText();
+            if (sourceButton.getText().equals(CANCEL)){
+               EditPlayerDialog.this.hide();
+           }
+            completeTeam();
             EditPlayerDialog.this.hide();
+           }catch(NumberFormatException e){
+               
+           }
+           
+           
         };
         completeButton.setOnAction(completeCancelHandler);
         cancelButton.setOnAction(completeCancelHandler);
@@ -209,7 +229,7 @@ public class EditPlayerDialog extends Stage{
         // SET THE DIALOG TITLE
         setTitle(EDIT_PLAYER_TITLE);
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
-         baseballplayer= new Players();
+         baseballplayer= player;
         
 //        
         
@@ -233,5 +253,107 @@ public class EditPlayerDialog extends Stage{
         return selection.equals(COMPLETE);
     }
     
+    public void completeTeam() throws NumberFormatException{
+        
+     
+     if(!baseballplayer.getFantasyTeam().equals("")){   
+    ddm.getDraft().findTeam(baseballplayer.getFantasyTeam()).removePlayer(baseballplayer);
+     }
+    if(fantasyTeamComboBox.getValue().toString().equalsIgnoreCase("Free Agent"))
+    {
+        baseballplayer.setFantasyTeam("");
+        baseballplayer.setContract("");
+        baseballplayer.setSalary(0);
+        ddm.getPlayers().add(baseballplayer);
+    }
+    else{
+    baseballplayer.setSalary(Integer.parseInt(salaryTextField.getText()));
+    
+    
+    baseballplayer.setFantasyTeam(fantasyTeamComboBox.getValue().toString());
+    baseballplayer.setPositions(positionComboBox.getValue().toString());
+    baseballplayer.setContract(contractComboBox.getValue().toString());
+    
+    try{
+    ddm.getDraft().findTeam(fantasyTeamComboBox.getValue().toString()).addPlayer(baseballplayer);
+    Collections.sort(fantasyTeamComboBox.getValue().getPlayers(), new Comparator<Players>(){
+               @Override
+               public int compare(Players p1, Players p2){
+                   int a;
+                   int b;
+                   
+                   if(p1.getPositions().equals("C")){
+                        a=10;
+                   }
+                   else if(p1.getPositions().equals("1B")){
+                        a=9;
+                   }
+                   else if(p1.getPositions().equals("CI")){
+                        a=8;
+                   }
+                   else if(p1.getPositions().equals("3B")){
+                        a=7;
+                   }
+                   else if(p1.getPositions().equals("2B")){
+                        a=6;
+                   }
+                   else if(p1.getPositions().equals("MI")){
+                        a=5;
+                   }
+                   else if(p1.getPositions().equals("SS")){
+                        a=4;
+                   }
+                   else if(p1.getPositions().equals("OF")){
+                        a=3;
+                   }
+                   else if(p1.getPositions().equals("U")){
+                        a=2;
+                   }
+                   else {
+                        a=1;
+                   }
+                   
+                   if(p2.getPositions().equals("C")){
+                        b=10;
+                   }
+                   else if(p2.getPositions().equals("1B")){
+                        b=9;
+                   }
+                   else if(p2.getPositions().equals("CI")){
+                        b=8;
+                   }
+                   else if(p2.getPositions().equals("3B")){
+                        b=7;
+                   }
+                   else if(p2.getPositions().equals("2B")){
+                        b=6;
+                   }
+                   else if(p2.getPositions().equals("MI")){
+                        b=5;
+                   }
+                   else if(p2.getPositions().equals("SS")){
+                        b=4;
+                   }
+                   else if(p2.getPositions().equals("OF")){
+                        b=3;
+                   }
+                   else if(p2.getPositions().equals("U")){
+                        b=2;
+                   }
+                   else {
+                        b=1;
+                   }
+                   return (a>b)? -1: 1;
+               }
+               
+            });
+    ddm.getPlayers().remove(baseballplayer);
+    }catch(Exception E){
+        
+    }
+    
+    }
+      
+    }
     
 }

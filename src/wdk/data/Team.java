@@ -5,27 +5,59 @@
  */
 package wdk.data;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author halaamenasy
  */
-public class Team {
+public class Team implements Serializable{
     
     private DraftDataManager ddm;
     private ObservableList <Players> players;
     private String teamName;
     private String teamOwnerName;
-    
-
-    
+   
+    //2 for C;       1 each for 1B, CI, 3B, 2B, MI, SS, & U;      5 for OF;     9 for P
+    HashMap<String,Integer> positionCounters;
+    HashMap<String, Integer> maxAmountPerPositionCounter;
 
     public Team(){
        // this.players=ddm.getPlayers();
         this.teamName="";
         this.teamOwnerName="";
+        players= FXCollections.observableArrayList();
+        positionCounters= new HashMap();
+        maxAmountPerPositionCounter=new HashMap();
         
+       positionCounters.put("C",0);
+       positionCounters.put("1B",0);
+       positionCounters.put("CI",0);
+       positionCounters.put("3B",0);
+       positionCounters.put("2B",0);
+       positionCounters.put("MI",0);
+       positionCounters.put("SS",0);
+       positionCounters.put("U",0);
+       positionCounters.put("OF",0);
+       positionCounters.put("P",0);
+       
+       maxAmountPerPositionCounter.put("C",2); 
+       maxAmountPerPositionCounter.put("1B",1);
+       maxAmountPerPositionCounter.put("CI",1);
+       maxAmountPerPositionCounter.put("3B",1);
+       maxAmountPerPositionCounter.put("2B",1);
+       maxAmountPerPositionCounter.put("MI",1);
+       maxAmountPerPositionCounter.put("SS",1);
+       maxAmountPerPositionCounter.put("U",1);
+       maxAmountPerPositionCounter.put("OF",5);
+       maxAmountPerPositionCounter.put("P",9);
+        
+ 
     }
     public Team(String teamName, String teamOwnerName){
         this.teamName=teamName;
@@ -94,13 +126,27 @@ public class Team {
         return teamName;
     }
     
-    public void addPlayer(Players playerToAdd){
+    public void addPlayer(Players playerToAdd) throws Exception{
+        String pos=playerToAdd.getPositions();
+        
+        //if position is not full, add player
+        if (positionCounters.get(pos)<maxAmountPerPositionCounter.get(pos)){
         players.add(playerToAdd);
-             
+        int counter= positionCounters.get(pos);
+        positionCounters.put(pos, counter+1);
+        }    
+        else{
+           throw new Exception();
+        }
     }
     
     public void removePlayer(Players playerToRemove){
-        players.remove(playerToRemove);
+         String pos=playerToRemove.getPositions();
+         players.remove(playerToRemove);
+         int counter= positionCounters.get(pos);
+         positionCounters.put(pos, counter-1);
+ 
+        
     }
     
 }

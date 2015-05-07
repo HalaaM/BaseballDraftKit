@@ -80,6 +80,8 @@ import wdk.data.Players;
  */
 public class WDK_GUI implements DraftDataView{
     
+    public static WDK_GUI gui;
+    
     // THESE CONSTANTS ARE FOR TYING THE PRESENTATION STYLE OF
     // THIS GUI'S COMPONENTS TO A STYLE SHEET THAT IT USES
 
@@ -102,6 +104,8 @@ public class WDK_GUI implements DraftDataView{
     // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
     BorderPane wdkPane;
+    ScrollPane workspaceScrollPane;
+
     
     //For the playerTabPane
     VBox playerTab;
@@ -202,7 +206,7 @@ public class WDK_GUI implements DraftDataView{
    
     
     //TabPane FOR FIVE SCREENS*************************************************
-    TabPane tabPane;
+    public TabPane tabPane;
     Tab player;
     Tab fantasyTeam;
     Tab fantasyStandings;
@@ -340,18 +344,15 @@ public class WDK_GUI implements DraftDataView{
     }
       @Override
     public void reloadDraft(Draft draftToReload) {
-        if (!workspaceActivated) {
-            activateWorkspace();
-        draftEditController.enable(false);
-    
-        }
-        draftEditController.enable(true);
-        
+          initWorkSpace(tabPane);
+          wdkPane.setCenter(tabPane);
+   
     }
       public void updateToolbarControls(boolean saved) {
+          
         // THIS TOGGLES WITH WHETHER THE CURRENT COURSE
         // HAS BEEN SAVED OR NOT
-        saveCourseButton.setDisable(saved);
+        saveCourseButton.setDisable(false);
 
         // ALL THE OTHER BUTTONS ARE ALWAYS ENABLED
         // ONCE EDITING THAT FIRST COURSE BEGINS
@@ -392,16 +393,8 @@ public class WDK_GUI implements DraftDataView{
     /****************************************************************************/
      
     //calls the TabPane to manage all the screens
-     private void initWorkSpace(TabPane tabPane) {
-          initTabPane();
-          
-          
-         
-//
-//        // NOTE THAT WE HAVE NOT PUT THE WORKSPACE INTO THE WINDOW,
-//        // THAT WILL BE DONE WHEN THE USER EITHER CREATES A NEW
-//        // COURSE OR LOADS AN EXISTING ONE FOR EDITING
-//        workspaceActivated = false;
+     public void initWorkSpace(TabPane tabPane) {
+        initTabPane();
                
     }
     //this pane has home which is available players, fantasy teams, fantasy standings,draft summary
@@ -436,7 +429,7 @@ public class WDK_GUI implements DraftDataView{
         initMLBTeamsTab(MLBTeams);        
     }
     private void initAvailablePlayerTab(Tab tab){
-
+        updateToolbarControls(true);
         //Make and initialize all buttons for RadioButtonPane
         ToggleGroup toggle= new ToggleGroup();
         topWorkSpacePane= new VBox();
@@ -660,6 +653,7 @@ public class WDK_GUI implements DraftDataView{
 
       private void initFantasyTeamTab( Tab fantasyTeam) {
       fantasyTab = new FantasyTeamTab(fantasyTeam,this);
+      
         
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
@@ -697,11 +691,10 @@ public class WDK_GUI implements DraftDataView{
         // ADD THE TOOLBAR ONLY, NOTE THAT THE WORKSPACE
         // HAS BEEN CONSTRUCTED, BUT WON'T BE ADDED UNTIL
         // THE USER STARTS EDITING A COURSE
+        
         wdkPane = new BorderPane();
         wdkPane.setTop(fileToolbarPane);
-        
-//        wdkPane.setCenter(tabPane);
-//        tabPane.setVisible(false);
+            
         primaryScene = new Scene(wdkPane);
         
         // NOW TIE THE SCENE TO THE WINDOW, SELECT THE STYLESHEET
@@ -712,13 +705,18 @@ public class WDK_GUI implements DraftDataView{
     }
        private void initEventHandlers() throws IOException {
         // FIRST THE FILE CONTROLS
-        fileController = new FileController(messageDialog, yesNoCancelDialog, draftFileManager, siteExporter);
+        fileController = new FileController(messageDialog, yesNoCancelDialog, draftFileManager);
         newCourseButton.setOnAction(e -> {
     
                 initWorkSpace(tabPane);
-                 wdkPane.setCenter(tabPane);       
+                wdkPane.setCenter(tabPane);
+             });
+        loadCourseButton.setOnAction(e -> {
+            fileController.handleLoadDraftRequest(WDK_GUI.this);
         });
-  
+        saveCourseButton.setOnAction(e -> {
+            fileController.handleSaveDraftRequest(this, dataManager.getDraft());
+        });
        }
 
         // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
@@ -1034,7 +1032,9 @@ public class WDK_GUI implements DraftDataView{
         playerTable.setItems(sortedData);
     }
     
-    
+    public static WDK_GUI getGUI(){
+        return gui;
+    }
     
 }
 

@@ -5,13 +5,14 @@
  */
 package wdk.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author halaamenasy
  */
-public class Players {
+public class Players implements Serializable{
 
     private String firstName;
     private String lastName;
@@ -23,7 +24,8 @@ public class Players {
     private String contract;
     private String team;
     private String nationality;
-
+    private String fantasyTeam;
+    
     //hitters extra qualities
     private int atBats;
     private int R; // Runs
@@ -53,6 +55,7 @@ public class Players {
         this.nationality="";
         this.estimatedValue="";
         this.contract="";
+        this.fantasyTeam="";
     }
     //Hitters constructor
     public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth, String nationality) {
@@ -76,7 +79,9 @@ public class Players {
         }
         this.yearOfBirth=yearOfBirth;
         this.nationality=nationality;
-
+        this.fantasyTeam="";
+        this.contract="";
+        this.salary=0;
     }
 
     //pitchers constructor
@@ -105,6 +110,9 @@ public class Players {
            this.WHIP=0;
        }
        this.nationality=nationality;
+       this.fantasyTeam="";
+       this.contract="";
+       this.salary=0;
     }
 
     /**
@@ -361,4 +369,11 @@ public class Players {
         this.team = team;
     }
 
+    public String getFantasyTeam(){
+        return fantasyTeam;
+    }
+    
+    public void setFantasyTeam(String fantasyTeam){
+        this.fantasyTeam=fantasyTeam;
+    }
 }

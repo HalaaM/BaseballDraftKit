@@ -7,6 +7,7 @@ package wdk.data;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -22,13 +23,12 @@ import wdk.file.JsonDraftFileManager;
  * @author halaamenasy
  */
 
-public class DraftDataManager {
+public class DraftDataManager implements Serializable{
     
     
 
     // THIS IS THE COURSE BEING EDITED
     Draft draft;
-    Team team;
     // THIS IS THE UI, WHICH MUST BE UPDATED
     // WHENEVER OUR MODEL'S DATA CHANGES
     DraftDataView view;
@@ -69,10 +69,10 @@ public class DraftDataManager {
     public Draft getDraft() {
         return draft;
     }
-    
-    public Team getTeam(){
-        return team;
+    public void setDraft(Draft draft){
+        this.draft=draft;
     }
+    
     
     /**
      * Accessor method for getting the file manager, which knows how

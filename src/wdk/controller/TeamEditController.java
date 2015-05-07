@@ -15,6 +15,7 @@ import wdk.data.DraftDataManager;
 import wdk.gui.WDK_GUI;
 import wdk.gui.MessageDialog;
 import wdk.gui.AddNewFantasyTeamDialog;
+import wdk.gui.EditTeamDialog;
 import wdk.gui.YesNoCancelDialog;
 
 /**
@@ -23,6 +24,7 @@ import wdk.gui.YesNoCancelDialog;
  */
 public class TeamEditController {
     AddNewFantasyTeamDialog ad;
+    EditTeamDialog ed;
     MessageDialog messageDialog;
     YesNoCancelDialog yesNoCancelDialog;
     Stage primaryStage;
@@ -62,17 +64,17 @@ public class TeamEditController {
         }
     }
     public void handleEditTeamRequest(WDK_GUI gui, Team teamToEdit) {
-//        DraftDataManager cdm = gui.getDataManager();
-//        Draft course = cdm.getDraft();
-//        ad.showEditTeamDialog(teamToEdit);
-//        
+        DraftDataManager cdm = gui.getDataManager();
+        Draft course = cdm.getDraft();
+        ed = new EditTeamDialog(primaryStage,teamToEdit,messageDialog);
+        ed.showEditTeamDialog(teamToEdit);
+   
 //        // DID THE USER CONFIRM?
-//        if (ad.wasCompleteSelected()) {
-//            // UPDATE THE SCHEDULE ITEM
-//            Assignment a = ad.getAssignment();
-//            assignmentToEdit.setName(a.getName());
-//            assignmentToEdit.setDate(a.getDate());
-//            assignmentToEdit.setTopics(a.getTopics());
+        if (ad.wasCompleteSelected()) {
+            gui.fantasyTab.fantasyTeamsComboBox.getItems().remove(teamToEdit);
+            teamToEdit=ed.getTeam();   
+            gui.fantasyTab.fantasyTeamsComboBox.getItems().add(teamToEdit);
+        }            
 //        }
 //        else {
 //            // THE USER MUST HAVE PRESSED CANCEL, SO

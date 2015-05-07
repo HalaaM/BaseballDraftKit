@@ -27,4 +27,5 @@ public class WDK_StartupConstants {
      // THESE ARE THE DATA FILES WE WILL LOAD AT STARTUP
     public static final String JSON_FILE_PATH_HITTERS = PATH_DATA + "hitters.json";
     public static final String JSON_FILE_PATH_PITCHERS = PATH_DATA + "pitchers.json";
+    public static String PATH_DRAFTS=PATH_DATA+ "drafts/";
 }

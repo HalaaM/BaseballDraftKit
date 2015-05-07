@@ -92,39 +92,17 @@ public class JsonDraftFileManager implements DraftFileManager {
     @Override
     public void saveDraft(Draft draftToSave) throws IOException {
         // BUILD THE FILE PATH
+        //read from textfield
         String draftListing = "" + draftToSave;
         String jsonFilePath = PATH_COURSES + SLASH + draftListing + JSON_EXT;
         
         // INIT THE WRITER
         OutputStream os = new FileOutputStream(jsonFilePath);
         JsonWriter jsonWriter = Json.createWriter(os);  
-        
-        // MAKE A JSON ARRAY FOR THE PAGES ARRAY
-        JsonArray pagesJsonArray = makePagesJsonArray(draftToSave.getPages());
 
     }
 
-    @Override
-    public void saveMultipleDrafts(List<Object> drafts, String filePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public ArrayList<String> loadOneOfTheDrafts(String filePath) throws IOException {
-      
-        return null;
-    }
-    
-    
-     public JsonArray makePagesJsonArray(List<DraftPage> data) {
-        JsonArrayBuilder jsb = Json.createArrayBuilder();
-        for (DraftPage cP : data) {
-           jsb.add(cP.toString());
-        }
-        JsonArray jA = jsb.build();
-        return jA;        
-    }
-     
      private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
         InputStream is = new FileInputStream(jsonFilePath);
         JsonReader jsonReader = Json.createReader(is);
@@ -170,7 +148,8 @@ public class JsonDraftFileManager implements DraftFileManager {
             int yearOfBirth= Integer.parseInt(jsonHitter.getString(JSON_YEAROFBIRTH_PITCHER));
             String nationality= jsonHitter.getString(JSON_NATIONOFBIRTH);
             
-            Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth,nationality );
+            
+            Players hitter= new Players(team,lastName, firstName, positions, atBats, R, H, HR, RBI, SB,Notes,yearOfBirth,nationality);
             hitterList.add(hitter);
         }     
         return hitterList;

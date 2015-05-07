@@ -13,15 +13,42 @@ import wdk.gui.WDK_GUI;
  * @author halaamenasy
  */
 public class DraftEditController {
-    private boolean enabled; 
+ // WE USE THIS TO MAKE SURE OUR PROGRAMMED UPDATES OF UI
+    // VALUES DON'T THEMSELVES TRIGGER EVENTS
+    private boolean enabled;
+
+    /**
+     * Constructor that gets this controller ready, not much to
+     * initialize as the methods for this function are sent all
+     * the objects they need as arguments.
+     */
+    public DraftEditController() {
+        enabled = true;
+    }
+
+    /**
+     * This mutator method lets us enable or disable this controller.
+     * 
+     * @param enableSetting If false, this controller will not respond to
+     * Course editing. If true, it will.
+     */
     public void enable(boolean enableSetting) {
         enabled = enableSetting;
     }
-     public void handleCourseChangeRequest(WDK_GUI gui) {
+
+    /**
+     * This controller function is called in response to the user changing
+     * course details in the UI. It responds by updating the bound Course
+     * object using all the UI values, including the verification of that
+     * data.
+     * 
+     * @param gui The user interface that requested the change.
+     */
+    public void handleCourseChangeRequest(WDK_GUI gui) {
         if (enabled) {
             try {
                 // UPDATE THE COURSE, VERIFYING INPUT VALUES
-     //           gui.updateDraftInfo(gui.getDataManager().getDraft());
+                gui.updateDraftInfo(gui.getDataManager().getDraft());
                 
                 // THE COURSE IS NOW DIRTY, MEANING IT'S BEEN 
                 // CHANGED SINCE IT WAS LAST SAVED, SO MAKE SURE
@@ -29,9 +56,10 @@ public class DraftEditController {
                 gui.getFileController().markAsEdited(gui);
             } catch (Exception e) {
                 // SOMETHING WENT WRONG
-                ErrorHandling eH = ErrorHandling.getErrorHandler();
-                eH.handleUpdateCourseError();
+//                ErrorHandling eH = ErrorHandler.getErrorHandler();
+//                eH.handleUpdateCourseError();
             }
         }
     }
+
 }
