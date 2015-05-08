@@ -5,6 +5,7 @@
  */
 package wdk.file;
 
+import java.io.File;
 import static wdk.WDK_StartupConstants.PATH_COURSES;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -30,11 +33,14 @@ import javax.json.JsonWriter;
 import javax.json.JsonValue;
 import static wdk.WDK_StartupConstants.JSON_FILE_PATH_HITTERS;
 import static wdk.WDK_StartupConstants.JSON_FILE_PATH_PITCHERS;
+import static wdk.WDK_StartupConstants.PATH_DATA;
 
 
 import wdk.data.Draft;
 import wdk.data.DraftPage;
 import wdk.data.Players;
+import wdk.data.Team;
+import wdk.gui.WDK_GUI;
 
 
 /**
@@ -91,16 +97,54 @@ public class JsonDraftFileManager implements DraftFileManager {
      */
     @Override
     public void saveDraft(Draft draftToSave) throws IOException {
-        // BUILD THE FILE PATH
-        //read from textfield
-        String draftListing = "" + draftToSave;
-        String jsonFilePath = PATH_COURSES + SLASH + draftListing + JSON_EXT;
-        
-        // INIT THE WRITER
-        OutputStream os = new FileOutputStream(jsonFilePath);
-        JsonWriter jsonWriter = Json.createWriter(os);  
-
+     String draftName= WDK_GUI.getGUI().fantasyTab.draftTextField.getText();
+     File file = new File(PATH_DATA+draftName+".halaa");
+     file.delete();
+     FileOutputStream fos= new FileOutputStream(file);
+     
+     ObjectOutputStream oos= new ObjectOutputStream(fos);
+     oos.writeObject(draftName);
+     int teamSize= draftToSave.getTeams().size();
+     oos.writeObject(teamSize);
+     
+     for (int i=0; i<teamSize;i++){
+     Team team =draftToSave.getTeams().get(i);
+     oos.writeObject(team.getTeamName());
+     oos.writeObject(team.getTeamOwnerName());
+     Players [] playerList= team.getPlayers().toArray(new Players[0]);
+     oos.writeObject(playerList); 
+     }
+     oos.flush();
+     oos.close();
     }
+    
+    @Override
+    public void loadDraft(Draft draftToLoad, String draftPath) throws IOException {
+    try{
+    File file= new File(draftPath);
+    FileInputStream fis= new FileInputStream(file);
+    
+    ObjectInputStream ois= new ObjectInputStream(fis);
+    String draftName= (String) ois.readObject();
+    draftToLoad.setTitle(draftName);
+    
+    int teamSize= (int)ois.readObject();
+    
+    for (int i=0;i<teamSize;i++){
+        String teamName=(String)ois.readObject();
+        String teamOwner= (String)ois.readObject();
+        
+        Players[]playerList= (Players[]) ois.readObject();
+        Team team = new Team(teamName, teamOwner, playerList);
+        draftToLoad.getTeams().add(team); 
+    }
+    ois.close();
+    }catch(ClassNotFoundException e){
+        
+    }
+    
+    
+    } 
 
 
      private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
@@ -122,10 +166,6 @@ public class JsonDraftFileManager implements DraftFileManager {
         return items;
     }
 
-    @Override
-    public void loadDraft(Draft draftToLoad, String coursePath) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    } 
 
     @Override
     public List<Players> loadHitters(String jsonFilePath) throws IOException{
@@ -180,8 +220,7 @@ public class JsonDraftFileManager implements DraftFileManager {
             Players pitcher= new Players(team, lastName, firstName, Double.parseDouble(IP), ER, W, SV,  H, BB, K, Notes,  yearOfBirth,nationality);
             pitcherList.add(pitcher);
         }     
-         
-//         int j=0;
+        
         return pitcherList;
         
         

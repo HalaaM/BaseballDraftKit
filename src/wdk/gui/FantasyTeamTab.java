@@ -128,13 +128,12 @@ public class FantasyTeamTab {
         addTeamButton = initChildButton(fantasyTeamToolBar, WDK_PropertyType.ADD_ICON, WDK_PropertyType.ADD_ITEM_TOOLTIP, false);
         removeTeamButton = initChildButton(fantasyTeamToolBar, WDK_PropertyType.MINUS_ICON, WDK_PropertyType.REMOVE_ITEM_TOOLTIP, false);   
         editTeamButton = initChildButton(fantasyTeamToolBar, WDK_PropertyType.EDIT_ICON, WDK_PropertyType.EDIT_ITEM_TOOLTIP, false);  
-        
 
-        
         draftNameLabel= new Label("DraftName");
         draftTextField= new TextField();
-       
-
+        
+        draftTextField.setText(gui.getDataManager().getDraft().getTitle());
+        
         fantasyTeamMainPane.getChildren().add(draftNameLabel);
         fantasyTeamToolBar.getChildren().add(draftTextField);
       
@@ -254,11 +253,10 @@ public class FantasyTeamTab {
         });
         
         fantasyTeamsComboBox= new ComboBox();
-        ObservableList<String> teamChoices = FXCollections.observableArrayList();
-       
-        
-        for ( Team s: gui.dataManager.getDraft().getTeam()) {
-            teamChoices.add(s.getTeamName());
+
+        for ( Team s: gui.dataManager.getDraft().getTeams()) {
+            fantasyTeamsComboBox.getItems().add(s);
+            
         }
         
         

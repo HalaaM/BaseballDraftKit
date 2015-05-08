@@ -64,7 +64,44 @@ public class Team implements Serializable{
         this.teamOwnerName=teamOwnerName;
         
     }
-    
+     public Team(String teamName, String teamOwnerName, Players[] list){
+        this.teamName=teamName;
+        this.teamOwnerName=teamOwnerName;
+                players= FXCollections.observableArrayList();
+        positionCounters= new HashMap();
+        maxAmountPerPositionCounter=new HashMap();
+        
+       positionCounters.put("C",0);
+       positionCounters.put("1B",0);
+       positionCounters.put("CI",0);
+       positionCounters.put("3B",0);
+       positionCounters.put("2B",0);
+       positionCounters.put("MI",0);
+       positionCounters.put("SS",0);
+       positionCounters.put("U",0);
+       positionCounters.put("OF",0);
+       positionCounters.put("P",0);
+       
+       for(int i=0;i<list.length;i++){
+           int counter=positionCounters.remove(list[i].getPositions());
+           counter++;
+           positionCounters.put(list[i].getPositions(),counter);
+       }
+       
+       maxAmountPerPositionCounter.put("C",2); 
+       maxAmountPerPositionCounter.put("1B",1);
+       maxAmountPerPositionCounter.put("CI",1);
+       maxAmountPerPositionCounter.put("3B",1);
+       maxAmountPerPositionCounter.put("2B",1);
+       maxAmountPerPositionCounter.put("MI",1);
+       maxAmountPerPositionCounter.put("SS",1);
+       maxAmountPerPositionCounter.put("U",1);
+       maxAmountPerPositionCounter.put("OF",5);
+       maxAmountPerPositionCounter.put("P",9);
+       players.addAll(list);
+        
+        
+    }
 
  
 
@@ -132,7 +169,7 @@ public class Team implements Serializable{
         //if position is not full, add player
         if (positionCounters.get(pos)<maxAmountPerPositionCounter.get(pos)){
         players.add(playerToAdd);
-        int counter= positionCounters.get(pos);
+        int counter= positionCounters.remove(pos);
         positionCounters.put(pos, counter+1);
         }    
         else{
@@ -143,7 +180,7 @@ public class Team implements Serializable{
     public void removePlayer(Players playerToRemove){
          String pos=playerToRemove.getPositions();
          players.remove(playerToRemove);
-         int counter= positionCounters.get(pos);
+         int counter= positionCounters.remove(pos);
          positionCounters.put(pos, counter-1);
  
         

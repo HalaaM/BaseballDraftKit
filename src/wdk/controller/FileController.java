@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser;
 
 import properties_manager.PropertiesManager;
+import static wdk.WDK_StartupConstants.PATH_DATA;
 import wdk.data.Players;
 
 /**
@@ -307,7 +308,7 @@ public class FileController {
     private void promptToOpen(WDK_GUI gui) {
         // AND NOW ASK THE USER FOR THE COURSE TO OPEN
         FileChooser courseFileChooser = new FileChooser();
-        courseFileChooser.setInitialDirectory(new File(PATH_COURSES));
+        courseFileChooser.setInitialDirectory(new File(PATH_DATA));
         File selectedFile = courseFileChooser.showOpenDialog(gui.getWindow());
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK
