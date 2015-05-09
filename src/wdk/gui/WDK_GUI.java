@@ -214,6 +214,7 @@ public class WDK_GUI implements DraftDataView{
     Tab MLBTeams;
     
     public FantasyTeamTab fantasyTab;
+    public MLBTeamsTab mlbTab;
     
     //HEADING FOR FIVE SCREENS
     Label availablePlayers;
@@ -329,7 +330,6 @@ public class WDK_GUI implements DraftDataView{
  
         // INIT THE TOOLBAR
         initFileToolbar();
-        //initWorkSpace(tabPane);
         initDialogs();
         initEventHandlers();
         initWindow(windowTitle);
@@ -667,10 +667,8 @@ public class WDK_GUI implements DraftDataView{
          draftSummary.setContent(draftSummaryLabel);
          draftSummaryLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
     }
-      private void initMLBTeamsTab( Tab MLBTeams) {
-        MLBTeamsLabel = initLabel(WDK_PropertyType.  MLB_TEAMS_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-        MLBTeams.setContent(MLBTeamsLabel);
-        MLBTeamsLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
+      private void initMLBTeamsTab( Tab MLBTeamstab) {
+        mlbTab = new MLBTeamsTab(MLBTeamstab,this);
     }
   
      
@@ -719,12 +717,6 @@ public class WDK_GUI implements DraftDataView{
         });
        }
 
-        // REGISTER THE EVENT LISTENER FOR A TEXT FIELD
-    private void registerTextFieldController(TextField textField) {
-        textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            draftEditController.handleCourseChangeRequest(this);
-        });
-    }
 
       private Tab initChildTab(WDK_PropertyType icon, WDK_PropertyType tooltip) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();

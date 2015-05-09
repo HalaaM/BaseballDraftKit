@@ -230,13 +230,7 @@ public class EditPlayerDialog extends Stage{
         setTitle(EDIT_PLAYER_TITLE);
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
          baseballplayer= player;
-        
-//        
-        
-//        // LOAD THE UI STUFF
-   
-//        
-        // AND OPEN IT UP
+
         this.showAndWait();
    
     }

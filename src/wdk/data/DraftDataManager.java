@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import static wdk.WDK_StartupConstants.JSON_FILE_PATH_HITTERS;
 import static wdk.WDK_StartupConstants.JSON_FILE_PATH_PITCHERS;
 import wdk.file.DraftFileManager;
@@ -54,12 +52,7 @@ public class DraftDataManager implements Serializable{
         list.addAll(fileManager.loadPitchers(JSON_FILE_PATH_PITCHERS));
         }
         catch(IOException e){
-            Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error Dialog");
-        alert.setHeaderText("Error");
-        alert.setContentText("Ooops, there was an error!");
-
-        alert.showAndWait();
+   
         }
     }
 //    

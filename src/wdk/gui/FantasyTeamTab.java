@@ -294,8 +294,7 @@ public class FantasyTeamTab {
      }
      
      public void initEventHandlers(){
-        
-         
+    
 //         // AND NOW THE team ADDING AND EDITING CONTROLS
         teamController = new TeamEditController(gui.primaryStage, gui.messageDialog, gui.yesNoCancelDialog);
         addTeamButton.setOnAction(e -> {
@@ -332,34 +331,5 @@ public class FantasyTeamTab {
         label.getStyleClass().add(styleClass);
         return label;
     }
-    
-    // INIT A LABEL AND PLACE IT IN A GridPane INIT ITS PROPER PLACE
-    private Label initGridLabel(GridPane container, WDK_PropertyType labelProperty, String styleClass, int col, int row, int colSpan, int rowSpan) {
-        Label label = initLabel(labelProperty, styleClass);
-        container.add(label, col, row, colSpan, rowSpan);
-        return label;
-    }
 
-    // INIT A LABEL AND PUT IT IN A TOOLBAR
-    private Label initChildLabel(Pane container, WDK_PropertyType labelProperty, String styleClass) {
-        Label label = initLabel(labelProperty, styleClass);
-        container.getChildren().add(label);
-        return label;
-    }
-    
-    // INIT A TEXT FIELD AND PUT IT IN A GridPane
-    private TextField initGridTextField(GridPane container, int size, String initText, boolean editable, int col, int row, int colSpan, int rowSpan) {
-        TextField tf = new TextField();
-        tf.setPrefColumnCount(size);
-        tf.setText(initText);
-        tf.setEditable(editable);
-        container.add(tf, col, row, colSpan, rowSpan);
-        return tf;
-    }
-        private ComboBox initGridComboBox(GridPane container, int col, int row, int colSpan, int rowSpan) throws IOException {
-        ComboBox comboBox = new ComboBox();
-        container.add(comboBox, col, row, colSpan, rowSpan);
-        return comboBox;
-    }
-    
 }
