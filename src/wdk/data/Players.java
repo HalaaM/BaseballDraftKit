@@ -110,6 +110,7 @@ public class Players implements Serializable{
            this.ERA=0;
            this.WHIP=0;
        }
+       this.yearOfBirth=yearOfBirth;
        this.nationality=nationality;
        this.fantasyTeam="";
        this.contract="";

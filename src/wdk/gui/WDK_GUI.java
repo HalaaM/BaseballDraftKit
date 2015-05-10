@@ -410,6 +410,10 @@ public class WDK_GUI implements DraftDataView{
         draftSummary=new Tab();
         MLBTeams= new Tab();
     
+        tabPane.setOnMouseClicked(e -> {
+        fantasyStandingsTab.refresh();
+        });
+        
         //WDK_PropertyType icon, WDK_PropertyType tooltip
         fantasyTeam= initChildTab(FANTASY_TEAM_ICON, FANTASY_TEAM_TOOLTIP);
         player= initChildTab(AVAILABLE_PLAYERS_ICON, AVAILABLE_PLAYER_TOOL_TIP);

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wdk.gui.MessageDialog;
+import static wdk.gui.WDK_GUI.gui;
 
 /**
  *
@@ -19,12 +21,25 @@ import javafx.collections.ObservableList;
  */
 public class Team implements Serializable {
 
+    MessageDialog md;
     private DraftDataManager ddm;
     private ObservableList<Players> players;
     private ObservableList<Players> taxiSquad;
     private String teamName;
     private String teamOwnerName;
-
+    int money;
+    int pp;
+    int R;
+    int HR;
+    int RBI;
+    int SB;
+    double BA;
+    double W;
+    int SV;
+    int K;
+    double ERA;
+    double WHIP;
+  
     //2 for C;       1 each for 1B, CI, 3B, 2B, MI, SS, & U;      5 for OF;     9 for P
     HashMap<String, Integer> positionCounters;
     HashMap<String, Integer> maxAmountPerPositionCounter;
@@ -33,12 +48,13 @@ public class Team implements Serializable {
         // this.players=ddm.getPlayers();
         this.teamName = "";
         this.teamOwnerName = "";
+        this.money = 260;
         players = FXCollections.observableArrayList();
         positionCounters = new HashMap();
         maxAmountPerPositionCounter = new HashMap();
 
-        taxiSquad=FXCollections.observableArrayList();
-        
+        taxiSquad = FXCollections.observableArrayList();
+
         positionCounters.put("C", 0);
         positionCounters.put("1B", 0);
         positionCounters.put("CI", 0);
@@ -71,12 +87,12 @@ public class Team implements Serializable {
 
     }
 
-    public Team(String teamName, String teamOwnerName, Players[] list) {
+    public Team(String teamName, String teamOwnerName, Players[] list, Players [] taxiList) {
         this.teamName = teamName;
         this.teamOwnerName = teamOwnerName;
         players = FXCollections.observableArrayList();
-        taxiSquad=FXCollections.observableArrayList();
-        
+        taxiSquad = FXCollections.observableArrayList();
+
         positionCounters = new HashMap();
         maxAmountPerPositionCounter = new HashMap();
 
@@ -90,13 +106,15 @@ public class Team implements Serializable {
         positionCounters.put("U", 0);
         positionCounters.put("OF", 0);
         positionCounters.put("P", 0);
-  
+
+        this.money = 260;
 
         for (int i = 0; i < list.length; i++) {
             int counter = positionCounters.remove(list[i].getPositionOnTeam());
             counter++;
             positionCounters.put(list[i].getPositionOnTeam(), counter);
         }
+        
 
         maxAmountPerPositionCounter.put("C", 2);
         maxAmountPerPositionCounter.put("1B", 1);
@@ -109,6 +127,7 @@ public class Team implements Serializable {
         maxAmountPerPositionCounter.put("OF", 5);
         maxAmountPerPositionCounter.put("P", 9);
         players.addAll(list);
+        taxiSquad.addAll(taxiList);
 
     }
 
@@ -133,6 +152,133 @@ public class Team implements Serializable {
         return players;
     }
 
+    public int getRemainingMoney() {
+        return money;
+
+    }
+ 
+    public int getPP(){
+        int money=getRemainingMoney();
+        int size=players.size();
+        if(size==0){
+            return 0;
+        }
+        
+        this.pp=money/size; 
+        return pp;   
+    }
+    
+    public int getR(){
+        int total=0;
+        for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getR();
+        }
+        this.R=total;
+        return R; 
+    }
+    
+    public int getHR(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getHR();
+        }
+         this.HR=total;
+         return HR;     
+    }
+    
+    public int getRBI(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getRBI();
+        }
+         this.RBI=total;
+         return RBI;      
+    }
+    
+    public int getSB(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getSB();
+        }
+         this.SB=total;
+         return SB;  
+    }
+    
+    public double getBA(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getHR();
+        }
+         
+         int size=players.size();
+         if (size==0){
+             return 0;
+         }
+         this.BA= total/size; 
+         return BA;  
+      
+    }
+    
+    public double getW(){
+         int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getW();
+        }
+         int size=players.size();
+         if (size==0){
+             return 0;
+         }
+         this.W= total/size; 
+         return W;  
+        
+    }
+    
+    public int getSV(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getSV();
+        }
+         this.SV=total;
+         return SV;  
+        
+    }
+    
+    public int getK(){
+        int total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getK();
+        }
+         this.K=total;
+         return K;    
+    }
+    
+    public double getERA(){
+          double total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getERA();
+        }
+         int size=players.size();
+         if (size==0){
+             return 0;
+         }
+         this.ERA= total/size; 
+         return ERA;  
+        
+    }
+    
+    public double getWHIP(){
+         double total=0;
+         for (int i=0; i<players.size();i++){
+            total=total+players.get(i).getWHIP();
+        }
+         int size=players.size();
+         if (size==0){
+             return 0;
+         }
+         this.WHIP= total/size; 
+         return WHIP;  
+        
+    }
     /**
      * @param players the players to set
      */
@@ -173,61 +319,70 @@ public class Team implements Serializable {
         String pos = playerToAdd.getPositionOnTeam();
 
         //if position is not full, add player
-        if(getHashMapTotal() >= 23){
-            if(taxiSquad.size()<8){
-            taxiSquad.add(playerToAdd);
-            }
-            else{
-                throw new Exception();
-            }
-        }
-        else if (positionCounters.get(pos) < maxAmountPerPositionCounter.get(pos)) {
-            players.add(playerToAdd);
-            int counter = positionCounters.remove(pos);
-            positionCounters.put(pos, counter + 1);
-        } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (pos.contains("1B") || pos.contains("3B"))) {
-            if (positionCounters.get("CI") < maxAmountPerPositionCounter.get("CI")) {
-                playerToAdd.setPositionOnTeam("CI");
-                players.add(playerToAdd);
-                int counter = positionCounters.remove("CI");
-                positionCounters.put("CI", counter + 1);  
-            } 
-            else if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
-                playerToAdd.setPositionOnTeam("U");
-                players.add(playerToAdd);
-                int counter = positionCounters.remove("U");
-                positionCounters.put("U", counter + 1);
-            } else {
-                throw new Exception();
-            }
-        } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (pos.contains("2B") || pos.contains("SS"))) {
-            if (positionCounters.get("MI") < maxAmountPerPositionCounter.get("MI")) {
-                playerToAdd.setPositionOnTeam("MI");
-                players.add(playerToAdd);
-                int counter = positionCounters.remove("MI");
-                positionCounters.put("MI", counter + 1);
-            } else if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
-                playerToAdd.setPositionOnTeam("U");
-                players.add(playerToAdd);
-                int counter = positionCounters.remove("U");
-                positionCounters.put("U", counter + 1);
-            } else {
-                throw new Exception();
-            } 
-        } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (!pos.contains("P"))) {
-            if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
-                playerToAdd.setPositionOnTeam("U");
-                players.add(playerToAdd);
-                int counter = positionCounters.remove("U");
-                positionCounters.put("U", counter + 1);
+        if (getHashMapTotal() >= 23) {
+            if (taxiSquad.size() < 8) {
+                taxiSquad.add(playerToAdd);
+
             } else {
                 throw new Exception();
             }
         }
-          
+        else if (money > playerToAdd.getSalary()) {
+            if (positionCounters.get(pos) < maxAmountPerPositionCounter.get(pos)) {
+                money = money - playerToAdd.getSalary();
+                players.add(playerToAdd);
+                int counter = positionCounters.remove(pos);
+                positionCounters.put(pos, counter + 1);
+            } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (pos.contains("1B") || pos.contains("3B"))) {
+                if (positionCounters.get("CI") < maxAmountPerPositionCounter.get("CI")) {
+                    playerToAdd.setPositionOnTeam("CI");
+                    money = money - playerToAdd.getSalary();
+                    players.add(playerToAdd);
+                    int counter = positionCounters.remove("CI");
+                    positionCounters.put("CI", counter + 1);
+                } else if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
+                    money = money - playerToAdd.getSalary();
+                    playerToAdd.setPositionOnTeam("U");
+                    players.add(playerToAdd);
+                    int counter = positionCounters.remove("U");
+                    positionCounters.put("U", counter + 1);
+                } else {
+                    throw new Exception();
+                }
+            } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (pos.contains("2B") || pos.contains("SS"))) {
+                if (positionCounters.get("MI") < maxAmountPerPositionCounter.get("MI")) {
+                    playerToAdd.setPositionOnTeam("MI");
+                    money = money - playerToAdd.getSalary();
+                    players.add(playerToAdd);
+                    int counter = positionCounters.remove("MI");
+                    positionCounters.put("MI", counter + 1);
+                } else if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
+                    playerToAdd.setPositionOnTeam("U");
+                    money = money - playerToAdd.getSalary();
+                    players.add(playerToAdd);
+                    int counter = positionCounters.remove("U");
+                    positionCounters.put("U", counter + 1);
+                } else {
+                    throw new Exception();
+                }
+            } else if (positionCounters.get(pos) == maxAmountPerPositionCounter.get(pos) && (!pos.contains("P"))) {
+                if (positionCounters.get("U") < maxAmountPerPositionCounter.get("U")) {
+                    playerToAdd.setPositionOnTeam("U");
+                    money = money - playerToAdd.getSalary();
+                    players.add(playerToAdd);
+                    int counter = positionCounters.remove("U");
+                    positionCounters.put("U", counter + 1);
+                } else {
+                    throw new Exception();
+                }
+            } else {
+                throw new Exception();
+            }
+
+        }
         else {
-            throw new Exception();
-        } 
+                throw new Exception();
+            }
 
     }
 
@@ -248,7 +403,8 @@ public class Team implements Serializable {
         positionCounters.put(pos, counter - 1);
 
     }
-    public ObservableList<Players> getTaxiSquad(){
+
+    public ObservableList<Players> getTaxiSquad() {
         return taxiSquad;
     }
 

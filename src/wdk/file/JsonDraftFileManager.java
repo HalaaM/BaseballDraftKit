@@ -113,6 +113,8 @@ public class JsonDraftFileManager implements DraftFileManager {
      oos.writeObject(team.getTeamOwnerName());
      Players [] playerList= team.getPlayers().toArray(new Players[0]);
      oos.writeObject(playerList); 
+     Players [] taxiSquad=team.getTaxiSquad().toArray(new Players[0]);
+     oos.writeObject(taxiSquad);
      }
      oos.flush();
      oos.close();
@@ -135,7 +137,8 @@ public class JsonDraftFileManager implements DraftFileManager {
         String teamOwner= (String)ois.readObject();
         
         Players[]playerList= (Players[]) ois.readObject();
-        Team team = new Team(teamName, teamOwner, playerList);
+        Players [] taxiSquad= (Players[]) ois.readObject();
+        Team team = new Team(teamName, teamOwner, playerList, taxiSquad);
         draftToLoad.getTeams().add(team); 
     }
     ois.close();
