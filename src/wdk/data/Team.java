@@ -39,6 +39,7 @@ public class Team implements Serializable {
     int K;
     double ERA;
     double WHIP;
+    public int totalPoints;
   
     //2 for C;       1 each for 1B, CI, 3B, 2B, MI, SS, & U;      5 for OF;     9 for P
     HashMap<String, Integer> positionCounters;
@@ -49,11 +50,14 @@ public class Team implements Serializable {
         this.teamName = "";
         this.teamOwnerName = "";
         this.money = 260;
+        this.totalPoints=0;
+        
         players = FXCollections.observableArrayList();
         positionCounters = new HashMap();
         maxAmountPerPositionCounter = new HashMap();
 
         taxiSquad = FXCollections.observableArrayList();
+        
 
         positionCounters.put("C", 0);
         positionCounters.put("1B", 0);
@@ -108,6 +112,7 @@ public class Team implements Serializable {
         positionCounters.put("P", 0);
 
         this.money = 260;
+        this.totalPoints=0;
 
         for (int i = 0; i < list.length; i++) {
             int counter = positionCounters.remove(list[i].getPositionOnTeam());
@@ -157,6 +162,9 @@ public class Team implements Serializable {
 
     }
  
+    public int getTotalPoints(){
+        return totalPoints;
+    }
     public int getPP(){
         int money=getRemainingMoney();
         int size=players.size();

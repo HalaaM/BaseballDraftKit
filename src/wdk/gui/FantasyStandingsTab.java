@@ -5,9 +5,12 @@
  */
 package wdk.gui;
 
+import java.util.Collections;
+import java.util.Comparator;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -94,7 +97,7 @@ public class FantasyStandingsTab {
         ERACol = new TableColumn(COL_ERA);
         WHIPCol = new TableColumn(COL_WHIP);
         TotalCol = new TableColumn(COL_TOTAL_POINTS);
-           
+
         this.gui = WDK_GUI.getGUI();
         fantasyStandingsTable.getColumns().add(teamNameCol);
         fantasyStandingsTable.getColumns().add(playersNeededCol);
@@ -118,7 +121,7 @@ public class FantasyStandingsTab {
             @Override
             public ObservableValue<Number> call(TableColumn.CellDataFeatures<Team, Number> param) {
                 //ReadOnlyIntegerWrapper(param.getValue().getK())
-                return new ReadOnlyIntegerWrapper(23-param.getValue().getHashMapTotal());
+                return new ReadOnlyIntegerWrapper(23 - param.getValue().getHashMapTotal());
             }
         });
 
@@ -129,7 +132,7 @@ public class FantasyStandingsTab {
                 return new ReadOnlyIntegerWrapper(param.getValue().getRemainingMoney());
             }
         });
-        
+
         ppCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Team, Number>, ObservableValue<Number>>() {
 
             @Override
@@ -137,7 +140,7 @@ public class FantasyStandingsTab {
                 return new ReadOnlyIntegerWrapper(param.getValue().getPP());
             }
         });
-        
+
         RCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Team, Number>, ObservableValue<Number>>() {
 
             @Override
@@ -159,7 +162,7 @@ public class FantasyStandingsTab {
                 return new ReadOnlyIntegerWrapper(param.getValue().getRBI());
             }
         });
-        
+
         SBCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Team, Number>, ObservableValue<Number>>() {
 
             @Override
@@ -174,7 +177,7 @@ public class FantasyStandingsTab {
                 return new ReadOnlyDoubleWrapper(param.getValue().getBA());
             }
         });
-        
+
         WCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Team, Number>, ObservableValue<Number>>() {
 
             @Override
@@ -210,7 +213,13 @@ public class FantasyStandingsTab {
                 return new ReadOnlyDoubleWrapper(param.getValue().getWHIP());
             }
         });
-        
+           TotalCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Team, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Team, Number> param) {
+                return new ReadOnlyDoubleWrapper(param.getValue().getTotalPoints());
+            }
+        });
 
         fantasyStandingsTable.setItems(gui.dataManager.getDraft().getTeams());
 
@@ -225,11 +234,108 @@ public class FantasyStandingsTab {
         tab.setContent(fantasyStandingsMainPane);
 
     }
+    //(R), Home Runs (HR), Runs Batted In (RBI), Stolen Bases (SB), and Batting Average (BA, calculated as Hits/At Bats, i.e. H/AB
+    //hitters comparators 
+
+    public void comparator() {
+        Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getR() > t2.getR()) ? -1 : 1;
+            }
+        }); 
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+        Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getHR() > t2.getHR()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getRBI() > t2.getRBI()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+        Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getSB() > t2.getSB()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+        Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getBA() > t2.getBA()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+        //pitcher comparators
+        
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getW() > t2.getW()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getK() > t2.getK()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+        
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getSV() > t2.getSV()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getERA() > t2.getERA()) ? -1 : 1;
+            }
+        });
+        
+         assignPoints(gui.getDataManager().getDraft().getTeams());
+         Collections.sort(gui.getDataManager().getDraft().getTeams(), new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+                return (t1.getWHIP() > t2.getWHIP()) ? -1 : 1;
+            }
+        });
+        assignPoints(gui.getDataManager().getDraft().getTeams());
+    }
     
-    public void refresh(){
+    public void assignPoints(ObservableList <Team> team){
+        for (int i=0; i<team.size();i++){
+            team.get(i).totalPoints+=team.size()-i;
+        } 
+    }
+
+    public void refresh() {
+        
+         for (int i=0; i<gui.getDataManager().getDraft().getTeams().size();i++){
+            gui.getDataManager().getDraft().getTeams().get(i).totalPoints=0;
+        } 
+        
+        comparator();
         fantasyStandingsTable.getColumns().get(0).setVisible(false);
         fantasyStandingsTable.getColumns().get(0).setVisible(true);
         
     }
-            
+
 }
