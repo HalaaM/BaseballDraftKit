@@ -62,24 +62,7 @@ public class MLBTeamsTab {
     Label MLBteamsLabel;
     Label selectProTeamLabel;
     public ComboBox<String> MLBTeamsComboBox;
-
-    //ATL, AZ, CHC, CIN, COL, LAD, MIA, MIL, NYM, PHI, PIT, SD, SF, STL, WAS
-//    String ATL= "ATL";
-//    String AZ="AZ";
-//    String CHC="CHC";
-//    String CIN="CIN";
-//    String COL="COL";
-//    String LAD="LAD";
-//    String MIA="MIA";
-//    String MIL="MIL";
-//    String NYM="NYM";
-//    String PHI="PHI";
-//    String PIT="PIT";
-//    String SD= "SD";
-//    String SF="SF";
-//    String STL="STL";
-//    String WAS="WAS";
-//    
+  
     static final String COL_PLAYER_POSITION = "Positions"; //position on team
     static final String COL_FIRSTNAME = "First";
     static final String COL_LASTNAME = "Last";

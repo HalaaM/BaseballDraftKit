@@ -234,12 +234,7 @@ public class JsonDraftFileManager implements DraftFileManager {
         list.addAll(fileManager.loadPitchers(JSON_FILE_PATH_PITCHERS));
         }
         catch(IOException e){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
-        alert.setHeaderText("Error");
-        alert.setContentText("Ooops, there was an error!");
-
-        alert.showAndWait();
+      
         }
         
        

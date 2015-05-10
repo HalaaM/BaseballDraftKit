@@ -228,31 +228,31 @@ public class AddNewPlayerDialog extends Stage{
              
        
         if (C.isSelected()){
-            player.setPositions(player.getPositions()+"C");
+            player.setPositionsEligible(player.getPositionsEligible()+"C");
         }
       
          if (One_B.isSelected()){
-            player.setPositions(player.getPositions()+"1_B");
+            player.setPositionsEligible(player.getPositionsEligible()+"1_B");
         }
         
          if (three_B.isSelected()){
-            player.setPositions(player.getPositions()+"3_B");
+            player.setPositionsEligible(player.getPositionsEligible()+"3_B");
         }
         
          if (two_B.isSelected()){
-            player.setPositions(player.getPositions()+"2_B");
+            player.setPositionsEligible(player.getPositionsEligible()+"2_B");
         }
         
          if (SS.isSelected()){
-            player.setPositions(player.getPositions()+"SS");
+            player.setPositionsEligible(player.getPositionsEligible()+"SS");
         }
     
          if (OF.isSelected()){
-            player.setPositions(player.getPositions()+"OF");
+            player.setPositionsEligible(player.getPositionsEligible()+"OF");
         }
      
          if (P.isSelected()){
-            player.setPositions("P");
+            player.setPositionsEligible("P");
             
         }
     }

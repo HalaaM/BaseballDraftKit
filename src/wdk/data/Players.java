@@ -16,7 +16,8 @@ public class Players implements Serializable{
 
     private String firstName;
     private String lastName;
-    private String positions;
+    private String positionsEligible;
+    private String positionOnTeam;
     private int yearOfBirth;
     private int salary;
     private String estimatedValue;
@@ -50,7 +51,7 @@ public class Players implements Serializable{
          this.team = "";
         this.lastName = "";
         this.firstName = "";
-        this.positions = "";
+        this.positionsEligible = "";
         this.Notes = "";
         this.nationality="";
         this.estimatedValue="";
@@ -58,11 +59,11 @@ public class Players implements Serializable{
         this.fantasyTeam="";
     }
     //Hitters constructor
-    public Players(String team, String lastName, String firstName, String positions, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth, String nationality) {
+    public Players(String team, String lastName, String firstName, String positionsEligible, int atBats, int R, int H, int HR, int RBI, int SB, String Notes, int yearOfBirth, String nationality) {
         this.team = team;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.positions = positions;
+        this.positionsEligible = positionsEligible;
         this.atBats = atBats;
         this.R = R;
         this.H = H;
@@ -90,7 +91,7 @@ public class Players implements Serializable{
        this.team = team;
        this.lastName = lastName;
        this.firstName = firstName;
-       this.positions = "P";
+       this.positionsEligible = "P";
        this.IP=IP;
        this.ER=ER;
        this.W=W;
@@ -133,8 +134,8 @@ public class Players implements Serializable{
     /**
      * @return the positions
      */
-    public String getPositions() {
-        return positions;
+    public String getPositionsEligible() {
+        return positionsEligible;
     }
 
 
@@ -330,8 +331,8 @@ public class Players implements Serializable{
     /**
      * @param positions the positions to set
      */
-    public void setPositions(String positions) {
-        this.positions = positions;
+    public void setPositionsEligible(String positions) {
+        this.positionsEligible = positions;
     }
 
     /**
@@ -375,5 +376,13 @@ public class Players implements Serializable{
     
     public void setFantasyTeam(String fantasyTeam){
         this.fantasyTeam=fantasyTeam;
+    }
+    
+    public void setPositionOnTeam(String positionOnTeam){
+        this.positionOnTeam=positionOnTeam;
+    }
+    public String getPositionOnTeam(){
+        return positionOnTeam;
+                
     }
 }

@@ -34,6 +34,11 @@ public enum WDK_PropertyType {
         MOVE_UP_ICON,
         MOVE_DOWN_ICON,
         
+        SELECT_PLAYER_ICON,
+        START_DRAFT_ICON,
+        PAUSE_DRAFT_ICON,
+        
+        
         
         // APPLICATION TOOLTIPS FOR BUTTONS
         NEW_COURSE_TOOLTIP,
@@ -59,6 +64,9 @@ public enum WDK_PropertyType {
         FANTASY_TEAM_TOOLTIP,
         FANTASY_STANDING_TOOLTIP,
         MLB_TEAMS_TOOLTIP,
+        SELECT_PLAYER_TOOLTIP,
+        START_DRAFT_TOOLTIP,
+        PAUSE_DRAFT_TOOLTIP,
 
         // FOR COURSE EDIT WORKSPACE
         DRAFT_HEADING_LABEL,

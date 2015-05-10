@@ -197,39 +197,6 @@ public class FileController {
         }
     }
 
-    /**
-     * This method will export the current course.
-     * 
-     * @param gui
-     */
-//    public void handleExportCourseRequest(CSB_GUI gui) {
-//        
-//        // EXPORT THE COURSE
-//        CourseDataManager dataManager = gui.getDataManager();
-//        Course courseToExport = dataManager.getCourse();
-//
-//        // WE'LL NEED THIS TO LOAD THE EXPORTED PAGE FOR VIEWING
-//        String courseURL = exporter.getPageURLPath(courseToExport, CoursePage.SCHEDULE);
-//        
-//        // NOW GET THE EXPORTER
-//        try {            
-//            
-//            // AND EXPORT THE COURSE
-//            exporter.exportCourseSite(courseToExport,new ProgressBarDialog(gui.getWindow(),gui.getDataManager().getCourse()) );
-//            
-//            // AND THEN OPEN UP THE PAGE IN A BROWSER
-//            Stage webBrowserStage = new Stage();
-//            WebBrowser webBrowser = new WebBrowser(webBrowserStage, courseURL);
-//            webBrowserStage.show();
-//        }
-//        // WE'LL HANDLE COURSE EXPORT PROBLEMS AND COURSE PAGE VIEWING
-//        // PROBLEMS USING DIFFERENT ERROR MESSAGES
-//        catch (MalformedURLException murle) {
-//            errorHandler.handleViewSchedulePageError(courseURL);
-//        } catch (Exception ioe) {
-//            errorHandler.handleExportCourseError(courseToExport);
-//        }
-//    }
 
     /**
      * This method will exit the application, making sure the user doesn't lose

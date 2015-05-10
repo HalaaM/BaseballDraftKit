@@ -180,7 +180,7 @@ public class WDK_GUI implements DraftDataView{
     static final String COL_FIRSTNAME = "First";
     static final String COL_LASTNAME = "Last";
     static final String COL_PROTEAM = "Pro Team";
-    static final String COL_POSITION = "Positions";
+    static final String COL_POSITION = "Positions ";
     static final String COL_YEAROFBIRTH = "Year of Birth";
     static final String COL_RW = "R/W";
     static final String COL_HRSV = "HR/SV";
@@ -215,6 +215,9 @@ public class WDK_GUI implements DraftDataView{
     
     public FantasyTeamTab fantasyTab;
     public MLBTeamsTab mlbTab;
+    public FantasyStandingsTab fantasyStandingsTab;
+    public DraftSummaryTab draftSummaryTab;
+    
     
     //HEADING FOR FIVE SCREENS
     Label availablePlayers;
@@ -521,7 +524,7 @@ public class WDK_GUI implements DraftDataView{
         firstNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("firstName"));
         lasNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("lastName"));
         proTeamCol.setCellValueFactory(new PropertyValueFactory<Players, String>("team"));
-        postionCol.setCellValueFactory(new PropertyValueFactory<Players, String>("positions"));
+        postionCol.setCellValueFactory(new PropertyValueFactory<Players, String>("positionsEligible"));
         yearOfBirthCol.setCellValueFactory(new PropertyValueFactory<Integer, String>("yearOfBirth"));
         R_WCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
 
@@ -657,15 +660,12 @@ public class WDK_GUI implements DraftDataView{
         
     }  
        private void initFantasyStandingsTab( Tab fantasyStandings) {
-        fantasyStandingLabel = initLabel(WDK_PropertyType. FANTASY_STANDING_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-        fantasyStandings.setContent(fantasyStandingLabel);
-        fantasyStandingLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
+       fantasyStandingsTab= new FantasyStandingsTab(fantasyStandings,this);
     }
        
      private void initDraftSummaryTab( Tab draftSummary) {
-         draftSummaryLabel = initLabel(WDK_PropertyType. DRAFT_SUMMARY_HEADING_LABEL, CLASS_SUBHEADING_LABEL);
-         draftSummary.setContent(draftSummaryLabel);
-         draftSummaryLabel.setStyle("-fx-font-size:40px;-fx-text-fill:#FF0000;");
+         draftSummaryTab=new DraftSummaryTab(draftSummary,this);
+       
     }
       private void initMLBTeamsTab( Tab MLBTeamstab) {
         mlbTab = new MLBTeamsTab(MLBTeamstab,this);
@@ -832,7 +832,7 @@ public class WDK_GUI implements DraftDataView{
        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("C")) {
+    if (player.getPositionsEligible().contains("C")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -865,7 +865,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("1B")) {
+    if (player.getPositionsEligible().contains("1B")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -884,7 +884,7 @@ public class WDK_GUI implements DraftDataView{
       FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("1B")||player.getPositions().contains("3B")) {
+    if (player.getPositionsEligible().contains("1B")||player.getPositionsEligible().contains("3B")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -902,7 +902,7 @@ public class WDK_GUI implements DraftDataView{
     FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("3B")) {
+    if (player.getPositionsEligible().contains("3B")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -920,7 +920,7 @@ public class WDK_GUI implements DraftDataView{
        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("2B")) {
+    if (player.getPositionsEligible().contains("2B")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -938,7 +938,7 @@ public class WDK_GUI implements DraftDataView{
        FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("2B")||player.getPositions().contains("IF")||player.getPositions().contains("SS")) {
+    if (player.getPositionsEligible().contains("2B")||player.getPositionsEligible().contains("IF")||player.getPositionsEligible().contains("SS")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -956,7 +956,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("SS")) {
+    if (player.getPositionsEligible().contains("SS")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -974,7 +974,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("OF")) {
+    if (player.getPositionsEligible().contains("OF")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -992,7 +992,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (!player.getPositions().contains("P")) {
+    if (!player.getPositionsEligible().contains("P")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.
@@ -1010,7 +1010,7 @@ public class WDK_GUI implements DraftDataView{
         FilteredList<Players> filteredData = new FilteredList<>(dataManager.getPlayers(), p -> true);
        
       filteredData.setPredicate(player -> {
-    if (player.getPositions().contains("P")) {
+    if (player.getPositionsEligible().contains("P")) {
                     return true; // Filter matches first name.
                 } 
                 return false; // Does not match.

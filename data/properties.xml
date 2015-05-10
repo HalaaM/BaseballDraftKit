@@ -27,6 +27,9 @@
         <property name= "DRAFT_SUMMARY_ICON" value= "DraftSummary.png"></property>
         <property name= "AVAILABLE_PLAYERS_ICON" value= "AvailablePlayers.png"></property>
         <property name= "MLB_TEAMS_ICON"         value= "MLBTeams.png"></property>
+        <property name="SELECT_PLAYER_ICON"      value="SelectPlayer.png"></property>
+        <property name= "START_DRAFT_ICON"        value="Play.png"></property>
+        <property name= "PAUSE_DRAFT_ICON"        value= "Pause.png"></property>
         
         <!-- TOOLTIPS FOR BUTTONS -->
         <property name="NEW_COURSE_TOOLTIP"         value="Create a New Course"></property>
@@ -50,6 +53,9 @@
         <property name= "FANTASY_TEAM_TOOLTIP"      value= "Fantasy Teams" ></property>
         <property name = "FANTASY_STANDING_TOOLTIP" value= "Fantasy Standings"></property>
         <property name = "MLB_TEAMS_TOOLTIP"        value= "MLB Teams" ></property>
+        <property name= "SELECT_PLAYER_TOOLTIP"     value="Select player"></property>
+        <property name= "START_DRAFT_TOOLTIP"       value= "Start draft"></property>
+        <property name= "PAUSE_DRAFT_TOOLTIP"       value= "Pause draft"></property>
            
         <!-- GUI LABELS -->
         <property name="COURSE_HEADING_LABEL"           value="Fantasy Teams"></property>
