@@ -6,6 +6,8 @@
 package wdk.gui;
 
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -25,10 +27,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import properties_manager.PropertiesManager;
 import wdk.WDK_PropertyType;
 import static wdk.WDK_StartupConstants.PATH_IMAGES;
+import wdk.controller.AutomatedDraftController;
+import wdk.controller.TeamEditController;
 import wdk.data.Players;
 import wdk.data.Team;
 
@@ -46,7 +51,9 @@ public class DraftSummaryTab {
     Button pauseDraftButton;
     Label draftSummaryLabel;
 
-    ObservableList<Players> draftList;
+    ObservableList<Players> draftList;   
+    AutomatedDraftController draftController;
+    Stage primaryStage;
 
     static final String COL_PICK = "Pick #"; //pick on team
     static final String COL_FIRSTNAME = "First";
@@ -157,18 +164,31 @@ public class DraftSummaryTab {
 
     }
     
-    public Players selectPlayer(ObservableList<Players> list){
-        Random rand = new Random();
-
-    // nextInt is normally exclusive of the top value,
-    // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((647 - 1) + 1) + 1;
-        return list.get(randomNum);     
-    }
 
     public ObservableList getDraftList() {
         return draftList;
     }
+    
+     public void initEventHandlers(){
+        
+         
+//         // AND NOW THE team ADDING AND EDITING CONTROLS
+        draftController = new AutomatedDraftController(gui.primaryStage, gui.messageDialog, gui.yesNoCancelDialog);
+
+        selectPlayerButton.setOnAction(e -> {
+            try {
+                draftController.handleSelectPlayerRequest(gui, gui.getDataManager().getDraft().getTeams());
+            } catch (Exception ex) {
+                
+            }
+        });
+        startDraftButton.setOnAction(e -> {
+            draftController.handleStartAutomatedDraftRequest(gui);
+        });
+         pauseDraftButton.setOnAction(e -> {
+            draftController.handlePauseAutomatedRequest(gui);
+        });
+     }
 
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
