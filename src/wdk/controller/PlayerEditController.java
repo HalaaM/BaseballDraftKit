@@ -80,7 +80,7 @@ public class PlayerEditController {
         ed= new EditPlayerDialog(primaryStage, player,messageDialog);
         ed.showEditPlayerDialog(player);
         if (player.getContract().equalsIgnoreCase("S1")||player.getContract().equalsIgnoreCase("X")){
-            gui.draftSummaryTab.getDraftList().remove(player);
+            gui.getDataManager().getDraft().getDraftLog().remove(player);
         }
         
         

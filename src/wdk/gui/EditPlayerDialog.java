@@ -259,7 +259,7 @@ public class EditPlayerDialog extends Stage {
             baseballplayer.setSalary(0);
             ddm.getPlayers().add(baseballplayer);
            
-            WDK_GUI.getGUI().draftSummaryTab.getDraftList().remove(baseballplayer);
+            WDK_GUI.getGUI().getDataManager().getDraft().getDraftLog().remove(baseballplayer);
             
         } else {
             baseballplayer.setSalary(Integer.parseInt(salaryTextField.getText()));
@@ -273,7 +273,7 @@ public class EditPlayerDialog extends Stage {
                 //*******************************************************************
                
                 if(baseballplayer.getContract().equalsIgnoreCase("S2")){
-                WDK_GUI.getGUI().draftSummaryTab.getDraftList().add(baseballplayer);
+                WDK_GUI.getGUI().getDataManager().getDraft().getDraftLog().add(baseballplayer);
                 }
                  // **********************************************************************
                 Collections.sort(fantasyTeamComboBox.getValue().getPlayers(), new Comparator<Players>() {

@@ -113,17 +113,12 @@ public class JsonDraftFileManager implements DraftFileManager {
             Players[] taxiSquad = team.getTaxiSquad().toArray(new Players[0]);
             oos.writeObject(taxiSquad);
         }
+        
+        Players [] draftLog=WDK_GUI.getGUI().getDataManager().getDraft().getDraftLog().toArray(new Players[0]);
+        oos.writeObject(draftLog);
         oos.flush();
         oos.close();
-        
-        int draftLogSize=draftToSave.getDraftList().size();
-        oos.writeObject(draftLogSize);
-        
-//        for (int i=0; i< draftLogSize;i++){
-//            Players [] draftLogList=draftList.toArray(new Players[0]);
-//            
-//            
-//        }
+  
     }
 
     @Override
@@ -147,6 +142,10 @@ public class JsonDraftFileManager implements DraftFileManager {
                 Team team = new Team(teamName, teamOwner, playerList, taxiSquad);
                 draftToLoad.getTeams().add(team);
             }
+            Players[] draftLog=(Players []) ois.readObject();
+            draftToLoad.setDraftLog(draftLog);
+            
+            
             ois.close();
         } catch (ClassNotFoundException e) {
 

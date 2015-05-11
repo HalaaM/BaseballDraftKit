@@ -52,7 +52,7 @@ public class DraftSummaryTab {
     Label draftSummaryLabel;
 
     boolean start;
-    ObservableList<Players> draftList;
+    
     AutomatedDraftController draftController;
     Stage primaryStage;
 
@@ -78,7 +78,7 @@ public class DraftSummaryTab {
     public DraftSummaryTab(Tab tab, WDK_GUI gui) {
         this.gui = gui;
 
-        draftList = FXCollections.observableArrayList();
+    
 
         draftSummaryMainPane = new VBox();
         draftSummaryLabel = new Label("Draft Summary");
@@ -149,7 +149,7 @@ public class DraftSummaryTab {
             }
         });
 
-        draftTable.setItems(draftList);
+        draftTable.setItems(gui.getDataManager().getDraft().getDraftLog());
 
         draftSummaryMainPane.getChildren().add(draftTable);
         tab.setContent(draftSummaryMainPane);
@@ -157,9 +157,7 @@ public class DraftSummaryTab {
 
     }
 
-    public ObservableList getDraftList() {
-        return draftList;
-    }
+   
 
     public void initEventHandlers() {
 

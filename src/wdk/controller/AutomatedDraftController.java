@@ -98,7 +98,7 @@ public class AutomatedDraftController {
                 player.setContract("S2");
                 teamList.get(teamno).addPlayer(player);
                 players.remove(player);
-                gui.draftSummaryTab.getDraftList().add(player);
+                gui.getDataManager().getDraft().getDraftLog().add(player);
             } //add 1 1B
             else if (teamList.get(teamno).getPositionCount("1B") < 1) {
                 Players player2 = filterBy1B(gui).get(0);
@@ -108,7 +108,7 @@ public class AutomatedDraftController {
                 player2.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player2);
                 players.remove(player2);
-                gui.draftSummaryTab.getDraftList().add(player2);
+                gui.getDataManager().getDraft().getDraftLog().add(player2);
 
             } else if (teamList.get(teamno).getPositionCount("CI") < 1) {
                 //add 1 CI
@@ -119,7 +119,7 @@ public class AutomatedDraftController {
                 player3.setContract("S2");
                 teamList.get(teamno).addPlayer(player3);
                 players.remove(player3);
-                gui.draftSummaryTab.getDraftList().add(player3);
+               gui.getDataManager().getDraft().getDraftLog().add(player3);
             } //add 1 3B
             else if (teamList.get(teamno).getPositionCount("3B") < 1) {
                 Players player4 = filterBy3b(gui).get(0);
@@ -129,7 +129,7 @@ public class AutomatedDraftController {
                 player4.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player4);
                 players.remove(player4);
-                gui.draftSummaryTab.getDraftList().add(player4);
+                gui.getDataManager().getDraft().getDraftLog().add(player4);
             } //add 1 2B
             else if (teamList.get(teamno).getPositionCount("2B") < 1) {
                 Players player5 = filterBy2b(gui).get(0);
@@ -139,7 +139,7 @@ public class AutomatedDraftController {
                 player5.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player5);
                 players.remove(player5);
-                gui.draftSummaryTab.getDraftList().add(player5);
+                gui.getDataManager().getDraft().getDraftLog().add(player5);
             } //add 1 MI
             else if (teamList.get(teamno).getPositionCount("MI") < 1) {
                 Players player6 = filterByMI(gui).get(0);
@@ -149,7 +149,7 @@ public class AutomatedDraftController {
                 player6.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player6);
                 players.remove(player6);
-                gui.draftSummaryTab.getDraftList().add(player6);
+               gui.getDataManager().getDraft().getDraftLog().add(player6);
             } //add 1 SS
             else if (teamList.get(teamno).getPositionCount("SS") < 1) {
                 Players player7 = filterBySS(gui).get(0);
@@ -159,7 +159,7 @@ public class AutomatedDraftController {
                 player7.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player7);
                 players.remove(player7);
-                gui.draftSummaryTab.getDraftList().add(player7);
+               gui.getDataManager().getDraft().getDraftLog().add(player7);
             } // add 1 U
             else if (teamList.get(teamno).getPositionCount("U") < 1) {
                 Players player7 = filterByU(gui).get(0);
@@ -169,7 +169,7 @@ public class AutomatedDraftController {
                 player7.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player7);
                 players.remove(player7);
-                gui.draftSummaryTab.getDraftList().add(player7);
+               gui.getDataManager().getDraft().getDraftLog().add(player7);
             } else if (teamList.get(teamno).getPositionCount("OF") < 5) {
                 //add 5 OF
                 Players player8 = filterByOF(gui).get(0);
@@ -179,7 +179,7 @@ public class AutomatedDraftController {
                 player8.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player8);
                 players.remove(player8);
-                gui.draftSummaryTab.getDraftList().add(player8);
+                gui.getDataManager().getDraft().getDraftLog().add(player8);
             } //add 9 P
             else if (teamList.get(teamno).getPositionCount("P") < 9) {
                 Players player9 = filterByP(gui).get(0);
@@ -189,7 +189,7 @@ public class AutomatedDraftController {
                 player9.setFantasyTeam(teamList.get(teamno).getTeamName());
                 teamList.get(teamno).addPlayer(player9);
                 players.remove(player9);
-                gui.draftSummaryTab.getDraftList().add(player9);
+               gui.getDataManager().getDraft().getDraftLog().add(player9);
             } else if (teamList.get(teamno).getHashMapTotal() >= 23 && teamList.get(teamno).getTaxiSquad().size() < 8) {
                 Players player10 = filterByAll(gui).get(0);
                 String[] positions = player10.getPositionsEligible().split("_");
@@ -202,7 +202,7 @@ public class AutomatedDraftController {
                 players.remove(player10);
 
                 if (player10.getContract().equalsIgnoreCase("S2")) {
-                    gui.draftSummaryTab.getDraftList().add(player10);
+                   gui.getDataManager().getDraft().getDraftLog().add(player10);
                 }
             } else if (teamno < teamList.size()) {
                 teamno++;
