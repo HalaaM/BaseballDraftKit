@@ -389,7 +389,7 @@ public class FantasyTeamTab {
           taxiSquadTable.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 // OPEN UP THE fantasy team ITEM EDITOR
-                Players p = fantasyTeamTable.getSelectionModel().getSelectedItem();
+                Players p = taxiSquadTable.getSelectionModel().getSelectedItem();
                 gui.playerController.handleEditPlayerRequest(gui, p);
             }
         });

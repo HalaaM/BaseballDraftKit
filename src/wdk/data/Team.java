@@ -422,16 +422,26 @@ public class Team implements Serializable {
     }
 
     public void removePlayer(Players playerToRemove) {
+        if(players.contains(playerToRemove)){
         String pos = playerToRemove.getPositionOnTeam();
         players.remove(playerToRemove);
         int counter = positionCounters.remove(pos);
         positionCounters.put(pos, counter - 1);
-
+        }
+        else if(taxiSquad.contains(playerToRemove)){
+            taxiSquad.remove(playerToRemove);
+            
+        }
+    }
+    public int getPositionCount(String position){
+        return positionCounters.get(position);
     }
     
 
     public ObservableList<Players> getTaxiSquad() {
         return taxiSquad;
+        
+        
     }
 
 }

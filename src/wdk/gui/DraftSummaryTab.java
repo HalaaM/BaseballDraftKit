@@ -51,7 +51,8 @@ public class DraftSummaryTab {
     Button pauseDraftButton;
     Label draftSummaryLabel;
 
-    ObservableList<Players> draftList;   
+    boolean start;
+    ObservableList<Players> draftList;
     AutomatedDraftController draftController;
     Stage primaryStage;
 
@@ -123,7 +124,7 @@ public class DraftSummaryTab {
         });
 
         lasNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("lastName"));
-        
+
         fantasyTeamCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, String>, ObservableValue<String>>() {
 
             @Override
@@ -131,57 +132,54 @@ public class DraftSummaryTab {
                 return new ReadOnlyStringWrapper(param.getValue().getFantasyTeam());
             }
         });
-        
-         contractCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, String>, ObservableValue<String>>() {
+
+        contractCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Players, String> param) {
                 return new ReadOnlyStringWrapper(param.getValue().getContract());
             }
         });
-        
-          salaryCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+        salaryCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
 
             @Override
             public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
-               return new ReadOnlyIntegerWrapper(param.getValue().getSalary());
+                return new ReadOnlyIntegerWrapper(param.getValue().getSalary());
             }
         });
 
-
         draftTable.setItems(draftList);
-        
+
         draftSummaryMainPane.getChildren().add(draftTable);
         tab.setContent(draftSummaryMainPane);
         initEventHandlers();
 
     }
-    
 
     public ObservableList getDraftList() {
         return draftList;
     }
-    
-     public void initEventHandlers(){
-        
-         
+
+    public void initEventHandlers() {
+
 //         // AND NOW THE team ADDING AND EDITING CONTROLS
         draftController = new AutomatedDraftController(gui.primaryStage, gui.messageDialog, gui.yesNoCancelDialog);
 
         selectPlayerButton.setOnAction(e -> {
             try {
-                draftController.handleSelectPlayerRequest(gui);
+                draftController.handleSelectPlayerRequest();
             } catch (Exception ex) {
-                
+
             }
         });
         startDraftButton.setOnAction(e -> {
-            draftController.handleStartAutomatedDraftRequest(gui);
+            draftController.handleStartAutomatedDraftRequest();
         });
-         pauseDraftButton.setOnAction(e -> {
+        pauseDraftButton.setOnAction(e -> {
             draftController.handlePauseAutomatedRequest(gui);
         });
-     }
+    }
 
     private Button initChildButton(Pane toolbar, WDK_PropertyType icon, WDK_PropertyType tooltip, boolean disabled) {
         PropertiesManager props = PropertiesManager.getPropertiesManager();

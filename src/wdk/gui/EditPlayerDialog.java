@@ -250,12 +250,15 @@ public class EditPlayerDialog extends Stage {
         if (!baseballplayer.getFantasyTeam().equals("")) {
             ddm.getDraft().findTeam(baseballplayer.getFantasyTeam()).removePlayer(baseballplayer);
             
+            
         }
         if (fantasyTeamComboBox.getValue().toString().equalsIgnoreCase("Free Agent")) {
+            ddm.getDraft().findTeam(baseballplayer.getFantasyTeam()).removePlayer(baseballplayer);
             baseballplayer.setFantasyTeam("");
             baseballplayer.setContract("");
             baseballplayer.setSalary(0);
             ddm.getPlayers().add(baseballplayer);
+           
             WDK_GUI.getGUI().draftSummaryTab.getDraftList().remove(baseballplayer);
             
         } else {
