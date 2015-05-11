@@ -428,6 +428,7 @@ public class Team implements Serializable {
         positionCounters.put(pos, counter - 1);
 
     }
+    
 
     public ObservableList<Players> getTaxiSquad() {
         return taxiSquad;

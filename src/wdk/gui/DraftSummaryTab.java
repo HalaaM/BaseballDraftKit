@@ -147,20 +147,13 @@ public class DraftSummaryTab {
                return new ReadOnlyIntegerWrapper(param.getValue().getSalary());
             }
         });
-        
 
-                
-        
-        
-        for (int i=0;i<draftList.size();i++){
-            if(draftList.get(i).getContract().equalsIgnoreCase("S1")||draftList.get(i).getContract().equalsIgnoreCase("X")){
-                draftList.remove(i);
-            }
-        }
+
         draftTable.setItems(draftList);
         
         draftSummaryMainPane.getChildren().add(draftTable);
         tab.setContent(draftSummaryMainPane);
+        initEventHandlers();
 
     }
     
@@ -177,7 +170,7 @@ public class DraftSummaryTab {
 
         selectPlayerButton.setOnAction(e -> {
             try {
-                draftController.handleSelectPlayerRequest(gui, gui.getDataManager().getDraft().getTeams());
+                draftController.handleSelectPlayerRequest(gui);
             } catch (Exception ex) {
                 
             }

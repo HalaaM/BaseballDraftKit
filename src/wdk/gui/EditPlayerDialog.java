@@ -228,6 +228,10 @@ public class EditPlayerDialog extends Stage {
         this.showAndWait();
 
     }
+    
+    public Players getPlayer(){
+        return baseballplayer;
+    }
 
     public void loadGUIData() {
         // LOAD THE UI STUFF

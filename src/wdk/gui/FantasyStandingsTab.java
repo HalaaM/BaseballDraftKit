@@ -325,6 +325,16 @@ public class FantasyStandingsTab {
             team.get(i).totalPoints+=team.size()-i;
         } 
     }
+    
+    public int calculateRemainingMoney(){
+       int size= gui.getDataManager().getDraft().getTeams().size();
+       int remainingMoney=0;
+       for (int i=0;i<size;i++){
+           remainingMoney=remainingMoney+gui.getDataManager().getDraft().getTeams().get(i).getRemainingMoney();
+       }
+       return remainingMoney;
+        
+    }
 
     public void refresh() {
         
