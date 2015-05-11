@@ -92,6 +92,6 @@ public class DraftDataManager implements Serializable{
         return list;
     }
     
-    
+ 
     
 }

@@ -45,6 +45,7 @@ public class EditPlayerDialog extends Stage {
 
     Players baseballplayer;
     DraftDataManager ddm;
+  
 
     // THIS IS FOR KEEPING TRACK OF WHICH BUTTON THE USER PRESSED
     String selection;
@@ -89,7 +90,7 @@ public class EditPlayerDialog extends Stage {
         initModality(Modality.WINDOW_MODAL);
         initOwner(primaryStage);
         ddm = WDK_GUI.getGUI().getDataManager();
-
+      
         // FIRST OUR CONTAINER
         gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 20, 20, 20));
@@ -244,12 +245,14 @@ public class EditPlayerDialog extends Stage {
 
         if (!baseballplayer.getFantasyTeam().equals("")) {
             ddm.getDraft().findTeam(baseballplayer.getFantasyTeam()).removePlayer(baseballplayer);
+            
         }
         if (fantasyTeamComboBox.getValue().toString().equalsIgnoreCase("Free Agent")) {
             baseballplayer.setFantasyTeam("");
             baseballplayer.setContract("");
             baseballplayer.setSalary(0);
             ddm.getPlayers().add(baseballplayer);
+            WDK_GUI.getGUI().draftSummaryTab.getDraftList().remove(baseballplayer);
             
         } else {
             baseballplayer.setSalary(Integer.parseInt(salaryTextField.getText()));
@@ -259,6 +262,13 @@ public class EditPlayerDialog extends Stage {
 
             try {
                 ddm.getDraft().findTeam(fantasyTeamComboBox.getValue().toString()).addPlayer(baseballplayer);
+                
+                //*******************************************************************
+               
+                if(baseballplayer.getContract().equalsIgnoreCase("S2")){
+                WDK_GUI.getGUI().draftSummaryTab.getDraftList().add(baseballplayer);
+                }
+                 // **********************************************************************
                 Collections.sort(fantasyTeamComboBox.getValue().getPlayers(), new Comparator<Players>() {
                     @Override
                     public int compare(Players p1, Players p2) {

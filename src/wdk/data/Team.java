@@ -8,6 +8,7 @@ package wdk.data;
 import com.sun.javaws.exceptions.InvalidArgumentException;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Set;
 import javafx.collections.FXCollections;
@@ -213,18 +214,23 @@ public class Team implements Serializable {
     }
     
     public double getBA(){
-        int total=0;
+        double total=0;
          for (int i=0; i<players.size();i++){
-            total=total+players.get(i).getHR();
+            total=total+players.get(i).getBA();
         }
          
          int size=players.size();
          if (size==0){
              return 0;
-         }
-         this.BA= total/size; 
+         }     
+         DecimalFormat df = new DecimalFormat("#.000");   
+         double BAtemp=(total/size);
+         String formattedBA = df.format(BAtemp);
+         double finalBA= Double.parseDouble(formattedBA);
+         this.BA= finalBA;    
+         
          return BA;  
-      
+ 
     }
     
     public double getW(){
@@ -269,7 +275,13 @@ public class Team implements Serializable {
          if (size==0){
              return 0;
          }
-         this.ERA= total/size; 
+         
+         DecimalFormat df = new DecimalFormat("#.00");   
+         double ERAtemp=(total/size);
+         String formattedERA = df.format(ERAtemp);
+         double finalERA= Double.parseDouble(formattedERA);
+         this.ERA= finalERA;    
+         
          return ERA;  
         
     }
@@ -283,7 +295,12 @@ public class Team implements Serializable {
          if (size==0){
              return 0;
          }
-         this.WHIP= total/size; 
+           
+         DecimalFormat df = new DecimalFormat("#.00"); 
+         double WHIPtemp= total/size;
+         String formattedWHIP= df.format(WHIPtemp);
+         double finalWHIP= Double.parseDouble(formattedWHIP);
+         this.WHIP=finalWHIP;
          return WHIP;  
         
     }

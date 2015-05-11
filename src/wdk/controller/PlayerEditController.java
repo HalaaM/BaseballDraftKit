@@ -74,17 +74,24 @@ public class PlayerEditController {
     }
     
     public void handleEditPlayerRequest(WDK_GUI gui, Players player) {
+        
         DraftDataManager cdm = gui.getDataManager();
         Draft draft = cdm.getDraft();
         ed= new EditPlayerDialog(primaryStage, player,messageDialog);
-       ed.showEditPlayerDialog(player);
+        ed.showEditPlayerDialog(player);
+        if (player.getContract().equalsIgnoreCase("S1")||player.getContract().equalsIgnoreCase("X")){
+            gui.draftSummaryTab.getDraftList().remove(player);
+        }
+        
+        
+        
 //        
 //        // DID THE USER CONFIRM?
-//        if (ad.wasCompleteSelected()) {
+//        if (ed.wasCompleteSelected()) {
 //            // UPDATE THE SCHEDULE ITEM
-//            Assignment a = ad.getAssignment();
-//            assignmentToEdit.setName(a.getName());
-//            assignmentToEdit.setDate(a.getDate());
+//            Player a = ed.getPlayer();
+//            player.setFantasyTeam(a.getFantasyTeam());
+//            player.setPosition(a.getPosition());
 //            assignmentToEdit.setTopics(a.getTopics());
 //        }
 //        else {

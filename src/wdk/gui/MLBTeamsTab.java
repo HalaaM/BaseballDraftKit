@@ -9,50 +9,23 @@ package wdk.gui;
  *
  * @author halaamenasy
  */
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import javafx.beans.property.ReadOnlyDoubleWrapper;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import properties_manager.PropertiesManager;
-import wdk.WDK_PropertyType;
-import static wdk.WDK_StartupConstants.PATH_IMAGES;
-import wdk.controller.FileController;
-import wdk.controller.TeamEditController;
-import wdk.data.Draft;
-import wdk.data.MLBTeams;
 import wdk.data.Players;
-import wdk.data.DraftDataManager;
-import wdk.data.Team;
-import static wdk.gui.FantasyTeamTab.COL_PLAYER_POSITION;
-import static wdk.gui.WDK_GUI.CLASS_SUBHEADING_LABEL;
-import wdk.gui.WDK_GUI;
+
 
 public class MLBTeamsTab {
 
@@ -106,7 +79,7 @@ public class MLBTeamsTab {
         });
 
         lasNameCol.setCellValueFactory(new PropertyValueFactory<Players, String>("lastName"));
-        postionCol.setCellValueFactory(new PropertyValueFactory<Players, String>("positions"));
+        postionCol.setCellValueFactory(new PropertyValueFactory<Players, String>("positionsEligible"));
 
         MLBplayerTable.getColumns().add(firstNameCol);
         MLBplayerTable.getColumns().add(lasNameCol);

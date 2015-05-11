@@ -194,13 +194,7 @@ public class AddNewPlayerDialog extends Stage{
         
         // RESET THE SCHEDULE ITEM OBJECT WITH DEFAULT VALUES
         player = new Players();
-//        
         
-//        // LOAD THE UI STUFF
-//        firstNameTextField.setText("enter first name");
-//        lastNameTextField.setText("enter last name");
-//        datePicker.setValue(initDate);
-//        
         // AND OPEN IT UP
         this.showAndWait();
         
@@ -208,11 +202,7 @@ public class AddNewPlayerDialog extends Stage{
     }
     
     public void loadGUIData() {
-        // LOAD THE UI STUFF
-//        nameTextField.setText(assignment.getName());
-//        topicsTextField.setText(assignment.getTopics());  
-//        datePicker.setValue(assignment.getDate());
-            
+
     }
     
     public boolean wasCompleteSelected() {

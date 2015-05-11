@@ -27,6 +27,7 @@ public class Draft {
     
     ObservableList<Players>players;
     ObservableList <Team> team;
+    ObservableList<Players> draftList;
    
     private String title;
     private List<DraftPage> pages;
@@ -35,6 +36,8 @@ public class Draft {
        players= FXCollections.observableArrayList();
        pages=new ArrayList();
        team=FXCollections.observableArrayList();
+       draftList=FXCollections.observableArrayList();
+       
      
     }
 
@@ -74,6 +77,7 @@ public class Draft {
         return team;
     }
 
+    
     /**
      * @param team the team to set
      */
@@ -103,6 +107,9 @@ public class Draft {
         return team;
     }
     
+    public ObservableList<Players> getDraftList(){
+        return draftList;
+    }
     public ObservableList<Players>getPlayers(){
         return players;
     }
