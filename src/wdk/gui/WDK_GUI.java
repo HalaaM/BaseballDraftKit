@@ -580,9 +580,15 @@ public class WDK_GUI implements DraftDataView{
                 else return new ReadOnlyDoubleWrapper(param.getValue().getWHIP());
             }
         });
-        EstimatedValuCol.setCellValueFactory(new PropertyValueFactory<String, String>(COL_ESTIMATEDVAL));
+        EstimatedValuCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Players, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(TableColumn.CellDataFeatures<Players, Number> param) {
+                 return new ReadOnlyDoubleWrapper(param.getValue().getEstimatedValue());
+            }
+        });
         notesCol.setCellValueFactory(new PropertyValueFactory<String, String>("Notes"));
-        notesCol.setCellValueFactory(new PropertyValueFactory<String, String>("Notes"));
+     
        playerTable.getSelectionModel().setCellSelectionEnabled(true);
        playerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
        notesCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -613,8 +619,11 @@ public class WDK_GUI implements DraftDataView{
         playerTab.getChildren().add(topWorkSpacePane);
         playerTab.getChildren().add(playerTable);
        
-     
+     //(X * 2/player rank)//  (total $ remaining)/(2 * X)
+      
         //set tab content to player tab v box
+        
+        setEstimatedValues();
         tab.setContent(playerTab);
        
         //
@@ -1025,7 +1034,17 @@ public class WDK_GUI implements DraftDataView{
         sortedData.comparatorProperty().bind(playerTable.comparatorProperty());
 
         // 5. Add sorted (and filtered) data to the table.
+        
         playerTable.setItems(sortedData);
+    }
+    
+    public void setEstimatedValues(){
+        
+        for (int i=0;i<dataManager.getDraft().getPlayers().size();i++){
+            
+            //(total $ remaining)/(2 * X)   salary * (X * 2/player rank)
+        dataManager.getDraft().getPlayers().get(i).setEstimatedValue((2*dataManager.getDraft().getPlayers().get(i).getSalary()));
+        }
     }
     
     public static WDK_GUI getGUI(){

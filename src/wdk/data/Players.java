@@ -20,7 +20,7 @@ public class Players implements Serializable{
     private String positionOnTeam;
     private int yearOfBirth;
     private int salary;
-    private String estimatedValue;
+    private int estimatedValue;
     private String Notes;
     private String contract;
     private String team;
@@ -54,7 +54,7 @@ public class Players implements Serializable{
         this.positionsEligible = "";
         this.Notes = "";
         this.nationality="";
-        this.estimatedValue="";
+        this.estimatedValue=0;
         this.contract="";
         this.fantasyTeam="";
     }
@@ -158,7 +158,7 @@ public class Players implements Serializable{
     /**
      * @return the estimatedValue
      */
-    public String getEstimatedValue() {
+    public int getEstimatedValue() {
         return estimatedValue;
     }
 
@@ -346,7 +346,7 @@ public class Players implements Serializable{
     /**
      * @param estimatedValue the estimatedValue to set
      */
-    public void setEstimatedValue(String estimatedValue) {
+    public void setEstimatedValue(int estimatedValue) {
         this.estimatedValue = estimatedValue;
     }
 

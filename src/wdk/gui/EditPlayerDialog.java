@@ -257,6 +257,9 @@ public class EditPlayerDialog extends Stage {
             baseballplayer.setFantasyTeam("");
             baseballplayer.setContract("");
             baseballplayer.setSalary(0);
+            ////(X * 2/player rank)//  (total $ remaining)/(2 * X)
+            baseballplayer.setEstimatedValue((ddm.getDraft().getTeams().size() * 2));
+            
             ddm.getPlayers().add(baseballplayer);
            
             WDK_GUI.getGUI().getDataManager().getDraft().getDraftLog().remove(baseballplayer);
